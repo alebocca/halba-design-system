@@ -1,0 +1,17 @@
+<!-- @dsCard group="Forms" height=300 subtitle="Default, hint, error, disabled" -->
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; padding: 24px; background: var(--surface); font-family: var(--font-sans); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; max-width: 640px; }
+</style>
+<div id="root"></div>
+<script>
+  var H = window.Halba, e = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(
+    e('div', { className: 'grid' },
+      e(H.Input, { id: 'a', label: 'Work email', placeholder: 'you@company.com', hint: 'We reply within one working day.' }),
+      e(H.Input, { id: 'b', label: 'Card number', defaultValue: '4242 4242', error: 'Enter a 16-digit card number.' }),
+      e(H.Input, { id: 'c', label: 'Company', defaultValue: 'Northwind' }),
+      e(H.Input, { id: 'd', label: 'Region', defaultValue: 'EU', disabled: true }))
+  );
+</script>

@@ -1,0 +1,24 @@
+<!-- @dsCard group="Actions" height=240 subtitle="Variants, sizes, states" -->
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; padding: 24px; background: var(--surface); font-family: var(--font-sans); }
+  .row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-bottom: 16px; }
+</style>
+<div id="root"></div>
+<script>
+  var H = window.Halba, e = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(
+    e('div', null,
+      e('div', { className: 'row' },
+        e(H.Button, { variant: 'primary', withArrow: true }, 'Get in touch'),
+        e(H.Button, { variant: 'accent' }, 'Start free'),
+        e(H.Button, { variant: 'secondary' }, 'View docs'),
+        e(H.Button, { variant: 'ghost' }, 'Cancel')),
+      e('div', { className: 'row' },
+        e(H.Button, { size: 'sm' }, 'Small'),
+        e(H.Button, { size: 'md' }, 'Medium'),
+        e(H.Button, { size: 'lg' }, 'Large'),
+        e(H.Button, { disabled: true }, 'Disabled'))
+    )
+  );
+</script>

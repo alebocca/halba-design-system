@@ -1,0 +1,20 @@
+<!-- @dsCard group="Data display" height=120 subtitle="Status tones" -->
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; padding: 24px; background: var(--surface); font-family: var(--font-sans); }
+  .row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+</style>
+<div id="root"></div>
+<script>
+  var H = window.Halba, e = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(
+    e('div', { className: 'row' },
+      e(H.Badge, { tone: 'neutral' }, 'Live'),
+      e(H.Badge, { tone: 'brand' }, 'New'),
+      e(H.Badge, { tone: 'success' }, 'Approved'),
+      e(H.Badge, { tone: 'warning' }, 'Challenge'),
+      e(H.Badge, { tone: 'warning' }, 'Medium risk'),
+      e(H.Badge, { tone: 'danger' }, 'KO'),
+      e(H.Badge, { tone: 'danger' }, 'Fraud'))
+  );
+</script>

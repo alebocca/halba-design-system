@@ -1,0 +1,12 @@
+/* Halba Design System — generated from tokens/tokens.json by scripts/build-tokens.mjs. Do not edit. */
+.hb-type-display-xl { font-family: var(--font-sans); font-size: var(--display-xl); line-height: var(--display-xl-line-height); font-weight: var(--display-xl-weight); letter-spacing: var(--display-xl-tracking); }
+.hb-type-display-lg { font-family: var(--font-sans); font-size: var(--display-lg); line-height: var(--display-lg-line-height); font-weight: var(--display-lg-weight); letter-spacing: var(--display-lg-tracking); }
+.hb-type-stat { font-family: var(--font-sans); font-size: var(--stat); line-height: var(--stat-line-height); font-weight: var(--stat-weight); letter-spacing: var(--stat-tracking); }
+.hb-type-h1 { font-family: var(--font-sans); font-size: var(--h1); line-height: var(--h1-line-height); font-weight: var(--h1-weight); letter-spacing: var(--h1-tracking); }
+.hb-type-h2 { font-family: var(--font-sans); font-size: var(--h2); line-height: var(--h2-line-height); font-weight: var(--h2-weight); letter-spacing: var(--h2-tracking); }
+.hb-type-h3 { font-family: var(--font-sans); font-size: var(--h3); line-height: var(--h3-line-height); font-weight: var(--h3-weight); letter-spacing: var(--h3-tracking); }
+.hb-type-body-lg { font-family: var(--font-sans); font-size: var(--body-lg); line-height: var(--body-lg-line-height); font-weight: var(--body-lg-weight); }
+.hb-type-body { font-family: var(--font-sans); font-size: var(--body); line-height: var(--body-line-height); font-weight: var(--body-weight); }
+.hb-type-body-sm { font-family: var(--font-sans); font-size: var(--body-sm); line-height: var(--body-sm-line-height); font-weight: var(--body-sm-weight); }
+.hb-type-button { font-family: var(--font-sans); font-size: var(--button); line-height: var(--button-line-height); font-weight: var(--button-weight); }
+.hb-type-label-mono { font-family: var(--font-mono); font-size: var(--label-mono); line-height: var(--label-mono-line-height); font-weight: var(--label-mono-weight); letter-spacing: var(--label-mono-tracking); text-transform: uppercase; }

@@ -1,0 +1,19 @@
+<!-- @dsCard group="Imagery" height=520 subtitle="Photo with animated overlays" -->
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; padding: 24px; background: var(--surface); font-family: var(--font-sans); }
+  .wrap { max-width: 440px; }
+</style>
+<div id="root"></div>
+<script>
+  var H = window.Halba, e = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(
+    e('div', { className: 'wrap' },
+      e(H.PhotoPanel, { network: true, height: 460 },
+        e(H.OverlayCard, { title: 'Refund received!', tone: 'success', top: 28, left: 24 }),
+        e(H.OverlayCard, { title: 'Approval rate', value: '94.6%', tone: 'sun', float: true, top: 150, right: 24 }),
+        e(H.OverlayCard, { title: 'Checkout friction', value: '2 conflicts', tone: 'danger', bottom: 56, left: 40 })
+      )
+    )
+  );
+</script>

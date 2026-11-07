@@ -1,0 +1,47 @@
+<!-- @dsCard height=300 -->
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600&display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; }
+  .cover { position: relative; width: 960px; height: 300px; background: var(--surface); overflow: hidden; }
+  .cover svg { position: absolute; left: 0; top: 0; }
+  .text { position: absolute; left: 40px; bottom: 28px; width: 420px; }
+  .name { margin: 0; font-family: var(--font-sans); font-weight: 600; font-size: 120px; line-height: 0.95; letter-spacing: -0.04em; color: var(--ink); }
+  .tag { margin: 12px 0 0; font-family: var(--font-sans); font-size: 14px; line-height: 20px; color: var(--ink-muted); }
+  .brand { fill: var(--brand); }
+  .tint { fill: var(--brand-tint); }
+  .violet2 { fill: var(--sun); }
+  .azure { fill: var(--sky-tint); }
+  .accent { fill: var(--accent); }
+  .sky { fill: var(--sky); }
+  .ink { fill: var(--ink); }
+  .ground { fill: var(--surface); }
+  .xl { rx: var(--radius-xl); }
+  .lg { rx: var(--radius-lg); }
+</style>
+<div class="cover">
+  <svg width="960" height="300" viewBox="0 0 960 300" aria-hidden="true">
+    <!--
+      blocks: brand 192x252 (xl), sun 112x120 (lg), accent 112x116 (lg), sky pill 96x252, ink disc r40, sky-tint disc r24.
+      arrangement: staggered stack of four columns, a tall slab, two stacked satellites, a full-height pill, right of x=480.
+      pattern: discs and pills (soft, friendly, large radii in radius scale) - 12 tint discs on the slab, 2 ground cut-outs in the pill.
+      scales: radius-xl and radius-lg for blocks, radius-pill for the pill, 36px pitch (space-5 + space-3).
+    -->
+    <rect class="brand xl" x="504" y="24" width="192" height="252"/>
+    <g class="tint">
+      <circle cx="540" cy="64" r="10"/><circle cx="576" cy="64" r="10"/><circle cx="612" cy="64" r="10"/><circle cx="648" cy="64" r="10"/>
+      <circle cx="540" cy="100" r="10"/><circle cx="576" cy="100" r="10"/><circle cx="612" cy="100" r="10"/><circle cx="648" cy="100" r="10"/>
+      <circle cx="540" cy="136" r="10"/><circle cx="576" cy="136" r="10"/><circle cx="612" cy="136" r="10"/><circle cx="648" cy="136" r="10"/>
+    </g>
+    <circle class="ink" cx="600" cy="220" r="40"/>
+    <rect class="violet2 lg" x="712" y="24" width="112" height="120"/>
+    <rect class="accent lg" x="712" y="160" width="112" height="116"/>
+    <rect class="sky" x="840" y="24" width="96" height="252" rx="48"/>
+    <circle class="azure" cx="888" cy="204" r="24"/>
+    <circle class="ground" cx="888" cy="72" r="14"/>
+    <circle class="ground" cx="888" cy="120" r="14"/>
+  </svg>
+  <div class="text">
+    <h1 class="name">Halba</h1>
+    <p class="tag">Checkout, tuned for growth.</p>
+  </div>
+</div>

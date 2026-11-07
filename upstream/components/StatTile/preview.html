@@ -1,0 +1,19 @@
+<!-- @dsCard group="Data display" height=560 subtitle="Proof-number tiles" -->
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; padding: 24px; background: var(--surface); font-family: var(--font-sans); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; }
+</style>
+<div id="root"></div>
+<script>
+  var H = window.Halba, e = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(
+    e('div', { className: 'grid' },
+      e(H.StatTile, { tone: 'accent', value: '99.99%', label: 'Uptime' }),
+      e(H.StatTile, { tone: 'sky', value: '+4.2pp', label: 'Average approval lift' }),
+      e(H.StatTile, { tone: 'lavender', value: '120+', label: 'Payment methods' }),
+      e(H.StatTile, { tone: 'sun', value: '3x', label: 'Faster reconciliation' }),
+      e(H.StatTile, { tone: 'azure', value: '45', label: 'Countries' }),
+      e(H.StatTile, { tone: 'ink', value: '24/7', label: 'Monitoring' }))
+  );
+</script>

@@ -1,0 +1,4 @@
+/* Tutto il CSS del design system: token (chiaro e scuro), classi tipografiche, componenti (classi hb-*). */
+@import "../tokens/tokens.css";
+@import "../tokens/typography.css";
+@import "./components.css";

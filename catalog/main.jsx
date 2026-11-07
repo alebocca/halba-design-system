@@ -1,0 +1,234 @@
+// Catalogo: ogni token, componente e storia del pacchetto, con gli stessi esempi delle preview dell'artifact
+// (upstream/components/*/preview.html). Serve a controllare il pacchetto, non è una pagina pubblica.
+import React, { useEffect, useState } from "react";
+import { createRoot } from "react-dom/client";
+import "../src/styles.css";
+import "./catalog.css";
+import tokens from "../tokens/tokens.json";
+import {
+  Button, Badge, StatTile, MetricCard, Input, PhotoPanel, OverlayCard, CheckoutStory, RetryStory, RevenueStory,
+} from "../src/index.js";
+
+function Section({ id, eyebrow, title, children }) {
+  return (
+    <section id={id} className="cat-section">
+      <div className="hb-type-label-mono cat-eyebrow">{eyebrow}</div>
+      <h2 className="hb-type-h2 cat-h2">{title}</h2>
+      {children}
+    </section>
+  );
+}
+
+function Card({ name, note, children }) {
+  return (
+    <div className="cat-card">
+      <div className="cat-card__head">
+        <span className="hb-type-h3">{name}</span>
+        {note ? <span className="cat-note">{note}</span> : null}
+      </div>
+      <div className="cat-card__body">{children}</div>
+    </div>
+  );
+}
+
+function Colors() {
+  return (
+    <div className="cat-swatches">
+      {tokens.color.tokens.map((t) => (
+        <div key={t.name} className="cat-swatch">
+          <div className="cat-swatch__chip" style={{ background: `var(--${t.name})` }} />
+          <div className="cat-swatch__name">{t.name}</div>
+          <div className="cat-swatch__value">{typeof t.value === "string" ? t.value : `${t.value.light} · ${t.value.dark}`}</div>
+          <div className="cat-swatch__usage">{t.usage}</div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function Type() {
+  return (
+    <div className="cat-type">
+      {tokens.type.groups.flatMap((g) =>
+        g.styles.map((s) => (
+          <div key={s.name} className="cat-type__row">
+            <div className="cat-type__meta">
+              <span className="cat-swatch__name">{s.name}</span>
+              <span className="cat-swatch__value">{s.fontSize}/{s.lineHeight} · {s.fontWeight}</span>
+            </div>
+            <div className={`hb-type-${s.name} cat-type__sample`}>{s.name === "stat" ? "99.99%" : "Checkout, tuned for growth"}</div>
+          </div>
+        )),
+      )}
+    </div>
+  );
+}
+
+function Scales() {
+  return (
+    <div className="cat-scales">
+      <div>
+        <h3 className="hb-type-h3">Spacing</h3>
+        {tokens.spacing.tokens.map((t) => (
+          <div key={t.name} className="cat-scale">
+            <span className="cat-swatch__name">{t.name}</span>
+            <span className="cat-scale__bar" style={{ width: `var(--${t.name})` }} />
+            <span className="cat-swatch__value">{t.value}</span>
+          </div>
+        ))}
+      </div>
+      <div>
+        <h3 className="hb-type-h3">Radius and shadow</h3>
+        <div className="cat-radii">
+          {tokens.radius.tokens.map((t) => (
+            <div key={t.name} className="cat-radius" style={{ borderRadius: `var(--${t.name})` }}>
+              <span className="cat-swatch__name">{t.name}</span>
+              <span className="cat-swatch__value">{t.value}</span>
+            </div>
+          ))}
+          <div className="cat-radius" style={{ boxShadow: "var(--shadow-card)", border: 0 }}>
+            <span className="cat-swatch__name">shadow-card</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Copertina dell'artifact (upstream/components/Cover/preview.html), stesso SVG e stesse classi di colore
+function Cover() {
+  return (
+    <div className="cat-cover">
+      <svg viewBox="0 0 960 300" aria-hidden="true">
+        <rect className="c-brand" x="504" y="24" width="192" height="252" rx="28" />
+        <g className="c-tint">
+          {[64, 100, 136].flatMap((y) => [540, 576, 612, 648].map((x) => <circle key={`${x}-${y}`} cx={x} cy={y} r="10" />))}
+        </g>
+        <circle className="c-ink" cx="600" cy="220" r="40" />
+        <rect className="c-sun" x="712" y="24" width="112" height="120" rx="20" />
+        <rect className="c-accent" x="712" y="160" width="112" height="116" rx="20" />
+        <rect className="c-sky" x="840" y="24" width="96" height="252" rx="48" />
+        <circle className="c-azure" cx="888" cy="204" r="24" />
+        <circle className="c-ground" cx="888" cy="72" r="14" />
+        <circle className="c-ground" cx="888" cy="120" r="14" />
+      </svg>
+      <div className="cat-cover__text">
+        <h1 className="cat-cover__name">Halba</h1>
+        <p className="cat-cover__tag">Checkout, tuned for growth.</p>
+      </div>
+    </div>
+  );
+}
+
+function App() {
+  const [theme, setTheme] = useState(() => {
+    try { return localStorage.getItem("hb-catalog-theme") || "light"; } catch { return "light"; }
+  });
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    try { localStorage.setItem("hb-catalog-theme", theme); } catch {}
+  }, [theme]);
+
+  return (
+    <div className="cat">
+      <header className="cat-header">
+        <span className="cat-logo">Halba Design System</span>
+        <nav className="cat-nav">
+          <a href="#tokens">Tokens</a>
+          <a href="#components">Components</a>
+          <a href="#stories">Stories</a>
+        </nav>
+        <Button variant="secondary" size="sm" onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
+          {theme === "dark" ? "Light theme" : "Dark theme"}
+        </Button>
+      </header>
+
+      <Cover />
+
+      <Section id="tokens" eyebrow="Foundations" title="Colour">
+        <Colors />
+      </Section>
+      <Section eyebrow="Foundations" title="Type">
+        <Type />
+      </Section>
+      <Section eyebrow="Foundations" title="Spacing and shape">
+        <Scales />
+      </Section>
+
+      <Section id="components" eyebrow="Components" title="Components">
+        <div className="cat-grid">
+          <Card name="Button" note="Variants, sizes, states">
+            <div className="cat-row">
+              <Button variant="primary" withArrow>Get in touch</Button>
+              <Button variant="accent">Start free</Button>
+              <Button variant="secondary">View docs</Button>
+              <Button variant="ghost">Cancel</Button>
+            </div>
+            <div className="cat-row">
+              <Button size="sm">Small</Button>
+              <Button size="md">Medium</Button>
+              <Button size="lg">Large</Button>
+              <Button disabled>Disabled</Button>
+            </div>
+          </Card>
+          <Card name="Badge" note="Status tones">
+            <div className="cat-row">
+              <Badge tone="neutral">Live</Badge>
+              <Badge tone="brand">New</Badge>
+              <Badge tone="success">Approved</Badge>
+              <Badge tone="warning">Challenge</Badge>
+              <Badge tone="warning">Medium risk</Badge>
+              <Badge tone="danger">KO</Badge>
+              <Badge tone="danger">Fraud</Badge>
+            </div>
+          </Card>
+          <Card name="Input" note="Default, hint, error, disabled">
+            <div className="cat-form">
+              <Input id="a" label="Work email" placeholder="you@company.com" hint="We reply within one working day." />
+              <Input id="b" label="Card number" defaultValue="4242 4242" error="Enter a 16-digit card number." />
+              <Input id="c" label="Company" defaultValue="Northwind" />
+              <Input id="d" label="Region" defaultValue="EU" disabled />
+            </div>
+          </Card>
+          <Card name="MetricCard" note="Dashboard metrics">
+            <div className="cat-metrics">
+              <MetricCard label="Approval rate" value="94.6%" delta="+2.8pp" trend="good" series={[88, 89, 90, 90, 92, 93, 94.6]} />
+              <MetricCard label="Decline rate" value="9.4%" delta="+6.2pp" trend="bad" series={[3, 3.2, 3.1, 3.6, 4, 9.4, 5.2]} />
+              <MetricCard label="Fees by processor" value="GBP 1,350" delta="Flat" trend="flat" />
+            </div>
+          </Card>
+          <Card name="StatTile" note="Proof-number tiles">
+            <div className="cat-stats">
+              <StatTile tone="accent" value="99.99%" label="Uptime" />
+              <StatTile tone="sky" value="+4.2pp" label="Average approval lift" />
+              <StatTile tone="lavender" value="120+" label="Payment methods" />
+              <StatTile tone="sun" value="3x" label="Faster reconciliation" />
+              <StatTile tone="azure" value="45" label="Countries" />
+              <StatTile tone="ink" value="24/7" label="Monitoring" />
+              <StatTile tone="brand" value="1" label="API call" />
+            </div>
+          </Card>
+          <Card name="PhotoPanel and OverlayCard" note="Photo with animated overlays">
+            <div className="cat-photo">
+              <PhotoPanel network height={460}>
+                <OverlayCard title="Refund received!" tone="success" top={28} left={24} />
+                <OverlayCard title="Approval rate" value="94.6%" tone="sun" float top={150} right={24} />
+                <OverlayCard title="Checkout friction" value="2 conflicts" tone="danger" bottom={56} left={40} />
+              </PhotoPanel>
+            </div>
+          </Card>
+        </div>
+      </Section>
+
+      <Section id="stories" eyebrow="Stories" title="Animated stories">
+        <div className="cat-stories">
+          <Card name="CheckoutStory" note="Form, three checks, payment OK"><CheckoutStory /></Card>
+          <Card name="RetryStory" note="Retry flow"><RetryStory /></Card>
+          <Card name="RevenueStory" note="Revenue counter and bars"><RevenueStory /></Card>
+        </div>
+      </Section>
+    </div>
+  );
+}
+
+createRoot(document.getElementById("root")).render(<App />);
