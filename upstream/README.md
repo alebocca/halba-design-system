@@ -10,18 +10,18 @@ Halba helps teams lift checkout conversion. The look is fresh and colorful but p
 
 ## Visual foundations
 
-- **Colour.** Page ground is `surface`; cards are `surface-raised`. `brand` (violet) is for actions and the lead data series. Use at most one big colour block per viewport from `brand-tint`, `sky-tint` (light blue), `sun` (light yellow), `sky`, `accent`, or the `ink` block. `sun` and `sky-tint` are the soft, friendly pair for hero panels and feature sections; `accent` is the warm highlight, used sparingly.
+- **Colour.** Page ground is `surface`; cards are `surface-raised`. `brand` (violet) is for actions and the lead data series. Use at most one big colour block per viewport from `brand-tint`, `sky-tint` (light blue), `sun` (light yellow), `sky`, `accent`, or the `ink` block, built with `Panel`. A closing call-to-action on `brand` counts as that block. The `StatTile` row and a story panel are the only exceptions. `sun` and `sky-tint` are the soft, friendly pair for hero panels and feature sections; `accent` is the warm highlight, used sparingly.
 - **Text.** Set copy in `ink`; secondary text in `ink-muted`. Text on `brand` is `on-brand`; on `accent` it is `on-accent`; on `sky` it is `on-sky`; on `sun` it is `on-sun`; on `brand-tint` and `sky-tint` it is `ink`.
-- **Type.** Headlines use `display-xl`, `display-lg`, `h1`–`h3` in Plus Jakarta Sans with the negative tracking built into each style. Body uses `body`, `body-lg`, `body-sm`. Eyebrows, badges and chart legends use `label-mono`, in uppercase.
+- **Type.** Below 900px wide use `display-xl-sm`, `display-lg-sm` and `stat-sm`; the `hb-display-xl` and `hb-display-lg` classes and `StatTile` switch on their own. Headlines use `display-xl`, `display-lg`, `h1`–`h3` in Plus Jakarta Sans with the negative tracking built into each style. Body uses `body`, `body-lg`, `body-sm`. Eyebrows, badges and chart legends use `label-mono`, in uppercase.
 - **Fonts.** Load both from Google Fonts: Plus Jakarta Sans 400/500/600/700 and DM Mono 400/500.
 - **Spacing.** Build layouts from `space-1` to `space-9`. Card padding is `space-5`; gap between cards is `space-5`; gap between site sections is `space-8`.
 - **Shape.** Buttons are pills (`radius-pill`); inputs use `radius-md`; cards use `radius-lg`; stat tiles, photo panels and feature blocks use `radius-xl`.
-- **Charts.** Charts are soft: translucent azure (`chart-1`) for the lead series and translucent violet (`chart-2`) for the second, each with a solid 1.5px outline or line in `chart-1-line` or `chart-2-line`. Area fills use `chart-3`; one anomaly or threshold per chart uses `chart-4`. Yellow stays for blocks and highlights, not for data. Gridlines are `border`, legends are `label-mono`. Always label values directly so colour never carries meaning alone.
-- **Motion.** Motion explains, it does not decorate. Lines draw in over 900ms, cards fade up over 500ms (`ease-out`), and only status graphics loop (dotted network flow, a pulsing live node, one floating card). Everything stops under `prefers-reduced-motion`.
-- **Depth.** Flat by default. Only dashboard cards and product mockups get `shadow-card`. No gradients.
+- **Charts.** Charts are soft: translucent azure (`chart-1`) for the lead series and translucent violet (`chart-2`) for the second, each with a solid 1.5px outline or line in `chart-1-line` or `chart-2-line`. Area fills use `chart-3`; one anomaly or threshold per chart uses `chart-4`. Yellow stays for blocks and highlights, not for data. Gridlines are `border`, legends are `label-mono`. Always label values directly so colour never carries meaning alone. Pie and donut charts take at most four slices, coloured `chart-1`, `chart-2`, `chart-3` then `ink-muted`, each with a 1.5px outline (`chart-1-line`, `chart-2-line`, `border-strong`), a 2px `surface-raised` gap between slices and a direct label with the value; `chart-4` is never a slice. With more than four categories use a horizontal bar chart. `chart-1` and `chart-2` are close in lightness, so always separate them with the gap and labels.
+- **Motion.** Motion explains, it does not decorate. Lines draw in over 900ms, cards fade up over 500ms (`ease-out`), and only status graphics loop (dotted network flow, a pulsing live node, one floating card, the `Spinner`). These values are CSS variables in `bundle.css` (`--dur-draw`, `--dur-fade`, `--ease-out`), not tokens. Skeleton placeholders are static `surface-sunken` blocks with no shimmer. Everything stops under `prefers-reduced-motion`.
+- **Depth.** Flat by default. Dashboard cards and product mockups get `shadow-card`. Floating layers (Modal, Popover, DropdownMenu, Sheet, Toast, Tooltip) get `shadow-overlay` and a `border`. Nothing else has a shadow. No gradients.
 - **Borders.** Card outlines use `border`; control edges use `border-strong`.
 - **Focus.** Every interactive element shows a solid 3px `focus-ring` outline with a 2px offset.
-- **Status colours.** Green (`success`) means OK: approved, reconciled, rescued. Yellow (`warning`) means challenge, medium risk, needs review. Red (`danger`) means KO: declined, failed, fraud, high risk. Every status carries a word and an icon (✓, !, ✕), so colour never works alone. Use the same state words in the site, app and dashboard.
+- **Status colours.** Green (`success`) means OK: approved, reconciled, rescued. Yellow (`warning`) means challenge, medium risk, needs review. Red (`danger`) means KO: declined, failed, fraud, high risk. Every status carries a word and an icon (check, alert, x), so colour never works alone. Use the same state words in the site, app, dashboard and API pages: `StatusBadge` holds the list. Approved, Rescued: success. Challenge, Medium risk: warning. Declined, Failed, Fraud, High risk: danger. Pending: neutral with a clock. Refunded: brand with an undo arrow.
 - **Dark theme.** Switch with `data-theme="dark"`; all tokens flip together. Never hard-code hex values.
 
 ## Imagery
@@ -35,22 +35,35 @@ Halba helps teams lift checkout conversion. The look is fresh and colorful but p
 
 ## Iconography
 
-- Use one outline icon set at 1.75px stroke and 20px size, such as Lucide, coloured with `ink` or `ink-muted`. Do not use emoji as icons.
+- Use one outline icon set, Lucide, through the `Icon` component: 20px at 1.75px stroke, 12px at 2.5px inside badges, coloured with `ink` or `ink-muted`. Do not use emoji or text glyphs (✓ ✕) as icons.
 - Arrows in buttons use the plain text arrow "→" via the `withArrow` prop.
 
 ## Animated stories
 
-- Tell the product as a short story in three animated panels: `CheckoutStory` (the form fills in and is paid), `RetryStory` (two processors decline, the backup route approves) and `RevenueStory` (the revenue counter and the bars grow).
+- Tell the product as a short story in three animated panels: `CheckoutStory` (the form fills in and is paid), `RetryStory` (one or two routes decline, the backup route approves) and `RevenueStory` (the revenue counter and the bars grow).
 - Each panel is a flat colour block (`brand`, `sun`, `azure` for `sky-tint`) holding one `surface-raised` card. Use one story per section, with a headline beside it.
 - A story starts when it scrolls into view, runs about 3 seconds, holds, then loops. Under `prefers-reduced-motion` it shows the final state at once.
 - Keep every story to one idea and three steps at most; write results ("Payment rescued"), not feature names.
 
 ## Layout
 
-- Site: 12-column grid, 1200px maximum width, hero set left-aligned, alternating feature panels, a row of big stat tiles, then testimonials and FAQ.
+- Site: 12-column grid, `container-max` (1200px) maximum width, hero set left-aligned, alternating feature panels, a row of big stat tiles, then testimonials and FAQ.
 - Dashboard: `surface` ground, a grid of `MetricCard` tiles on top, one wide chart card below, data tables in `surface-raised` with `border` row dividers.
 - Keep one `StatTile` row per page for proof numbers; do not mix more than three tile tones in a row. Good pairings: `sun` with `brand`, `sky-tint` with `accent`, `brand-tint` with `sky`.
 
 ## Components
 
-`Button`, `Badge`, `StatTile`, `MetricCard`, `Input`, `PhotoPanel`, `OverlayCard`, `CheckoutStory`, `RetryStory` and `RevenueStory` are in the bundle (`window.Halba`). Read each component's README for props and rules.
+`Button`, `Badge`, `StatusBadge`, `StatTile`, `MetricCard`, `Input`, `Card`, `Panel`, `TextLink`, `Spinner`, `Modal`, `Icon`, `PhotoPanel`, `OverlayCard`, `CheckoutStory`, `RetryStory` and `RevenueStory` are in the bundle (`window.Halba`). Read each component's README for props and rules.
+
+`Button` takes `href` and renders a link; on a `brand` or `ink` block use the `on-brand` variant. Inline text links use `TextLink` (or the `hb-link` class). `Modal` is not `OverlayCard`: the first is a dialog over the page, the second a result card laid over a photo.
+
+## Outside the React app
+
+- **Consuming from code.** `bundle.js` is a classic script that sets `window.Halba` and reads `window.React`; it has no `import` or `export`. A frontend that installs this system as a package needs a small ES-module build around it (or loads the script and reads `window.Halba`). The CSS (`tokens.css`, `bundle.css`) works as it is.
+- **Pages without JavaScript** (pay.halba.ai status pages): plain HTML with `tokens.css`, `bundle.css` and the `hb-*` classes: `Panel` or `Card` on `surface`, `StatusBadge`, `Icon` paths inline as SVG, and `Button` as `<a class="hb-btn hb-btn--primary" href>`. Centre one status card with the logo as plain "Halba" text, a title, a message and one action. They render light; to follow the visitor's theme set `data-theme="dark"` from `matchMedia('(prefers-color-scheme: dark)')`.
+- **Layer injected into a merchant page** (halba.js 3DS challenge): use `hb-scrim` and `hb-modal` with `loading` while the provider iframe opens. Load no fonts (the stack falls back to `system-ui`), ship no global reset, and define the token variables on the overlay's own root element, never on `:root`, so the merchant's styles are untouched.
+- **Logo.** There is no mark file yet: write "Halba" in plain Plus Jakarta Sans 700 and add the mark to an asset group when it exists.
+
+## Planned
+
+Not built yet; each must follow these rules. Dashboard: Select, Table (with sort, empty state, pagination), Tabs, Switch, Checkbox, Textarea, Alert, AlertDialog, Tooltip, Toast, DropdownMenu, Popover, Sheet, Skeleton, Slider, date range picker, table filter bar, page layout with sidebar. Site: header with Platform menu, footer, FAQ accordion, numbered steps, page header (eyebrow, title, subtitle), Testimonial with circular headshot, code block with copy. Every control uses `border-strong` for its edge, the 3px `focus-ring`, `radius-md`, and `brand` for its selected state; every floating layer uses `shadow-overlay`, `border` and `scrim`.

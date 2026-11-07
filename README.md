@@ -12,14 +12,13 @@ immagini) sono in [`upstream/README.md`](upstream/README.md) e nei README dei co
 
 | Percorso | Cosa |
 | --- | --- |
-| `upstream/` | Copia esatta dei file `project/` dell'artifact (versione `1794077435-11a5`, 7 novembre 2026): token, bundle, tipi, README e preview. Non modificare: serve a confrontare a ogni aggiornamento. |
+| `upstream/` | Copia esatta dei file `project/` dell'artifact (versione `1794094029-2d44`, 8 novembre 2026): token, bundle, tipi, README e preview. Non modificare a mano: si sovrascrive a ogni aggiornamento. |
 | `tokens/tokens.json` | Token (copia di `upstream/tokens.json`), unica fonte. |
 | `tokens/tokens.css` | Variabili CSS, tema chiaro su `:root` e scuro su `[data-theme="dark"]`. Generato: `npm run tokens`. |
 | `tokens/typography.css` | Classi `hb-type-<stile>` (display-xl, h1, body, label-mono…). Generato. |
-| `src/components.css` | CSS dei componenti (classi `hb-*`), identico a `upstream/components/bundle.css`. |
-| `src/components/basic.js` | Button, Badge, StatTile, MetricCard, Input, PhotoPanel, OverlayCard. Statici: si rendono lato server senza JS. |
-| `src/stories/stories.js` | CheckoutStory, RetryStory, RevenueStory: le storie animate originali. |
-| `src/index.d.ts` | Tipi (da `upstream/components/index.d.ts`, più `className`). |
+| `src/components.css` | CSS dei componenti (classi `hb-*`), copia di `upstream/components/bundle.css`. Generato. |
+| `src/bundle.js` | Tutti i componenti come modulo ES, generato da `upstream/components/bundle.js` (`npm run sync`). |
+| `src/index.d.ts` | Tipi (da `upstream/components/index.d.ts`, più `className`). Generato. |
 | `tailwind/preset.js` | Preset Tailwind 3 che collega le variabili shadcn ai token. |
 | `catalog/` | Catalogo di token, componenti e storie: `npm run catalog` (porta 4400). |
 
@@ -39,22 +38,33 @@ import { Button, Badge, CheckoutStory } from "@halba/design-system";
 - **Tema scuro**: `data-theme="dark"` su `<html>`. Mai valori esadecimali nel codice delle app.
 - **Font**: Plus Jakarta Sans 400/500/600/700 e DM Mono 400/500 da Google Fonts, caricati dall'app.
 
+## Componenti
+
+Button (anche come link con `href`, variante `on-brand` sui blocchi colorati), Badge, StatusBadge (gli stati di
+pagamento), StatTile, MetricCard, Input, Card, Panel, TextLink, Spinner, Modal, Icon (Lucide), PhotoPanel,
+OverlayCard e le storie CheckoutStory, RetryStory (2 o 3 passi con `steps`), RevenueStory. Statici, tranne
+Modal e le storie: si rendono lato server senza JS.
+
 ## Differenze dal bundle originale
 
-Il codice è quello di `upstream/components/bundle.js`, diviso in moduli ES. Cambiano solo:
+`src/bundle.js` è `upstream/components/bundle.js` trasformato da `scripts/build-bundle.mjs`, che cambia solo:
 
-1. `import React` al posto di `window.React`;
+1. `import React` al posto di `window.React`, `export` al posto di `window.Halba`;
 2. `reducedMotion()` controlla che `window` esista (render lato server);
 3. le storie partono dallo stato finale (progress 1) e ricominciano da 0 quando entrano in vista: senza questo
    il render lato server mostrerebbe un modulo vuoto. Tempi, testi e classi sono invariati.
 
+Se il bundle dell'artifact cambia in quei punti lo script si ferma e va aggiornato.
+
 ## Aggiornare dall'artifact
 
-1. Rileggere i file `project/` dell'artifact e sovrascrivere `upstream/`.
-2. `git diff upstream/` mostra cosa è cambiato; riportarlo in `tokens/tokens.json`, `src/components.css`,
-   `src/components/`, `src/stories/`, `src/index.d.ts`.
-3. `npm run tokens`, poi `npm run catalog` per controllare.
-4. Alzare la versione in `package.json` e creare il tag.
+1. Rileggere i file `project/` dell'artifact e sovrascrivere `upstream/` (e `tokens/tokens.json` con
+   `upstream/tokens.json`).
+2. `npm run sync`: rigenera token, bundle, CSS e tipi.
+3. `git diff upstream/` per vedere cosa è cambiato; aggiungere al catalogo i componenti nuovi e al preset
+   Tailwind i colori nuovi; `npm run catalog` per controllare.
+4. Alzare la versione in `package.json`, committare, `git tag vX.Y.Z`, `git push --follow-tags`, poi aggiornare
+   il tag nei frontend.
 
 ## Piano di adozione per la dashboard (`colorful-landing-world`)
 

@@ -1,4 +1,4 @@
-<!-- @dsCard group="Actions" height=240 subtitle="Variants, sizes, states" -->
+<!-- @dsCard group="Actions" height=380 subtitle="Variants, links, on a colour block" -->
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   body { margin: 0; padding: 24px; background: var(--surface); font-family: var(--font-sans); }
@@ -18,7 +18,11 @@
         e(H.Button, { size: 'sm' }, 'Small'),
         e(H.Button, { size: 'md' }, 'Medium'),
         e(H.Button, { size: 'lg' }, 'Large'),
-        e(H.Button, { disabled: true }, 'Disabled'))
-    )
+        e(H.Button, { disabled: true }, 'Disabled'),
+        e(H.Button, { href: '#', withArrow: true }, 'As a link')),
+      e(H.Panel, { tone: 'brand' },
+        e('div', { className: 'row', style: { marginBottom: 0 } },
+          e(H.Button, { variant: 'secondary', withArrow: true }, 'Get in touch'),
+          e(H.Button, { variant: 'on-brand', href: '#' }, 'Read the docs'))))
   );
 </script>

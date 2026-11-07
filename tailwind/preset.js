@@ -14,8 +14,8 @@ const v = (name) => `color-mix(in srgb, var(--${name}) calc(<alpha-value> * 100%
 
 const tokenColors = [
   "surface", "surface-raised", "surface-sunken", "ink", "ink-muted", "border", "border-strong",
-  "brand", "brand-hover", "on-brand", "brand-tint", "accent", "on-accent", "sky", "on-sky", "sky-tint", "sun", "on-sun",
-  "success", "success-tint", "warning", "warning-tint", "danger", "danger-tint", "focus-ring",
+  "brand", "brand-hover", "on-brand", "on-brand-veil", "brand-tint", "accent", "on-accent", "sky", "on-sky", "sky-tint", "sun", "on-sun",
+  "success", "success-tint", "warning", "warning-tint", "danger", "danger-tint", "focus-ring", "scrim",
   "chart-1", "chart-1-line", "chart-2", "chart-2-line", "chart-3", "chart-4",
 ];
 
@@ -66,10 +66,11 @@ export default {
         mono: ["var(--font-mono)"],
       },
       // "shadow-card" collide con il colore shadcn "card" (shadow-<colore>): si usa shadow-hb-card
-      boxShadow: { "hb-card": "var(--shadow-card)" },
+      boxShadow: { "hb-card": "var(--shadow-card)", "hb-overlay": "var(--shadow-overlay)" },
       spacing: Object.fromEntries([1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => [`space-${n}`, `var(--space-${n})`])),
+      maxWidth: { container: "var(--container-max)" },
       fontSize: Object.fromEntries(
-        ["display-xl", "display-lg", "stat", "h1", "h2", "h3", "body-lg", "body", "body-sm", "button", "label-mono"].map((n) => [
+        ["display-xl", "display-lg", "stat", "display-xl-sm", "display-lg-sm", "stat-sm", "h1", "h2", "h3", "body-lg", "body", "body-sm", "button", "label-mono"].map((n) => [
           n,
           [`var(--${n})`, { lineHeight: `var(--${n}-line-height)`, fontWeight: `var(--${n}-weight)` }],
         ]),

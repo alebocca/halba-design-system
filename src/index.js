@@ -1,4 +1,3 @@
-// @halba/design-system — componenti React del "Halba Design System".
+// @halba/design-system — componenti React del "Halba Design System", generati da upstream/ (npm run sync).
 // CSS: importare "@halba/design-system/styles.css" (token + tipografia + componenti) una volta per app.
-export { Button, Badge, StatTile, MetricCard, Input, PhotoPanel, OverlayCard } from "./components/basic.js";
-export { CheckoutStory, RetryStory, RevenueStory } from "./stories/stories.js";
+export * from "./bundle.js";

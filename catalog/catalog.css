@@ -58,3 +58,10 @@ body { margin: 0; background: var(--surface); color: var(--ink); font-family: va
   .cat-type__row { grid-template-columns: 1fr; gap: var(--space-2); }
   .hb-stat__value { font-size: 64px; line-height: 64px; }
 }
+.cat-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: var(--space-5); }
+.cat-muted { margin: var(--space-2) 0 0; color: var(--ink-muted); }
+.cat-kv { display: flex; justify-content: space-between; gap: var(--space-3); font-size: 14px; line-height: 20px; margin-top: var(--space-3); }
+.cat-kv span:first-child { color: var(--ink-muted); }
+.cat-kv--head { margin-top: 0; align-items: center; }
+.cat-panels { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: var(--space-4); }
+.cat-modal { position: relative; height: 320px; border-radius: var(--radius-lg); overflow: hidden; }

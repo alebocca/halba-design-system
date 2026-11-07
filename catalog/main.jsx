@@ -7,7 +7,10 @@ import "./catalog.css";
 import tokens from "../tokens/tokens.json";
 import {
   Button, Badge, StatTile, MetricCard, Input, PhotoPanel, OverlayCard, CheckoutStory, RetryStory, RevenueStory,
+  StatusBadge, Card, Panel, TextLink, Spinner, Modal, Icon,
 } from "../src/index.js";
+
+const STATUSES = ["approved", "rescued", "challenge", "medium-risk", "declined", "failed", "fraud", "high-risk", "pending", "refunded"];
 
 function Section({ id, eyebrow, title, children }) {
   return (
@@ -19,7 +22,7 @@ function Section({ id, eyebrow, title, children }) {
   );
 }
 
-function Card({ name, note, children }) {
+function Spec({ name, note, children }) {
   return (
     <div className="cat-card">
       <div className="cat-card__head">
@@ -157,7 +160,7 @@ function App() {
 
       <Section id="components" eyebrow="Components" title="Components">
         <div className="cat-grid">
-          <Card name="Button" note="Variants, sizes, states">
+          <Spec name="Button" note="Variants, sizes, states">
             <div className="cat-row">
               <Button variant="primary" withArrow>Get in touch</Button>
               <Button variant="accent">Start free</Button>
@@ -169,9 +172,16 @@ function App() {
               <Button size="md">Medium</Button>
               <Button size="lg">Large</Button>
               <Button disabled>Disabled</Button>
+              <Button href="#" withArrow>As a link</Button>
             </div>
-          </Card>
-          <Card name="Badge" note="Status tones">
+            <Panel tone="brand">
+              <div className="cat-row">
+                <Button variant="secondary" withArrow>Get in touch</Button>
+                <Button variant="on-brand" href="#">Read the docs</Button>
+              </div>
+            </Panel>
+          </Spec>
+          <Spec name="Badge" note="Status tones">
             <div className="cat-row">
               <Badge tone="neutral">Live</Badge>
               <Badge tone="brand">New</Badge>
@@ -181,23 +191,65 @@ function App() {
               <Badge tone="danger">KO</Badge>
               <Badge tone="danger">Fraud</Badge>
             </div>
-          </Card>
-          <Card name="Input" note="Default, hint, error, disabled">
+            <div className="cat-row">
+              {STATUSES.map((st) => <StatusBadge key={st} status={st} />)}
+            </div>
+          </Spec>
+          <Spec name="Card" note="Default, product, clickable">
+            <div className="cat-cards">
+              <Card>
+                <div className="hb-type-h3">Smart routing</div>
+                <p className="cat-muted">Send each payment down the route most likely to approve it.</p>
+              </Card>
+              <Card variant="product">
+                <div className="cat-kv cat-kv--head"><b>Order 1001</b><StatusBadge status="challenge" /></div>
+                <div className="cat-kv"><span>Amount</span><span>$89.00</span></div>
+                <div className="cat-kv"><span>Risk</span><span>Medium</span></div>
+              </Card>
+              <Card href="#">
+                <div className="hb-type-h3">Clickable card</div>
+                <p className="cat-muted">The whole card is the link.</p>
+              </Card>
+            </div>
+          </Spec>
+          <Spec name="Panel" note="Flat colour blocks">
+            <div className="cat-panels">
+              {["brand", "brand-tint", "sky-tint", "sky", "sun", "accent", "ink", "sunken"].map((t) => (
+                <Panel key={t} tone={t}><span className="hb-type-label-mono">{t}</span></Panel>
+              ))}
+            </div>
+          </Spec>
+          <Spec name="TextLink, Spinner and Icon" note="Links, loading, Lucide icons">
+            <div className="cat-row">
+              <TextLink href="#">Read the guide</TextLink>
+              <TextLink href="#" withArrow>Explore orchestration</TextLink>
+              <Spinner label="Loading payments" />
+              {["check", "x", "alert", "clock", "undo"].map((n) => <Icon key={n} name={n} />)}
+            </div>
+          </Spec>
+          <Spec name="Modal" note="Dialog with loading state, contained preview">
+            <div className="cat-modal">
+              <Modal contained title="Refund €20.00" onClose={() => {}} footer={<><Button variant="secondary">Cancel</Button><Button>Refund</Button></>}>
+                <p className="cat-muted">The customer gets the money back in 5–10 days. This cannot be undone.</p>
+              </Modal>
+            </div>
+          </Spec>
+          <Spec name="Input" note="Default, hint, error, disabled">
             <div className="cat-form">
               <Input id="a" label="Work email" placeholder="you@company.com" hint="We reply within one working day." />
               <Input id="b" label="Card number" defaultValue="4242 4242" error="Enter a 16-digit card number." />
               <Input id="c" label="Company" defaultValue="Northwind" />
               <Input id="d" label="Region" defaultValue="EU" disabled />
             </div>
-          </Card>
-          <Card name="MetricCard" note="Dashboard metrics">
+          </Spec>
+          <Spec name="MetricCard" note="Dashboard metrics">
             <div className="cat-metrics">
               <MetricCard label="Approval rate" value="94.6%" delta="+2.8pp" trend="good" series={[88, 89, 90, 90, 92, 93, 94.6]} />
               <MetricCard label="Decline rate" value="9.4%" delta="+6.2pp" trend="bad" series={[3, 3.2, 3.1, 3.6, 4, 9.4, 5.2]} />
               <MetricCard label="Fees by processor" value="GBP 1,350" delta="Flat" trend="flat" />
             </div>
-          </Card>
-          <Card name="StatTile" note="Proof-number tiles">
+          </Spec>
+          <Spec name="StatTile" note="Proof-number tiles">
             <div className="cat-stats">
               <StatTile tone="accent" value="99.99%" label="Uptime" />
               <StatTile tone="sky" value="+4.2pp" label="Average approval lift" />
@@ -207,8 +259,8 @@ function App() {
               <StatTile tone="ink" value="24/7" label="Monitoring" />
               <StatTile tone="brand" value="1" label="API call" />
             </div>
-          </Card>
-          <Card name="PhotoPanel and OverlayCard" note="Photo with animated overlays">
+          </Spec>
+          <Spec name="PhotoPanel and OverlayCard" note="Photo with animated overlays">
             <div className="cat-photo">
               <PhotoPanel network height={460}>
                 <OverlayCard title="Refund received!" tone="success" top={28} left={24} />
@@ -216,15 +268,15 @@ function App() {
                 <OverlayCard title="Checkout friction" value="2 conflicts" tone="danger" bottom={56} left={40} />
               </PhotoPanel>
             </div>
-          </Card>
+          </Spec>
         </div>
       </Section>
 
       <Section id="stories" eyebrow="Stories" title="Animated stories">
         <div className="cat-stories">
-          <Card name="CheckoutStory" note="Form, three checks, payment OK"><CheckoutStory /></Card>
-          <Card name="RetryStory" note="Retry flow"><RetryStory /></Card>
-          <Card name="RevenueStory" note="Revenue counter and bars"><RevenueStory /></Card>
+          <Spec name="CheckoutStory" note="Form, three checks, payment OK"><CheckoutStory /></Spec>
+          <Spec name="RetryStory" note="Three steps, or two with steps"><RetryStory /><div style={{ height: 24 }} /><RetryStory steps={[{ name: "Primary PSP", result: "declined" }, { name: "Backup PSP", result: "approved" }]} amount="€129.90" /></Spec>
+          <Spec name="RevenueStory" note="Revenue counter and bars"><RevenueStory /></Spec>
         </div>
       </Section>
     </div>

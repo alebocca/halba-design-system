@@ -1,13 +1,16 @@
 {
   "name": "@halba/design-system",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Halba Design System: token, componenti React con CSS semplice, storie animate, preset Tailwind.",
   "type": "module",
   "license": "UNLICENSED",
   "main": "./src/index.js",
   "types": "./src/index.d.ts",
   "exports": {
-    ".": { "types": "./src/index.d.ts", "default": "./src/index.js" },
+    ".": {
+      "types": "./src/index.d.ts",
+      "default": "./src/index.js"
+    },
     "./styles.css": "./src/styles.css",
     "./components.css": "./src/components.css",
     "./tokens.css": "./tokens/tokens.css",
@@ -15,9 +18,17 @@
     "./tokens.json": "./tokens/tokens.json",
     "./tailwind-preset": "./tailwind/preset.js"
   },
-  "files": ["src", "tokens", "tailwind", "README.md"],
-  "sideEffects": ["*.css"],
+  "files": [
+    "src",
+    "tokens",
+    "tailwind",
+    "README.md"
+  ],
+  "sideEffects": [
+    "*.css"
+  ],
   "scripts": {
+    "sync": "node scripts/build-tokens.mjs && node scripts/build-bundle.mjs",
     "tokens": "node scripts/build-tokens.mjs",
     "catalog": "vite --config catalog/vite.config.js",
     "build:catalog": "vite build --config catalog/vite.config.js"

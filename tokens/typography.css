@@ -2,6 +2,9 @@
 .hb-type-display-xl { font-family: var(--font-sans); font-size: var(--display-xl); line-height: var(--display-xl-line-height); font-weight: var(--display-xl-weight); letter-spacing: var(--display-xl-tracking); }
 .hb-type-display-lg { font-family: var(--font-sans); font-size: var(--display-lg); line-height: var(--display-lg-line-height); font-weight: var(--display-lg-weight); letter-spacing: var(--display-lg-tracking); }
 .hb-type-stat { font-family: var(--font-sans); font-size: var(--stat); line-height: var(--stat-line-height); font-weight: var(--stat-weight); letter-spacing: var(--stat-tracking); }
+.hb-type-display-xl-sm { font-family: var(--font-sans); font-size: var(--display-xl-sm); line-height: var(--display-xl-sm-line-height); font-weight: var(--display-xl-sm-weight); letter-spacing: var(--display-xl-sm-tracking); }
+.hb-type-display-lg-sm { font-family: var(--font-sans); font-size: var(--display-lg-sm); line-height: var(--display-lg-sm-line-height); font-weight: var(--display-lg-sm-weight); letter-spacing: var(--display-lg-sm-tracking); }
+.hb-type-stat-sm { font-family: var(--font-sans); font-size: var(--stat-sm); line-height: var(--stat-sm-line-height); font-weight: var(--stat-sm-weight); letter-spacing: var(--stat-sm-tracking); }
 .hb-type-h1 { font-family: var(--font-sans); font-size: var(--h1); line-height: var(--h1-line-height); font-weight: var(--h1-weight); letter-spacing: var(--h1-tracking); }
 .hb-type-h2 { font-family: var(--font-sans); font-size: var(--h2); line-height: var(--h2-line-height); font-weight: var(--h2-weight); letter-spacing: var(--h2-tracking); }
 .hb-type-h3 { font-family: var(--font-sans); font-size: var(--h3); line-height: var(--h3-line-height); font-weight: var(--h3-weight); letter-spacing: var(--h3-tracking); }

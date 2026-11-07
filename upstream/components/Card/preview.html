@@ -1,0 +1,21 @@
+<!-- @dsCard group="Surfaces" height=260 subtitle="Default, product, clickable" -->
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; padding: 24px; background: var(--surface); font-family: var(--font-sans); }
+  .row { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; }
+  .kv { display: flex; justify-content: space-between; gap: 12px; font-size: 14px; line-height: 20px; margin-top: 12px; }
+  .kv span:first-child { color: var(--ink-muted); }
+</style>
+<div id="root"></div>
+<script>
+  var H = window.Halba, e = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(
+    e('div', { className: 'row' },
+      e(H.Card, null, e('div', { style: { fontWeight: 600, fontSize: 20, lineHeight: '28px' } }, 'Smart routing'), e('p', { style: { margin: '8px 0 0', color: 'var(--ink-muted)' } }, 'Send each payment down the route most likely to approve it.')),
+      e(H.Card, { variant: 'product' },
+        e('div', { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center' } }, e('b', null, 'Order 1001'), e(H.StatusBadge, { status: 'challenge' })),
+        e('div', { className: 'kv' }, e('span', null, 'Amount'), e('span', null, '$89.00')),
+        e('div', { className: 'kv' }, e('span', null, 'Risk'), e('span', null, 'Medium'))),
+      e(H.Card, { href: '#' }, e('div', { style: { fontWeight: 600, fontSize: 20, lineHeight: '28px' } }, 'Clickable card'), e('div', { style: { marginTop: 8 } }, e(H.TextLink, { href: '#', withArrow: true }, 'Explore orchestration'))))
+  );
+</script>

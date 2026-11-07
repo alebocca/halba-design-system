@@ -1,0 +1,15 @@
+<!-- @dsCard group="Actions" height=140 subtitle="Stand-alone and in text" -->
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; padding: 24px; background: var(--surface); font-family: var(--font-sans); }
+  p { max-width: 520px; font-size: 16px; line-height: 24px; color: var(--ink); margin: 0 0 16px; }
+</style>
+<div id="root"></div>
+<script>
+  var H = window.Halba, e = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(
+    e('div', null,
+      e('p', null, 'Retries run on your backup processor. ', e('a', { className: 'hb-link', href: '#' }, 'Read how routing decides'), ' before you switch it on.'),
+      e(H.TextLink, { href: '#', withArrow: true }, 'Explore orchestration'))
+  );
+</script>
