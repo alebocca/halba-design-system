@@ -65,7 +65,8 @@ export default {
         sans: ["var(--font-sans)"],
         mono: ["var(--font-mono)"],
       },
-      boxShadow: { card: "var(--shadow-card)" },
+      // "shadow-card" collide con il colore shadcn "card" (shadow-<colore>): si usa shadow-hb-card
+      boxShadow: { "hb-card": "var(--shadow-card)" },
       spacing: Object.fromEntries([1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => [`space-${n}`, `var(--space-${n})`])),
       fontSize: Object.fromEntries(
         ["display-xl", "display-lg", "stat", "h1", "h2", "h3", "body-lg", "body", "body-sm", "button", "label-mono"].map((n) => [
