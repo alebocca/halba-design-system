@@ -77,6 +77,13 @@ Non ancora applicato. Un passo per PR, ognuno rilasciabile da solo.
 
 ## Distribuzione
 
-In locale i frontend lo usano come `file:../halba-design-system`, che funziona solo su questa macchina:
-prima di pubblicare un frontend che lo usa, il pacchetto deve stare su GitHub e la dipendenza deve puntare lì
-(raccomandazione in fondo a [`GAPS.md`](GAPS.md)).
+Repository pubblico `alebocca/halba-design-system`, senza registro npm né token. I frontend lo installano da
+un tag git:
+
+```json
+"@halba/design-system": "github:alebocca/halba-design-system#v0.1.0"
+```
+
+Per una nuova versione: aggiornare `version` in `package.json`, committare, `git tag vX.Y.Z`,
+`git push --follow-tags`, poi cambiare il tag nei frontend e rifare `npm install`. Il pacchetto non ha passo di
+build (moduli ES e CSS), quindi l'installazione da git funziona così com'è.

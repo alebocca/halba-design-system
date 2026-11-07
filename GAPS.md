@@ -73,7 +73,7 @@ raggio 12px). Mancano:
 - **Token di velo** (colore dello sfondo scurito) per chiaro e scuro.
 - Versione **CSS-only con prefisso** da iniettare nella pagina del merchant senza toccarne gli stili.
 
-## Distribuzione: raccomandazione
+## Distribuzione (scelta: repository pubblico)
 
 **Repository pubblico** `alebocca/halba-design-system`, installato dai frontend con un tag git:
 `"@halba/design-system": "github:alebocca/halba-design-system#v0.1.0"`.
