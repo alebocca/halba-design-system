@@ -7,7 +7,7 @@ import "./catalog.css";
 import tokens from "../tokens/tokens.json";
 import {
   Button, Badge, StatTile, MetricCard, Input, PhotoPanel, OverlayCard, CheckoutStory, RetryStory, RevenueStory,
-  StatusBadge, Card, Panel, TextLink, Spinner, Modal, Icon, SegmentedControl, Alert, AuthLayout,
+  StatusBadge, Card, Panel, TextLink, Spinner, Modal, Icon, SegmentedControl, Alert, AuthLayout, PieChart, BarChart,
 } from "../src/index.js";
 
 const STATUSES = ["approved", "rescued", "challenge", "medium-risk", "declined", "failed", "fraud", "high-risk", "pending", "refunded"];
@@ -293,6 +293,21 @@ function App() {
               <MetricCard label="Approval rate" value="94.6%" delta="+2.8pp" trend="good" series={[88, 89, 90, 90, 92, 93, 94.6]} />
               <MetricCard label="Decline rate" value="9.4%" delta="+6.2pp" trend="bad" series={[3, 3.2, 3.1, 3.6, 4, 9.4, 5.2]} />
               <MetricCard label="Fees by processor" value="GBP 1,350" delta="Flat" trend="flat" />
+            </div>
+          </Spec>
+          <Spec name="PieChart" note="Distribution of OK, KO and Retry">
+            <Card>
+              <PieChart label="Payment outcomes" totalLabel="payments" data={[{ label: "OK", value: 64 }, { label: "KO", value: 21 }, { label: "Retry", value: 12 }, { label: "Challenge", value: 3 }]} />
+            </Card>
+          </Spec>
+          <Spec name="BarChart" note="Stacked and side by side">
+            <div style={{ display: "grid", gap: 24 }}>
+              <Card>
+                <BarChart label="Payments per day" data={["Oct 31", "Nov 1", "Nov 2", "Nov 3", "Nov 4", "Nov 5", "Nov 6", "Nov 7", "Nov 8"].map((d, i) => ({ label: d, values: [[3, 3, 0], [6, 0, 0], [6, 0, 0], [6, 0, 0], [6, 0, 0], [3, 0, 0], [16, 6, 3], [14, 4, 4], [0, 0, 0]][i] }))} series={[{ name: "Authorized", tone: "success" }, { name: "Declined", tone: "danger" }, { name: "Blocked", tone: "neutral" }]} />
+              </Card>
+              <Card>
+                <BarChart label="Retried and first-attempt payments" stacked={false} height={180} data={[{ label: "Jan", values: [320, 250] }, { label: "Feb", values: [360, 160] }, { label: "Mar", values: [300, 380] }, { label: "Apr", values: [340, 260] }]} series={[{ name: "Retried", tone: "azure" }, { name: "First attempt", tone: "violet" }]} />
+              </Card>
             </div>
           </Spec>
           <Spec name="StatTile" note="Proof-number tiles">

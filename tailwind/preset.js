@@ -17,6 +17,7 @@ const tokenColors = [
   "brand", "brand-hover", "on-brand", "on-brand-veil", "brand-tint", "accent", "on-accent", "sky", "on-sky", "sky-tint", "sun", "on-sun",
   "success", "success-tint", "warning", "warning-tint", "danger", "danger-tint", "focus-ring", "scrim",
   "chart-1", "chart-1-line", "chart-2", "chart-2-line", "chart-3", "chart-4",
+  "chart-success", "chart-danger", "chart-warning", "chart-neutral",
 ];
 
 /** @type {import('tailwindcss').Config} */

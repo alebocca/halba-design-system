@@ -1,0 +1,18 @@
+<!-- @dsCard group="Charts" height=620 subtitle="Distribution: donut and pie" -->
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; padding: 24px; background: var(--surface); font-family: var(--font-sans); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); gap: 24px; }
+  h3 { margin: 0 0 var(--space-4); font-size: 20px; line-height: 28px; font-weight: 600; letter-spacing: -0.01em; }
+</style>
+<div id="root"></div>
+<script>
+  var H = window.Halba, e = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(
+    e('div', { className: 'grid' },
+      e(H.Card, null, e('h3', null, 'Payment outcomes'),
+        e(H.PieChart, { label: 'Payment outcomes', totalLabel: 'payments', data: [{ label: 'OK', value: 1820 }, { label: 'KO', value: 340 }, { label: 'Retry', value: 126 }] })),
+      e(H.Card, null, e('h3', null, 'Fraud liability on authorized payments'),
+        e(H.PieChart, { label: 'Fraud liability', donut: false, data: [{ label: 'Issuer (3DS or wallet)', value: 34, tone: 'azure' }, { label: 'Merchant, covered by fraud vendor', value: 26, tone: 'violet' }, { label: 'Merchant, not covered', value: 0, tone: 'warning' }] })))
+  );
+</script>

@@ -27,8 +27,8 @@
   },
   "lastChange": {
     "by": "Alessandro",
-    "at": "2026-11-08T10:05:00Z",
+    "at": "2026-11-08T17:50:00Z",
     "via": "Claude Code",
-    "note": "Alert added; SegmentedControl aligned (body-sm, radiogroup without panelId)"
+    "note": "Charts redesigned: no outlines, PieChart for distributions, BarChart, status chart tokens"
   }
 }

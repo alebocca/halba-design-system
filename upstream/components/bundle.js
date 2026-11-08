@@ -1,4 +1,4 @@
-/* @ds-bundle: {"format":4,"namespace":"Halba","components":[{"name":"Button"},{"name":"Badge"},{"name":"StatTile"},{"name":"MetricCard"},{"name":"Input"},{"name":"PhotoPanel"},{"name":"OverlayCard"},{"name":"CheckoutStory"},{"name":"RetryStory"},{"name":"RevenueStory"},{"name":"StatusBadge"},{"name":"Card"},{"name":"Panel"},{"name":"TextLink"},{"name":"Spinner"},{"name":"Modal"},{"name":"Icon"},{"name":"SegmentedControl"},{"name":"Alert"},{"name":"AuthLayout"}]} */
+/* @ds-bundle: {"format":4,"namespace":"Halba","components":[{"name":"Button"},{"name":"Badge"},{"name":"StatTile"},{"name":"MetricCard"},{"name":"Input"},{"name":"PhotoPanel"},{"name":"OverlayCard"},{"name":"CheckoutStory"},{"name":"RetryStory"},{"name":"RevenueStory"},{"name":"StatusBadge"},{"name":"Card"},{"name":"Panel"},{"name":"TextLink"},{"name":"Spinner"},{"name":"Modal"},{"name":"Icon"},{"name":"SegmentedControl"},{"name":"Alert"},{"name":"PieChart"},{"name":"BarChart"},{"name":"AuthLayout"}]} */
 (function () {
   var React = window.React;
   var h = React.createElement;
@@ -304,6 +304,135 @@
     );
   }
 
+  /* ---------- Charts: flat soft fills, no outlines ---------- */
+  function fmtNum(n) { return Number(n).toLocaleString('en-US'); }
+  var PIE_TONES = ['success', 'danger', 'azure', 'warning', 'neutral'];
+
+  /* Distribution of events (OK, KO, Retry...). Donut by default; donut={false} gives a full pie. */
+  function PieChart(p) {
+    var data = p.data || [];
+    var format = p.format || fmtNum;
+    var total = 0;
+    data.forEach(function (d) { total += d.value; });
+    var donut = p.donut !== false;
+    var r = donut ? 66 : 40;
+    var sw = donut ? 28 : 80;
+    var C = 2 * Math.PI * r;
+    var cum = 0;
+    var segs = data.map(function (d, i) {
+      var frac = total ? d.value / total : 0;
+      var s = { d: d, i: i, frac: frac, len: frac * C, start: cum, tone: d.tone || PIE_TONES[i % PIE_TONES.length] };
+      cum += s.len;
+      return s;
+    });
+    var visible = segs.filter(function (s) { return s.len > 0; });
+    var single = visible.length === 1;
+    return h(
+      'div',
+      { className: cx('hb-pie', p.className), role: 'group', 'aria-label': p.label },
+      h(
+        'div',
+        { className: 'hb-pie__plot' },
+        h(
+          'svg',
+          { className: 'hb-pie__svg', viewBox: '0 0 200 200', 'aria-hidden': 'true' },
+          visible.map(function (s) {
+            return h('circle', {
+              key: s.i, cx: 100, cy: 100, r: r, fill: 'none', strokeWidth: sw,
+              className: 'hb-pie__seg hb-tone--' + s.tone,
+              strokeDasharray: (single ? C : Math.max(0.5, s.len - 3)) + ' ' + C,
+              strokeDashoffset: -s.start, transform: 'rotate(-90 100 100)'
+            });
+          })
+        ),
+        donut ? h('div', { className: 'hb-pie__center' }, h('div', { className: 'hb-pie__total' }, format(total)), p.totalLabel ? h('div', { className: 'hb-pie__caption' }, p.totalLabel) : null) : null
+      ),
+      h(
+        'ul',
+        { className: 'hb-pie__legend' },
+        segs.map(function (s) {
+          var pct = s.d.value > 0 && s.frac < 0.01 ? '<1%' : Math.round(s.frac * 100) + '%';
+          return h(
+            'li',
+            { key: s.i, className: 'hb-pie__row' },
+            h('span', { className: 'hb-dot hb-tone--' + s.tone, 'aria-hidden': 'true' }),
+            h('span', { className: 'hb-pie__name' }, s.d.label),
+            h('span', { className: 'hb-pie__val' }, format(s.d.value), h('span', { className: 'hb-pie__pct' }, pct))
+          );
+        })
+      )
+    );
+  }
+
+  function niceScale(v) {
+    var pow = Math.pow(10, Math.floor(Math.log(v / 4) / Math.LN10));
+    var steps = [1, 1.2, 1.5, 2, 2.5, 3, 4, 5, 6, 8, 10];
+    for (var i = 0; i < steps.length; i++) {
+      var st = steps[i] * pow;
+      if (st * 4 >= v) return { step: st, max: st * 4 };
+    }
+    return { step: 10 * pow, max: 40 * pow };
+  }
+
+  /* Values over time. Series are stacked (default) or side by side (stacked={false}). */
+  function BarChart(p) {
+    var data = p.data || [];
+    var series = p.series && p.series.length ? p.series : [{ name: 'Value', tone: 'azure' }];
+    var stacked = p.stacked !== false && series.length > 1;
+    var H = p.height || 220;
+    var format = p.format || fmtNum;
+    var showValues = p.showValues !== false;
+    var peak = 0;
+    data.forEach(function (d) {
+      var v = stacked ? d.values.reduce(function (a, b) { return a + b; }, 0) : Math.max.apply(null, d.values);
+      if (v > peak) peak = v;
+    });
+    var sc = p.max ? { max: p.max, step: p.max / 4 } : niceScale(peak || 4);
+    var summary = data.map(function (d) { return d.label + ' ' + format(d.values.reduce(function (a, b) { return a + b; }, 0)); }).join(', ');
+    function px(v) { return v > 0 ? Math.max(3, (v / sc.max) * H) : 0; }
+    return h(
+      'div',
+      { className: cx('hb-bars', p.className), role: 'img', 'aria-label': (p.label || 'Bar chart') + ': ' + summary },
+      series.length > 1 || p.legend ? h(
+        'div',
+        { className: 'hb-bars__legend' },
+        series.map(function (s) {
+          return h('span', { key: s.name }, h('i', { className: 'hb-dot hb-tone--' + (s.tone || 'azure') }), s.name);
+        })
+      ) : null,
+      h(
+        'div',
+        { className: 'hb-bars__plot', style: { height: H } },
+        [0, 1, 2, 3, 4].map(function (i) {
+          return h('div', { key: 'g' + i, className: 'hb-bars__grid', style: { bottom: (i / 4) * 100 + '%' } }, h('span', null, format(sc.step * i)));
+        }),
+        h(
+          'div',
+          { className: 'hb-bars__cols' },
+          data.map(function (d, ci) {
+            var total = d.values.reduce(function (a, b) { return a + b; }, 0);
+            return h(
+              'div',
+              { key: ci, className: 'hb-bars__col' },
+              h(
+                'div',
+                { className: cx('hb-bars__stack', stacked ? '' : 'hb-bars__stack--group') },
+                showValues && stacked && total > 0 ? h('span', { className: 'hb-bars__value' }, format(total)) : null,
+                d.values.map(function (v, si) {
+                  if (!(v > 0)) return null;
+                  var seg = h('div', { className: 'hb-bars__seg hb-tone--' + (series[si] && series[si].tone || 'azure'), style: { height: px(v), animationDelay: ci * 40 + 'ms' } });
+                  if (stacked) return h('div', { key: si, className: 'hb-bars__cell' }, seg);
+                  return h('div', { key: si, className: 'hb-bars__cell' }, showValues ? h('span', { className: 'hb-bars__value' }, format(v)) : null, seg);
+                })
+              )
+            );
+          })
+        )
+      ),
+      h('div', { className: 'hb-bars__labels' }, data.map(function (d, i) { return h('span', { key: i }, d.label); }))
+    );
+  }
+
   /* ---------- Segmented control and auth layout ---------- */
   function SegmentedControl(p) {
     var opts = p.options || [];
@@ -554,5 +683,5 @@
     );
   }
 
-  window.Halba = { Button: Button, Badge: Badge, StatTile: StatTile, MetricCard: MetricCard, Input: Input, PhotoPanel: PhotoPanel, OverlayCard: OverlayCard, CheckoutStory: CheckoutStory, RetryStory: RetryStory, RevenueStory: RevenueStory, StatusBadge: StatusBadge, Card: Card, Panel: Panel, TextLink: TextLink, Spinner: Spinner, Modal: Modal, Icon: Icon, SegmentedControl: SegmentedControl, AuthLayout: AuthLayout, Alert: Alert };
+  window.Halba = { Button: Button, Badge: Badge, StatTile: StatTile, MetricCard: MetricCard, Input: Input, PhotoPanel: PhotoPanel, OverlayCard: OverlayCard, CheckoutStory: CheckoutStory, RetryStory: RetryStory, RevenueStory: RevenueStory, StatusBadge: StatusBadge, Card: Card, Panel: Panel, TextLink: TextLink, Spinner: Spinner, Modal: Modal, Icon: Icon, SegmentedControl: SegmentedControl, AuthLayout: AuthLayout, Alert: Alert, PieChart: PieChart, BarChart: BarChart };
 })();

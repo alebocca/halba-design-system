@@ -26,7 +26,7 @@ Non ancora nell'artifact:
   euro.
 - **Preview di Card:** la card cliccabile contiene un `TextLink`, cioè un link dentro un link (React lo segnala), in
   contrasto con il README di Card. Il catalogo del pacchetto lo evita.
-- **Grafici della dashboard:** le regole ci sono, ma non un componente (assi, legenda, tooltip per Recharts).
+- **Grafici della dashboard:** ci sono BarChart e PieChart (v0.4.0); mancano ancora linee e aree, e i tooltip al passaggio del mouse.
 - **Form:** Label e messaggio di errore esistono solo dentro `Input`; la dashboard usa react-hook-form con
   `FormLabel`/`FormMessage` separati.
 - **Bottone distruttivo e bottone solo icona:** la dashboard li usa (10 `destructive`, vari `size="icon"`).

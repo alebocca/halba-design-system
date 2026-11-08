@@ -1,0 +1,20 @@
+<!-- @dsCard group="Charts" height=720 subtitle="Stacked and side by side" -->
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; padding: 24px; background: var(--surface); font-family: var(--font-sans); }
+  .grid { display: grid; gap: 24px; }
+  h3 { margin: 0 0 var(--space-4); font-size: 20px; line-height: 28px; font-weight: 600; letter-spacing: -0.01em; }
+</style>
+<div id="root"></div>
+<script>
+  var H = window.Halba, e = React.createElement;
+  var days = ['Oct 31', 'Nov 1', 'Nov 2', 'Nov 3', 'Nov 4', 'Nov 5', 'Nov 6', 'Nov 7', 'Nov 8'];
+  var vals = [[3, 3, 0], [6, 0, 0], [6, 0, 0], [6, 0, 0], [6, 0, 0], [3, 0, 0], [16, 6, 3], [14, 4, 4], [0, 0, 0]];
+  ReactDOM.createRoot(document.getElementById('root')).render(
+    e('div', { className: 'grid' },
+      e(H.Card, null, e('h3', null, 'Payments per day'),
+        e(H.BarChart, { label: 'Payments per day', data: days.map(function (d, i) { return { label: d, values: vals[i] }; }), series: [{ name: 'Authorized', tone: 'success' }, { name: 'Declined', tone: 'danger' }, { name: 'Blocked', tone: 'neutral' }] })),
+      e(H.Card, null, e('h3', null, 'Retried and first-attempt payments'),
+        e(H.BarChart, { label: 'Retried and first-attempt payments', stacked: false, height: 180, data: [{ label: 'Jan', values: [320, 250] }, { label: 'Feb', values: [360, 160] }, { label: 'Mar', values: [300, 380] }, { label: 'Apr', values: [340, 260] }], series: [{ name: 'Retried', tone: 'azure' }, { name: 'First attempt', tone: 'violet' }] })))
+  );
+</script>

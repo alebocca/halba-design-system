@@ -227,3 +227,35 @@ export interface AlertProps {
   /** Default "alert" for danger and "status" for the others. */
   role?: 'alert' | 'status';
 }
+
+export type ChartTone = 'success' | 'danger' | 'warning' | 'neutral' | 'azure' | 'violet' | 'sky';
+
+export interface PieChartProps {
+  /** Slices in order; slices with value 0 stay in the legend. At most four or five. */
+  data: { label: string; value: number; /** Default by position: success, danger, azure, warning, neutral. */ tone?: ChartTone }[];
+  /** Accessible name of the chart. */
+  label: string;
+  /** Full pie instead of a donut. Default true (donut). */
+  donut?: boolean;
+  /** Small caption under the total in the donut centre, e.g. "payments". */
+  totalLabel?: string;
+  /** Formats the values. Default thousands separators. */
+  format?: (n: number) => string;
+}
+
+export interface BarChartProps {
+  /** One entry per bar; `values` has one number per series. */
+  data: { label: string; values: number[] }[];
+  series?: { name: string; tone?: ChartTone }[];
+  /** Stack the series (default) or place them side by side. */
+  stacked?: boolean;
+  /** Plot height in px. Default 220. */
+  height?: number;
+  /** Axis maximum; default rounded up from the data. */
+  max?: number;
+  /** Write each bar's value above it. Default true. */
+  showValues?: boolean;
+  legend?: boolean;
+  label?: string;
+  format?: (n: number) => string;
+}

@@ -252,6 +252,40 @@ export interface AlertProps {
   role?: 'alert' | 'status';
 }
 
+export type ChartTone = 'success' | 'danger' | 'warning' | 'neutral' | 'azure' | 'violet' | 'sky';
+
+export interface PieChartProps {
+  className?: string;
+  /** Slices in order; slices with value 0 stay in the legend. At most four or five. */
+  data: { label: string; value: number; /** Default by position: success, danger, azure, warning, neutral. */ tone?: ChartTone }[];
+  /** Accessible name of the chart. */
+  label: string;
+  /** Full pie instead of a donut. Default true (donut). */
+  donut?: boolean;
+  /** Small caption under the total in the donut centre, e.g. "payments". */
+  totalLabel?: string;
+  /** Formats the values. Default thousands separators. */
+  format?: (n: number) => string;
+}
+
+export interface BarChartProps {
+  className?: string;
+  /** One entry per bar; `values` has one number per series. */
+  data: { label: string; values: number[] }[];
+  series?: { name: string; tone?: ChartTone }[];
+  /** Stack the series (default) or place them side by side. */
+  stacked?: boolean;
+  /** Plot height in px. Default 220. */
+  height?: number;
+  /** Axis maximum; default rounded up from the data. */
+  max?: number;
+  /** Write each bar's value above it. Default true. */
+  showValues?: boolean;
+  legend?: boolean;
+  label?: string;
+  format?: (n: number) => string;
+}
+
 export declare function Button(props: ButtonProps): React.ReactElement | null;
 export declare function Badge(props: BadgeProps): React.ReactElement | null;
 export declare function StatTile(props: StatTileProps): React.ReactElement | null;
@@ -271,4 +305,6 @@ export declare function Modal(props: ModalProps): React.ReactElement | null;
 export declare function Icon(props: IconProps): React.ReactElement | null;
 export declare function SegmentedControl(props: SegmentedControlProps): React.ReactElement | null;
 export declare function Alert(props: AlertProps): React.ReactElement | null;
+export declare function PieChart(props: PieChartProps): React.ReactElement | null;
+export declare function BarChart(props: BarChartProps): React.ReactElement | null;
 export declare function AuthLayout(props: AuthLayoutProps): React.ReactElement | null;
