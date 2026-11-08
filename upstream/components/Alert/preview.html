@@ -1,0 +1,17 @@
+<!-- @dsCard group="Feedback" height=420 subtitle="Info, success, warning, danger" -->
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; padding: 24px; background: var(--surface); font-family: var(--font-sans); }
+  .col { display: flex; flex-direction: column; gap: 16px; max-width: 480px; }
+</style>
+<div id="root"></div>
+<script>
+  var H = window.Halba, e = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(
+    e('div', { className: 'col' },
+      e(H.Alert, { tone: 'info' }, 'Test mode is on. Payments here never reach a real card. ', e(H.TextLink, { href: '#' }, 'Switch to Live')),
+      e(H.Alert, { tone: 'success' }, 'Backup route connected. Retries now run on Checkout.com.'),
+      e(H.Alert, { tone: 'warning' }, 'Your 3DS rate dropped to 61% today. Review the challenge rules.'),
+      e(H.Alert, { tone: 'danger', onDismiss: function () {} }, 'We could not log you in. Check your email and password, or ', e(H.TextLink, { href: '#' }, 'reset your password'), '.'))
+  );
+</script>

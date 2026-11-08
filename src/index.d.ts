@@ -208,9 +208,48 @@ export interface ModalProps {
 
 export interface IconProps {
   className?: string;
-  name: 'check' | 'x' | 'alert' | 'clock' | 'undo';
+  name: 'check' | 'x' | 'alert' | 'clock' | 'undo' | 'info' | 'circle-check' | 'circle-x';
   /** Default 20. */
   size?: number;
+}
+
+export interface SegmentedControlProps {
+  className?: string;
+  /** Options in order; the selected one is the one whose value equals `value`. */
+  options: { value: string; label: string }[];
+  value: string;
+  onChange: (value: string) => void;
+  /** Accessible name of the group, e.g. "Account". */
+  label: string;
+  /** Selected option fill: "raised" (surface-raised with ink text, default) or "brand". */
+  tone?: 'raised' | 'brand';
+  /** Stretch to the full width, options sharing it equally. */
+  block?: boolean;
+  /** Set it when the control switches a panel: it then renders as tabs and that panel needs role tabpanel and aria-labelledby `<id>-<value>`. Without it the control is a radiogroup, for a setting such as Test | Live. */
+  panelId?: string;
+  id?: string;
+}
+
+export interface AuthLayoutProps {
+  className?: string;
+  /** Form side: a SegmentedControl, heading and form. */
+  children: React.ReactNode;
+  /** Graphic side, usually a PhotoPanel with OverlayCards. Hidden below 900px and for screen readers. */
+  aside?: React.ReactNode;
+  /** Wordmark text. Default "Halba". */
+  logo?: string;
+}
+
+export interface AlertProps {
+  className?: string;
+  /** Default "info". */
+  tone?: 'info' | 'success' | 'warning' | 'danger';
+  /** Message text; links inside use TextLink. */
+  children: React.ReactNode;
+  /** Adds a dismiss button. Alerts are not dismissible by default. */
+  onDismiss?: () => void;
+  /** Default "alert" for danger and "status" for the others. */
+  role?: 'alert' | 'status';
 }
 
 export declare function Button(props: ButtonProps): React.ReactElement | null;
@@ -230,3 +269,6 @@ export declare function TextLink(props: TextLinkProps): React.ReactElement | nul
 export declare function Spinner(props: SpinnerProps): React.ReactElement | null;
 export declare function Modal(props: ModalProps): React.ReactElement | null;
 export declare function Icon(props: IconProps): React.ReactElement | null;
+export declare function SegmentedControl(props: SegmentedControlProps): React.ReactElement | null;
+export declare function Alert(props: AlertProps): React.ReactElement | null;
+export declare function AuthLayout(props: AuthLayoutProps): React.ReactElement | null;

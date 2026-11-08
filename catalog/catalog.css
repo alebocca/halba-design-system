@@ -32,8 +32,8 @@ body { margin: 0; background: var(--surface); color: var(--ink); font-family: va
 .cat-type__sample { overflow-wrap: anywhere; }
 
 .cat-scales { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: var(--space-6); }
-.cat-scale { display: grid; grid-template-columns: 80px auto 1fr; gap: var(--space-3); align-items: center; margin-bottom: var(--space-2); }
-.cat-scale__bar { height: 12px; background: var(--brand); border-radius: 3px; }
+.cat-scale { display: grid; grid-template-columns: 110px minmax(0, 1fr) auto; gap: var(--space-3); align-items: center; margin-bottom: var(--space-2); }
+.cat-scale__bar { max-width: 100%; height: 12px; background: var(--brand); border-radius: 3px; }
 .cat-radii { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: var(--space-4); }
 .cat-radius { display: flex; flex-direction: column; justify-content: flex-end; gap: var(--space-1); height: 110px; padding: var(--space-3); background: var(--surface-raised); border: 1.5px solid var(--border-strong); }
 
@@ -65,3 +65,5 @@ body { margin: 0; background: var(--surface); color: var(--ink); font-family: va
 .cat-kv--head { margin-top: 0; align-items: center; }
 .cat-panels { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: var(--space-4); }
 .cat-modal { position: relative; height: 320px; border-radius: var(--radius-lg); overflow: hidden; }
+.cat-auth { height: 640px; overflow: auto; border-radius: var(--radius-lg); }
+.cat-auth .hb-auth { min-height: 640px; }

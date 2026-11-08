@@ -1,0 +1,36 @@
+<!-- @dsCard group="Layouts" height=720 subtitle="Login and sign up, form left, graphic right" -->
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: var(--surface); font-family: var(--font-sans); }
+  .hb-auth { min-height: 720px; }
+  h1 { margin: 0; font-size: 40px; line-height: 44px; font-weight: 600; letter-spacing: -0.03em; }
+  .sub { margin: 8px 0 0; font-size: 16px; line-height: 24px; color: var(--ink-muted); }
+  form { display: flex; flex-direction: column; gap: 16px; }
+  .row { display: flex; justify-content: flex-end; }
+  .foot { margin: 0; font-size: 14px; line-height: 20px; color: var(--ink-muted); text-align: center; }
+</style>
+<div id="root"></div>
+<script>
+  var H = window.Halba, e = React.createElement;
+  function Page() {
+    var s = React.useState('login'), mode = s[0], setMode = s[1], login = mode === 'login';
+    function swap(ev) { ev.preventDefault(); setMode(login ? 'signup' : 'login'); }
+    var aside = e(H.PhotoPanel, { network: true, alt: '' },
+      e(H.OverlayCard, { title: 'Payment rescued', value: '+$89.00', tone: 'success', float: true, top: 48, left: 40 }),
+      e(H.OverlayCard, { title: 'Backup route approved', value: 'Retry 2 of 2', tone: 'sun', bottom: 120, right: 40 }),
+      e(H.OverlayCard, { title: 'Challenge sent', value: '3DS', tone: 'warning', bottom: 48, left: 56 }));
+    return e(H.AuthLayout, { aside: aside },
+      e(H.SegmentedControl, { id: 'auth', label: 'Account', block: true, value: mode, onChange: setMode, panelId: 'auth-panel', options: [{ value: 'login', label: 'Login' }, { value: 'signup', label: 'Sign up' }] }),
+      e('div', { id: 'auth-panel', role: 'tabpanel', 'aria-labelledby': 'auth-' + mode, style: { display: 'flex', flexDirection: 'column', gap: 24 } },
+        e('div', null, e('h1', null, login ? 'Welcome back' : 'Start rescuing payments'),
+          e('p', { className: 'sub' }, login ? 'Log in to see today\u2019s approvals.' : 'Create your account and connect your first processor.')),
+        e('form', { onSubmit: function (ev) { ev.preventDefault(); } },
+          login ? null : e(H.Input, { label: 'Full name', id: 'name', name: 'name' }),
+          e(H.Input, { label: 'Work email', id: 'email', name: 'email', type: 'email' }),
+          e(H.Input, { label: 'Password', id: 'password', name: 'password', type: 'password', hint: login ? undefined : 'At least 12 characters.' }),
+          login ? e('div', { className: 'row' }, e(H.TextLink, { href: '#' }, 'Forgot password?')) : null,
+          e(H.Button, { type: 'submit', size: 'lg', className: 'hb-btn--block' }, login ? 'Log in' : 'Create account')),
+        e('p', { className: 'foot' }, login ? 'New to Halba? ' : 'Already have an account? ', e(H.TextLink, { href: '#', onClick: swap }, login ? 'Sign up' : 'Log in'))));
+  }
+  ReactDOM.createRoot(document.getElementById('root')).render(e(Page));
+</script>

@@ -7,7 +7,7 @@ import "./catalog.css";
 import tokens from "../tokens/tokens.json";
 import {
   Button, Badge, StatTile, MetricCard, Input, PhotoPanel, OverlayCard, CheckoutStory, RetryStory, RevenueStory,
-  StatusBadge, Card, Panel, TextLink, Spinner, Modal, Icon,
+  StatusBadge, Card, Panel, TextLink, Spinner, Modal, Icon, SegmentedControl, Alert, AuthLayout,
 } from "../src/index.js";
 
 const STATUSES = ["approved", "rescued", "challenge", "medium-risk", "declined", "failed", "fraud", "high-risk", "pending", "refunded"];
@@ -123,6 +123,38 @@ function Cover() {
   );
 }
 
+function SegDemo() {
+  const [a, setA] = useState("login");
+  const [b, setB] = useState("week");
+  return (
+    <div className="cat-form">
+      <SegmentedControl id="seg-a" label="Account" block value={a} onChange={setA} options={[{ value: "login", label: "Login" }, { value: "signup", label: "Sign up" }]} />
+      <SegmentedControl id="seg-b" label="Period" tone="brand" value={b} onChange={setB} options={[{ value: "day", label: "Day" }, { value: "week", label: "Week" }, { value: "month", label: "Month" }]} />
+    </div>
+  );
+}
+
+function AuthDemo() {
+  const [mode, setMode] = useState("login");
+  const login = mode === "login";
+  const aside = (
+    <PhotoPanel network alt="">
+      <OverlayCard title="Payment rescued" value="+$89.00" tone="success" float top={48} left={40} />
+      <OverlayCard title="Backup route approved" value="Retry 2 of 2" tone="sun" bottom={120} right={40} />
+    </PhotoPanel>
+  );
+  return (
+    <div className="cat-auth">
+      <AuthLayout aside={aside}>
+        <SegmentedControl id="auth" label="Account" block value={mode} onChange={setMode} options={[{ value: "login", label: "Login" }, { value: "signup", label: "Sign up" }]} />
+        <h3 className="hb-type-h1" style={{ margin: 0 }}>{login ? "Welcome back" : "Start rescuing payments"}</h3>
+        <Input id="cat-email" label="Work email" type="email" />
+        <Button size="lg" className="hb-btn--block">{login ? "Log in" : "Create account"}</Button>
+      </AuthLayout>
+    </div>
+  );
+}
+
 function App() {
   const [theme, setTheme] = useState(() => {
     try { return localStorage.getItem("hb-catalog-theme") || "light"; } catch { return "light"; }
@@ -226,6 +258,20 @@ function App() {
               <Spinner label="Loading payments" />
               {["check", "x", "alert", "clock", "undo"].map((n) => <Icon key={n} name={n} />)}
             </div>
+          </Spec>
+          <Spec name="SegmentedControl" note="Raised and brand">
+            <SegDemo />
+          </Spec>
+          <Spec name="Alert" note="Info, success, warning, danger">
+            <div className="cat-form" style={{ gridTemplateColumns: "1fr" }}>
+              <Alert tone="info">Test mode is on. Payments here never reach a real card.</Alert>
+              <Alert tone="success">Backup route connected. Retries now run on Checkout.com.</Alert>
+              <Alert tone="warning">Your 3DS rate dropped to 61% today. Review the challenge rules.</Alert>
+              <Alert tone="danger" onDismiss={() => {}}>We could not log you in. Check your email and password.</Alert>
+            </div>
+          </Spec>
+          <Spec name="AuthLayout" note="Sign-in page, form left, graphic right">
+            <AuthDemo />
           </Spec>
           <Spec name="Modal" note="Dialog with loading state, contained preview">
             <div className="cat-modal">

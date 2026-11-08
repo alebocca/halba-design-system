@@ -12,7 +12,7 @@ immagini) sono in [`upstream/README.md`](upstream/README.md) e nei README dei co
 
 | Percorso | Cosa |
 | --- | --- |
-| `upstream/` | Copia esatta dei file `project/` dell'artifact (versione `1794094029-2d44`, 8 novembre 2026): token, bundle, tipi, README e preview. Non modificare a mano: si sovrascrive a ogni aggiornamento. |
+| `upstream/` | Copia esatta dei file `project/` dell'artifact (versione `1794131587-f286`, 8 novembre 2026): token, bundle, tipi, README e preview. Non modificare a mano: si sovrascrive a ogni aggiornamento. |
 | `tokens/tokens.json` | Token (copia di `upstream/tokens.json`), unica fonte. |
 | `tokens/tokens.css` | Variabili CSS, tema chiaro su `:root` e scuro su `[data-theme="dark"]`. Generato: `npm run tokens`. |
 | `tokens/typography.css` | Classi `hb-type-<stile>` (display-xl, h1, body, label-mono…). Generato. |
@@ -40,7 +40,7 @@ import { Button, Badge, CheckoutStory } from "@halba/design-system";
 
 ## Componenti
 
-Button (anche come link con `href`, variante `on-brand` sui blocchi colorati), Badge, StatusBadge (gli stati di
+Button (anche come link con `href`, variante `on-brand` sui blocchi colorati), SegmentedControl, Alert, AuthLayout, Badge, StatusBadge (gli stati di
 pagamento), StatTile, MetricCard, Input, Card, Panel, TextLink, Spinner, Modal, Icon (Lucide), PhotoPanel,
 OverlayCard e le storie CheckoutStory, RetryStory (2 o 3 passi con `steps`), RevenueStory. Statici, tranne
 Modal e le storie: si rendono lato server senza JS.

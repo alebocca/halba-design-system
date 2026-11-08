@@ -27,8 +27,8 @@
   },
   "lastChange": {
     "by": "Alessandro",
-    "at": "2026-11-07T23:40:00Z",
+    "at": "2026-11-08T10:05:00Z",
     "via": "Claude Code",
-    "note": "Corrected the app feedback: Button href and on-brand, StatusBadge, Card, Panel, TextLink, Modal, scrim and shadow-overlay tokens, RetryStory steps, rule updates"
+    "note": "Alert added; SegmentedControl aligned (body-sm, radiogroup without panelId)"
   }
 }

@@ -49,13 +49,16 @@ Halba helps teams lift checkout conversion. The look is fresh and colorful but p
 
 - Site: 12-column grid, `container-max` (1200px) maximum width, hero set left-aligned, alternating feature panels, a row of big stat tiles, then testimonials and FAQ.
 - Dashboard: `surface` ground, a grid of `MetricCard` tiles on top, one wide chart card below, data tables in `surface-raised` with `border` row dividers.
+- Sign-in: `AuthLayout`, two equal halves; on the left a `SegmentedControl`, headline and form in a 400px column, on the right a photo panel with product cards. Below 900px only the form remains.
 - Keep one `StatTile` row per page for proof numbers; do not mix more than three tile tones in a row. Good pairings: `sun` with `brand`, `sky-tint` with `accent`, `brand-tint` with `sky`.
 
 ## Components
 
-`Button`, `Badge`, `StatusBadge`, `StatTile`, `MetricCard`, `Input`, `Card`, `Panel`, `TextLink`, `Spinner`, `Modal`, `Icon`, `PhotoPanel`, `OverlayCard`, `CheckoutStory`, `RetryStory` and `RevenueStory` are in the bundle (`window.Halba`). Read each component's README for props and rules.
+`Button`, `Badge`, `StatusBadge`, `StatTile`, `MetricCard`, `Input`, `SegmentedControl`, `AuthLayout`, `Alert`, `Card`, `Panel`, `TextLink`, `Spinner`, `Modal`, `Icon`, `PhotoPanel`, `OverlayCard`, `CheckoutStory`, `RetryStory` and `RevenueStory` are in the bundle (`window.Halba`). Read each component's README for props and rules.
 
 `Button` takes `href` and renders a link; on a `brand` or `ink` block use the `on-brand` variant. Inline text links use `TextLink` (or the `hb-link` class). `Modal` is not `OverlayCard`: the first is a dialog over the page, the second a result card laid over a photo.
+
+`Alert` is the inline message (`info` on `sky-tint`, `success`, `warning`, `danger` on their `-tint` fills, with a 20px icon). `SegmentedControl` switches views or a setting on one screen (Login | Sign up, Test | Live, Day | Week | Month): `surface-sunken` track with a `border-strong` edge, the selected option `surface-raised` with `ink` text (or `brand` with `on-brand`). The sign-in page is `AuthLayout`: form on the left, a `PhotoPanel` with `OverlayCard`s on the right.
 
 ## Outside the React app
 
@@ -66,4 +69,4 @@ Halba helps teams lift checkout conversion. The look is fresh and colorful but p
 
 ## Planned
 
-Not built yet; each must follow these rules. Dashboard: Select, Table (with sort, empty state, pagination), Tabs, Switch, Checkbox, Textarea, Alert, AlertDialog, Tooltip, Toast, DropdownMenu, Popover, Sheet, Skeleton, Slider, date range picker, table filter bar, page layout with sidebar. Site: header with Platform menu, footer, FAQ accordion, numbered steps, page header (eyebrow, title, subtitle), Testimonial with circular headshot, code block with copy. Every control uses `border-strong` for its edge, the 3px `focus-ring`, `radius-md`, and `brand` for its selected state; every floating layer uses `shadow-overlay`, `border` and `scrim`.
+Not built yet; each must follow these rules. Dashboard: Select, Table (with sort, empty state, pagination), Tabs (for content panes; `SegmentedControl` is the pill style), Switch, Checkbox, Textarea, AlertDialog, Tooltip, Toast, DropdownMenu, Popover, Sheet, Skeleton, Slider, date range picker, table filter bar, page layout with sidebar. Site: header with Platform menu, footer, FAQ accordion, numbered steps, page header (eyebrow, title, subtitle), Testimonial with circular headshot, code block with copy. Every control uses `border-strong` for its edge, the 3px `focus-ring`, `radius-md`, and `brand` for its selected state; every floating layer uses `shadow-overlay`, `border` and `scrim`.

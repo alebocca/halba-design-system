@@ -1,4 +1,4 @@
-/* @ds-bundle: {"format":4,"namespace":"Halba","components":[{"name":"Button"},{"name":"Badge"},{"name":"StatTile"},{"name":"MetricCard"},{"name":"Input"},{"name":"PhotoPanel"},{"name":"OverlayCard"},{"name":"CheckoutStory"},{"name":"RetryStory"},{"name":"RevenueStory"},{"name":"StatusBadge"},{"name":"Card"},{"name":"Panel"},{"name":"TextLink"},{"name":"Spinner"},{"name":"Modal"},{"name":"Icon"}]} */
+/* @ds-bundle: {"format":4,"namespace":"Halba","components":[{"name":"Button"},{"name":"Badge"},{"name":"StatTile"},{"name":"MetricCard"},{"name":"Input"},{"name":"PhotoPanel"},{"name":"OverlayCard"},{"name":"CheckoutStory"},{"name":"RetryStory"},{"name":"RevenueStory"},{"name":"StatusBadge"},{"name":"Card"},{"name":"Panel"},{"name":"TextLink"},{"name":"Spinner"},{"name":"Modal"},{"name":"Icon"},{"name":"SegmentedControl"},{"name":"Alert"},{"name":"AuthLayout"}]} */
 (function () {
   var React = window.React;
   var h = React.createElement;
@@ -12,7 +12,10 @@
     x: ['M18 6 6 18', 'M6 6l12 12'],
     alert: ['m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3', 'M12 9v4', 'M12 17h.01'],
     clock: ['M12 6v6l4 2', 'M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0'],
-    undo: ['M9 14 4 9l5-5', 'M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5 5.5 5.5 0 0 1-5.5 5.5H11']
+    undo: ['M9 14 4 9l5-5', 'M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5 5.5 5.5 0 0 1-5.5 5.5H11'],
+    info: ['M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0', 'M12 16v-4', 'M12 8h.01'],
+    'circle-check': ['M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0', 'm9 12 2 2 4-4'],
+    'circle-x': ['M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0', 'm15 9-6 6', 'm9 9 6 6']
   };
 
   /* Lucide outline paths: 20px / 1.75 stroke by default, 2.5 stroke at 14px or smaller */
@@ -288,6 +291,67 @@
     );
   }
 
+  var ALERT_ICON = { info: 'info', success: 'circle-check', warning: 'alert', danger: 'circle-x' };
+
+  function Alert(p) {
+    var tone = p.tone || 'info';
+    return h(
+      'div',
+      { className: cx('hb-alert', 'hb-alert--' + tone, p.className), role: p.role || (tone === 'danger' ? 'alert' : 'status') },
+      h('span', { className: 'hb-alert__icon' }, h(Icon, { name: ALERT_ICON[tone] })),
+      h('div', { className: 'hb-alert__body' }, p.children),
+      p.onDismiss ? h('button', { type: 'button', className: 'hb-alert__close', onClick: p.onDismiss, 'aria-label': 'Dismiss' }, h(Icon, { name: 'x', size: 16 })) : null
+    );
+  }
+
+  /* ---------- Segmented control and auth layout ---------- */
+  function SegmentedControl(p) {
+    var opts = p.options || [];
+    var ref = React.useRef(null);
+    var base = p.id || 'hb-seg';
+    function go(i) {
+      var k = (i + opts.length) % opts.length;
+      if (!opts[k]) return;
+      if (p.onChange) p.onChange(opts[k].value);
+      var tabs = ref.current && ref.current.querySelectorAll('.hb-seg__opt');
+      if (tabs && tabs[k]) tabs[k].focus();
+    }
+    function onKey(e) {
+      var cur = 0;
+      for (var i = 0; i < opts.length; i++) if (opts[i].value === p.value) cur = i;
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); go(cur + 1); }
+      else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); go(cur - 1); }
+      else if (e.key === 'Home') { e.preventDefault(); go(0); }
+      else if (e.key === 'End') { e.preventDefault(); go(opts.length - 1); }
+    }
+    return h(
+      'div',
+      { ref: ref, role: p.panelId ? 'tablist' : 'radiogroup', 'aria-label': p.label, onKeyDown: onKey, className: cx('hb-seg', p.tone === 'brand' ? 'hb-seg--brand' : '', p.block ? 'hb-seg--block' : '', p.className) },
+      opts.map(function (o) {
+        var sel = o.value === p.value;
+        var attrs = { key: o.value, id: base + '-' + o.value, type: 'button', tabIndex: sel ? 0 : -1, className: 'hb-seg__opt', onClick: function () { if (p.onChange) p.onChange(o.value); } };
+        if (p.panelId) { attrs.role = 'tab'; attrs['aria-selected'] = sel ? 'true' : 'false'; attrs['aria-controls'] = p.panelId; }
+        else { attrs.role = 'radio'; attrs['aria-checked'] = sel ? 'true' : 'false'; }
+        return h('button', attrs, o.label);
+      })
+    );
+  }
+
+  /* Split page for login and sign-up: form on the left, a graphic on the right (hidden below 900px). */
+  function AuthLayout(p) {
+    return h(
+      'div',
+      { className: cx('hb-auth', p.className) },
+      h(
+        'main',
+        { className: 'hb-auth__main' },
+        h('div', { className: 'hb-auth__logo' }, p.logo || 'Halba'),
+        h('div', { className: 'hb-auth__form' }, p.children)
+      ),
+      p.aside ? h('aside', { className: 'hb-auth__aside', 'aria-hidden': 'true' }, p.aside) : null
+    );
+  }
+
   /* ---------- Animated stories ---------- */
   function reducedMotion() {
     return !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
@@ -490,5 +554,5 @@
     );
   }
 
-  window.Halba = { Button: Button, Badge: Badge, StatTile: StatTile, MetricCard: MetricCard, Input: Input, PhotoPanel: PhotoPanel, OverlayCard: OverlayCard, CheckoutStory: CheckoutStory, RetryStory: RetryStory, RevenueStory: RevenueStory, StatusBadge: StatusBadge, Card: Card, Panel: Panel, TextLink: TextLink, Spinner: Spinner, Modal: Modal, Icon: Icon };
+  window.Halba = { Button: Button, Badge: Badge, StatTile: StatTile, MetricCard: MetricCard, Input: Input, PhotoPanel: PhotoPanel, OverlayCard: OverlayCard, CheckoutStory: CheckoutStory, RetryStory: RetryStory, RevenueStory: RevenueStory, StatusBadge: StatusBadge, Card: Card, Panel: Panel, TextLink: TextLink, Spinner: Spinner, Modal: Modal, Icon: Icon, SegmentedControl: SegmentedControl, AuthLayout: AuthLayout, Alert: Alert };
 })();
