@@ -1,0 +1,19 @@
+<!-- @dsCard group="Docs" height=560 subtitle="Code sample with tabs, copy and syntax colours" -->
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; padding: 24px; background: var(--surface); font-family: var(--font-sans); color: var(--ink); }
+  .cap { font: 500 12px/16px var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-muted); margin: 0 0 12px; }
+  .stack { display: flex; flex-direction: column; gap: 28px; max-width: 720px; }
+</style>
+<div id="root"></div>
+<script>
+  var H = window.Halba, e = React.createElement;
+
+  var curl = 'curl https://api.halba.ai/v1/payments \\\n  -H "Authorization: Bearer sk_test_..." \\\n  -d amount=4990 \\\n  -d currency=eur';
+  var node = "import Halba from 'halba';\n\n// Create a payment\nconst halba = new Halba('sk_test_...');\nconst payment = await halba.payments.create({\n  amount: 4990,\n  currency: 'eur',\n  capture: true\n});";
+  var json = '{\n  "id": "pay_1Nq8",\n  "status": "authorized",\n  "amount": 4990,\n  "route": { "psp": "backup", "attempts": 2 }\n}';
+  ReactDOM.createRoot(document.getElementById('root')).render(e('div', { className: 'stack' },
+    e('div', null, e('p', { className: 'cap' }, 'Tabs'), e(H.CodeBlock, { label: 'Language', tabs: [{ label: 'cURL', code: curl }, { label: 'Node.js', code: node }] })),
+    e('div', null, e('p', { className: 'cap' }, 'Single, titled'), e(H.CodeBlock, { title: 'Response 201', code: json })),
+    e('div', null, e('p', { className: 'cap' }, 'Plain output'), e(H.CodeBlock, { title: 'Terminal', highlight: false, copy: false, code: '$ npm install halba\nadded 1 package in 2s' }))));
+</script>

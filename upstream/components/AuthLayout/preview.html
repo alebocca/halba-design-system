@@ -30,7 +30,7 @@
           e(H.Input, { label: 'Password', id: 'password', name: 'password', type: 'password', hint: login ? undefined : 'At least 12 characters.' }),
           login ? e('div', { className: 'row' }, e(H.TextLink, { href: '#' }, 'Forgot password?')) : null,
           e(H.Button, { type: 'submit', size: 'lg', className: 'hb-btn--block' }, login ? 'Log in' : 'Create account')),
-        e('p', { className: 'foot' }, login ? 'New to Halba? ' : 'Already have an account? ', e(H.TextLink, { href: '#', onClick: swap }, login ? 'Sign up' : 'Log in'))));
+        e('p', { className: 'foot' }, login ? 'New to halba? ' : 'Already have an account? ', e(H.TextLink, { href: '#', onClick: swap }, login ? 'Sign up' : 'Log in'))));
   }
   ReactDOM.createRoot(document.getElementById('root')).render(e(Page));
 </script>

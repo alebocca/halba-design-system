@@ -5,7 +5,7 @@
 //   2. reducedMotion() non tocca window lato server (Astro, SSR);
 //   3. le storie partono dallo stato finale (progress 1): il render lato server, senza JavaScript e con
 //      prefers-reduced-motion mostra il risultato; quando la storia entra in vista l'animazione riparte da 0.
-import { readFileSync, writeFileSync } from "node:fs";
+import { cpSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -65,3 +65,10 @@ let dts = up("index.d.ts").replace(/^export interface (\w+)( extends \w+)? \{/gm
 dts += "\n" + names.map((n) => `export declare function ${n}(props: ${n}Props): React.ReactElement | null;`).join("\n") + "\n";
 writeFileSync(join(root, "src/index.d.ts"), header.replace("bundle.js", "index.d.ts") + 'import type * as React from "react";\n\n' + dts);
 console.log(`bundle: ${names.length} componenti (${names.join(", ")})`);
+
+// Pagina di pagamento (HTML e CSS senza React) e file del marchio: copiati così come sono
+for (const dir of ["checkout", "brand"]) {
+  rmSync(join(root, dir), { recursive: true, force: true });
+  cpSync(join(root, "upstream", dir), join(root, dir), { recursive: true });
+}
+console.log("checkout/ e brand/ copiati da upstream/");

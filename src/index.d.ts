@@ -179,10 +179,30 @@ export interface TextLinkProps {
   children: React.ReactNode;
 }
 
+export interface LogoProps {
+  className?: string;
+  /** mark: the ring and dot only. lockup: the mark with the word "halba", always lowercase. Default mark. */
+  variant?: 'mark' | 'lockup';
+  /** default: ring ink, dot brand. mono: one colour (currentColor). on-brand: on-brand colour on a brand block. */
+  tone?: 'default' | 'mono' | 'on-brand';
+  /** Mark height in px: 16, 24, 32 or 48. Default 32. */
+  size?: number;
+  /** Accessible name of the mark on its own. Default "halba". */
+  label?: string;
+  className?: string;
+}
+
 export interface SpinnerProps {
   className?: string;
   /** Text read by screen readers. Default "Loading". */
   label?: string;
+  /** orbit: ring turns and stretches, for short waits. compose: the dot appears and the ring closes around it, for full pages. Default orbit. */
+  variant?: 'orbit' | 'compose';
+  /** Height in px. Default 24. */
+  size?: number;
+  /** mono draws both parts in the current text colour. */
+  tone?: 'default' | 'mono';
+  className?: string;
 }
 
 export interface ModalProps {
@@ -208,7 +228,7 @@ export interface ModalProps {
 
 export interface IconProps {
   className?: string;
-  name: 'check' | 'x' | 'alert' | 'clock' | 'undo' | 'info' | 'circle-check' | 'circle-x';
+  name: 'check' | 'x' | 'alert' | 'clock' | 'undo' | 'info' | 'circle-check' | 'circle-x' | 'search' | 'copy' | 'menu' | 'chevron-right' | 'chevron-down';
   /** Default 20. */
   size?: number;
 }
@@ -286,6 +306,105 @@ export interface BarChartProps {
   format?: (n: number) => string;
 }
 
+export interface MethodBadgeProps {
+  className?: string; /** HTTP method, any case. */ method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'; className?: string; }
+export interface EndpointProps {
+  className?: string; method: MethodBadgeProps['method']; /** Path or URL; write parameters in braces. */ path: string; className?: string; }
+
+export interface CodeBlockProps {
+  className?: string;
+  /** One sample. Use `tabs` for several languages. */
+  code?: string;
+  tabs?: { label: string; code: string }[];
+  /** Uppercase mono label for a single block, e.g. "Response 201". */
+  title?: string;
+  /** Accessible name of the language tabs. */
+  label?: string;
+  /** Default true. Pass false for terminal output. */
+  highlight?: boolean;
+  /** Show the Copy button. Default true. */
+  copy?: boolean;
+  id?: string;
+  className?: string;
+}
+
+export interface TabsProps {
+  className?: string;
+  options: { value: string; label: string }[];
+  value: string;
+  onChange: (value: string) => void;
+  label: string;
+  /** Id of the tab panel; tabs get ids `<id>-<value>`. */
+  panelId?: string;
+  id?: string;
+  className?: string;
+}
+
+export interface TableProps {
+  className?: string;
+  columns: { key: string; label: string; mono?: boolean; header?: boolean; width?: string }[];
+  rows: Record<string, React.ReactNode>[];
+  label?: string;
+  /** Read by screen readers. */
+  caption?: string;
+  className?: string;
+}
+
+export interface CalloutProps {
+  className?: string;
+  /** Default "note". */
+  tone?: 'note' | 'tip' | 'warning' | 'danger';
+  /** Replaces the default word (Note, Tip, Warning, Important). */
+  title?: string;
+  children: React.ReactNode;
+  className?: string;
+}
+
+export interface DocsHeaderProps {
+  className?: string;
+  breadcrumb?: { label: string; href?: string }[];
+  title: string;
+  lead?: string;
+  /** Usually an Endpoint. */
+  children?: React.ReactNode;
+  className?: string;
+}
+
+export interface DocsSearchProps {
+  className?: string;
+  onClick?: () => void;
+  placeholder?: string;
+  /** Accessible name. Default "Search the docs". */
+  label?: string;
+  /** Shortcut hint; false hides it. Default "Ctrl K". */
+  shortcut?: string | false;
+  className?: string;
+}
+
+export interface DocsLayoutProps {
+  className?: string;
+  nav: { title: string; items: { label: string; href: string; current?: boolean }[] }[];
+  /** "On this page" links; hidden under 1100px. */
+  toc?: { label: string; href: string; current?: boolean }[];
+  section?: string;
+  logo?: React.ReactNode;
+  search?: React.ReactNode;
+  tools?: React.ReactNode;
+  mainId?: string;
+  children: React.ReactNode;
+  className?: string;
+}
+
+export declare function MethodBadge(props: MethodBadgeProps): React.ReactElement | null;
+export declare function Endpoint(props: EndpointProps): React.ReactElement | null;
+export declare function CodeBlock(props: CodeBlockProps): React.ReactElement | null;
+export declare function Tabs(props: TabsProps): React.ReactElement | null;
+export declare function Table(props: TableProps): React.ReactElement | null;
+export declare function Callout(props: CalloutProps): React.ReactElement | null;
+export declare function DocsHeader(props: DocsHeaderProps): React.ReactElement | null;
+export declare function DocsSearch(props: DocsSearchProps): React.ReactElement | null;
+export declare function DocsLayout(props: DocsLayoutProps): React.ReactElement | null;
+
 export declare function Button(props: ButtonProps): React.ReactElement | null;
 export declare function Badge(props: BadgeProps): React.ReactElement | null;
 export declare function StatTile(props: StatTileProps): React.ReactElement | null;
@@ -300,6 +419,7 @@ export declare function StatusBadge(props: StatusBadgeProps): React.ReactElement
 export declare function Card(props: CardProps): React.ReactElement | null;
 export declare function Panel(props: PanelProps): React.ReactElement | null;
 export declare function TextLink(props: TextLinkProps): React.ReactElement | null;
+export declare function Logo(props: LogoProps): React.ReactElement | null;
 export declare function Spinner(props: SpinnerProps): React.ReactElement | null;
 export declare function Modal(props: ModalProps): React.ReactElement | null;
 export declare function Icon(props: IconProps): React.ReactElement | null;
@@ -308,3 +428,12 @@ export declare function Alert(props: AlertProps): React.ReactElement | null;
 export declare function PieChart(props: PieChartProps): React.ReactElement | null;
 export declare function BarChart(props: BarChartProps): React.ReactElement | null;
 export declare function AuthLayout(props: AuthLayoutProps): React.ReactElement | null;
+export declare function MethodBadge(props: MethodBadgeProps): React.ReactElement | null;
+export declare function Endpoint(props: EndpointProps): React.ReactElement | null;
+export declare function CodeBlock(props: CodeBlockProps): React.ReactElement | null;
+export declare function Tabs(props: TabsProps): React.ReactElement | null;
+export declare function Table(props: TableProps): React.ReactElement | null;
+export declare function Callout(props: CalloutProps): React.ReactElement | null;
+export declare function DocsHeader(props: DocsHeaderProps): React.ReactElement | null;
+export declare function DocsSearch(props: DocsSearchProps): React.ReactElement | null;
+export declare function DocsLayout(props: DocsLayoutProps): React.ReactElement | null;

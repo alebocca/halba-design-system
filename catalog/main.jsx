@@ -8,7 +8,26 @@ import tokens from "../tokens/tokens.json";
 import {
   Button, Badge, StatTile, MetricCard, Input, PhotoPanel, OverlayCard, CheckoutStory, RetryStory, RevenueStory,
   StatusBadge, Card, Panel, TextLink, Spinner, Modal, Icon, SegmentedControl, Alert, AuthLayout, PieChart, BarChart,
+  Logo, MethodBadge, Endpoint, CodeBlock, Tabs, Table, Callout, DocsHeader, DocsSearch,
 } from "../src/index.js";
+
+function DocsSandbox() {
+  const [tab, setTab] = useState("request");
+  const curl = 'curl https://api.halba.ai/v1/payments \\\n  -H "Authorization: Bearer sk_test_..." \\\n  -d amount=4990';
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 24, maxWidth: 720 }}>
+      <DocsHeader breadcrumb={[{ label: "API reference", href: "#" }, { label: "Payments", href: "#" }, { label: "Create" }]} title="Create a payment" lead="Authorize a payment, with fraud screening, authentication and backup routing in one call.">
+        <Endpoint method="POST" path="/v1/payments" />
+      </DocsHeader>
+      <DocsSearch />
+      <Tabs id="cat-tabs" label="Example" value={tab} onChange={setTab} options={[{ value: "request", label: "Request" }, { value: "response", label: "Response" }]} />
+      <CodeBlock label="Language" tabs={[{ label: "cURL", code: curl }, { label: "Node.js", code: "const payment = await halba.payments.create({ amount: 4990, currency: 'eur' });" }]} />
+      <Table label="Parameters" caption="Parameters of POST /v1/payments" columns={[{ key: "name", label: "Parameter", mono: true, header: true }, { key: "req", label: "Required" }, { key: "desc", label: "Description" }]} rows={[{ name: "amount", req: "required", desc: "Amount in minor units." }, { name: "currency", req: "required", desc: "Three-letter ISO code." }]} />
+      <Callout tone="warning"><p>Test keys never move money.</p></Callout>
+      <div style={{ display: "flex", gap: 12 }}>{["GET", "POST", "PUT", "DELETE"].map((m) => <MethodBadge key={m} method={m} />)}</div>
+    </div>
+  );
+}
 
 const STATUSES = ["approved", "rescued", "challenge", "medium-risk", "declined", "failed", "fraud", "high-risk", "pending", "refunded"];
 
@@ -116,7 +135,7 @@ function Cover() {
         <circle className="c-ground" cx="888" cy="120" r="14" />
       </svg>
       <div className="cat-cover__text">
-        <h1 className="cat-cover__name">Halba</h1>
+        <h1 className="cat-cover__name">halba</h1>
         <p className="cat-cover__tag">Checkout, tuned for growth.</p>
       </div>
     </div>
@@ -167,7 +186,7 @@ function App() {
   return (
     <div className="cat">
       <header className="cat-header">
-        <span className="cat-logo">Halba Design System</span>
+        <span className="cat-logo"><Logo variant="lockup" size={24} /> <span>design system</span></span>
         <nav className="cat-nav">
           <a href="#tokens">Tokens</a>
           <a href="#components">Components</a>
@@ -294,6 +313,22 @@ function App() {
               <MetricCard label="Decline rate" value="9.4%" delta="+6.2pp" trend="bad" series={[3, 3.2, 3.1, 3.6, 4, 9.4, 5.2]} />
               <MetricCard label="Fees by processor" value="GBP 1,350" delta="Flat" trend="flat" />
             </div>
+          </Spec>
+          <Spec name="Logo" note="Mark and lockup, name always lowercase">
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 32, alignItems: "flex-end" }}>
+              {[16, 24, 32, 48].map((s) => <Logo key={s} size={s} />)}
+              <Logo variant="lockup" size={32} />
+              <Logo variant="lockup" tone="mono" size={32} />
+              <div style={{ background: "var(--brand)", padding: "16px 20px", borderRadius: 16 }}><Logo variant="lockup" tone="on-brand" /></div>
+            </div>
+          </Spec>
+          <Spec name="Spinner" note="Orbit for short waits, compose for full pages">
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 36, alignItems: "flex-end" }}>
+              <Spinner /><Spinner size={48} /><Spinner variant="compose" size={96} />
+            </div>
+          </Spec>
+          <Spec name="Docs" note="DocsHeader, Endpoint, CodeBlock, Table, Callout, Tabs">
+            <DocsSandbox />
           </Spec>
           <Spec name="PieChart" note="Distribution of OK, KO and Retry">
             <Card>

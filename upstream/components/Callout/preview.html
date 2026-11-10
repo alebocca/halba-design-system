@@ -1,0 +1,17 @@
+<!-- @dsCard group="Docs" height=420 subtitle="Note, tip, warning, important" -->
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; padding: 24px; background: var(--surface); font-family: var(--font-sans); color: var(--ink); }
+  .cap { font: 500 12px/16px var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-muted); margin: 0 0 12px; }
+  .stack { display: flex; flex-direction: column; gap: 28px; max-width: 720px; }
+</style>
+<div id="root"></div>
+<script>
+  var H = window.Halba, e = React.createElement;
+
+  ReactDOM.createRoot(document.getElementById('root')).render(e('div', { className: 'stack' },
+    e(H.Callout, { tone: 'note' }, e('p', null, 'Amounts are in minor units. ', e('code', null, '4990'), ' is EUR 49.90.')),
+    e(H.Callout, { tone: 'tip' }, e('p', null, 'Use a test key (', e('code', null, 'sk_test_'), ') until you see a successful payment in the sandbox.')),
+    e(H.Callout, { tone: 'warning' }, e('p', null, 'A refund cannot be larger than the amount captured.')),
+    e(H.Callout, { tone: 'danger', title: 'Important' }, e('p', null, 'The secret key is shown once. Store it before you leave this page.'))));
+</script>

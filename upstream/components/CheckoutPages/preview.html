@@ -1,0 +1,411 @@
+<!-- @dsCard group="Checkout" height=700 subtitle="Standalone status pages" -->
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>/* halba-checkout.css — Halba payment page: plain CSS for plain HTML, no React, no external resources.
+
+   One look, four containers: hosted page, modal, embedded in the merchant page, component (methods, card
+   fields and button only). Pick the container with a class on the root element:
+
+     <div class="halba-checkout halba-checkout--hosted">   page with the theme background, card ~460px
+     <div class="halba-checkout halba-checkout--modal">    dark scrim + dialog, max 500 x 720px, scrolls
+     <div class="halba-checkout halba-checkout--embedded"> transparent, height follows the content
+     <div class="halba-checkout halba-checkout--component"> same as embedded, inherits the site font
+     <div class="halba-checkout halba-checkout--challenge"> 3-D Secure window, about 500 x 640px
+
+   MERCHANT THEME — public variables, set on the root element or on any ancestor (CSSOM
+   `el.style.setProperty` or a nonce'd <style>; an inline style="" attribute is blocked by a strict CSP).
+   Lengths need a unit: 0px, never 0.
+
+     --halba-primary       any hex             pay button, selected method, focus
+     --halba-on-primary    hex                 text on the primary: white or #000, see checkout.md
+     --halba-accent        hex                 primary adjusted to 3:1 on the surface: ring, selected edge, radio
+     --halba-radius        0px .. 24px         card, fields, button, methods
+     --halba-font          font stack          system, Inter or serif stacks in checkout.md
+     --halba-bg            hex                 page background, hosted only
+
+   THEME PRESET — set by data-halba-theme="light" | "dark" | "auto" on the root; each can also be overridden:
+
+     --halba-surface --halba-text --halba-muted --halba-border --halba-border-strong --halba-sunken
+     --halba-danger --halba-danger-bg --halba-success --halba-success-bg --halba-scrim --halba-shadow
+
+   Every variable has a fallback below, so the page renders with no variable set at all. Inside, the rules
+   only read the internal --hc-* copies. */
+
+.halba-checkout {
+  --hc-primary: var(--halba-primary, #5b47e0);
+  --hc-on-primary: var(--halba-on-primary, #ffffff);
+  --hc-accent: var(--halba-accent, var(--hc-primary));
+  --hc-radius: var(--halba-radius, 12px);
+  --hc-radius-sm: min(var(--hc-radius), 8px);
+  --hc-radius-xs: min(var(--hc-radius), 4px);
+  --hc-font: var(--halba-font, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif);
+  --hc-bg: var(--halba-bg, #f9f9f7);
+  --hc-surface: var(--halba-surface, #ffffff);
+  --hc-text: var(--halba-text, #0e0e10);
+  --hc-muted: var(--halba-muted, #5c5c66);
+  --hc-border: var(--halba-border, #deded8);
+  --hc-border-strong: var(--halba-border-strong, #8a8a93);
+  --hc-sunken: var(--halba-sunken, #efefeb);
+  --hc-danger: var(--halba-danger, #b42318);
+  --hc-danger-bg: var(--halba-danger-bg, #fde7e4);
+  --hc-success: var(--halba-success, #0b7a55);
+  --hc-success-bg: var(--halba-success-bg, #ddf5ea);
+  --hc-scrim: var(--halba-scrim, rgba(14, 14, 16, 0.55));
+  --hc-shadow: var(--halba-shadow, 0 1px 2px rgba(14, 14, 16, 0.06), 0 8px 24px rgba(14, 14, 16, 0.06));
+  --hc-shadow-overlay: var(--halba-shadow, 0 2px 4px rgba(14, 14, 16, 0.08), 0 16px 48px rgba(14, 14, 16, 0.18));
+}
+.halba-checkout[data-halba-theme="dark"] {
+  --hc-primary: var(--halba-primary, #a99bff);
+  --hc-on-primary: var(--halba-on-primary, #14121f);
+  --hc-bg: var(--halba-bg, #0f0f14);
+  --hc-surface: var(--halba-surface, #181820);
+  --hc-text: var(--halba-text, #f4f4f1);
+  --hc-muted: var(--halba-muted, #a8a8b3);
+  --hc-border: var(--halba-border, #2c2c36);
+  --hc-border-strong: var(--halba-border-strong, #70707c);
+  --hc-sunken: var(--halba-sunken, #0a0a0e);
+  --hc-danger: var(--halba-danger, #ff8a7d);
+  --hc-danger-bg: var(--halba-danger-bg, #3d1a17);
+  --hc-success: var(--halba-success, #4fd1a0);
+  --hc-success-bg: var(--halba-success-bg, #12332a);
+  --hc-scrim: var(--halba-scrim, rgba(0, 0, 0, 0.65));
+  --hc-shadow: var(--halba-shadow, 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px rgba(0, 0, 0, 0.35));
+  --hc-shadow-overlay: var(--halba-shadow, 0 2px 4px rgba(0, 0, 0, 0.5), 0 16px 48px rgba(0, 0, 0, 0.55));
+}
+@media (prefers-color-scheme: dark) {
+  .halba-checkout[data-halba-theme="auto"] {
+    --hc-primary: var(--halba-primary, #a99bff);
+    --hc-on-primary: var(--halba-on-primary, #14121f);
+    --hc-bg: var(--halba-bg, #0f0f14);
+    --hc-surface: var(--halba-surface, #181820);
+    --hc-text: var(--halba-text, #f4f4f1);
+    --hc-muted: var(--halba-muted, #a8a8b3);
+    --hc-border: var(--halba-border, #2c2c36);
+    --hc-border-strong: var(--halba-border-strong, #70707c);
+    --hc-sunken: var(--halba-sunken, #0a0a0e);
+    --hc-danger: var(--halba-danger, #ff8a7d);
+    --hc-danger-bg: var(--halba-danger-bg, #3d1a17);
+    --hc-success: var(--halba-success, #4fd1a0);
+    --hc-success-bg: var(--halba-success-bg, #12332a);
+    --hc-scrim: var(--halba-scrim, rgba(0, 0, 0, 0.65));
+    --hc-shadow: var(--halba-shadow, 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px rgba(0, 0, 0, 0.35));
+    --hc-shadow-overlay: var(--halba-shadow, 0 2px 4px rgba(0, 0, 0, 0.5), 0 16px 48px rgba(0, 0, 0, 0.55));
+  }
+}
+
+/* ---------- Base and containers ---------- */
+.halba-checkout, .halba-checkout *, .halba-checkout *::before, .halba-checkout *::after { box-sizing: border-box; }
+.halba-checkout {
+  container: halba-root / inline-size;
+  color: var(--hc-text);
+  font: 400 16px/24px var(--hc-font);
+  -webkit-text-size-adjust: 100%;
+  text-align: left;
+}
+.halba-checkout :where(h1, h2, h3, p, ul, ol, li, dl, dd, figure, fieldset, legend) { margin: 0; padding: 0; }
+.halba-checkout :where(fieldset) { border: 0; min-width: 0; }
+.halba-checkout :where(ul, ol) { list-style: none; }
+.halba-checkout :where(button, input, select) { font: inherit; color: inherit; margin: 0; }
+.halba-checkout :where(a) { color: inherit; }
+.halba-checkout :where(img, svg) { max-width: 100%; }
+
+.halba-checkout--hosted { min-height: 100vh; min-height: 100dvh; display: flex; align-items: flex-start; justify-content: center; background: var(--hc-bg); }
+/* spacing lives on the card: a container query cannot restyle the container itself */
+.halba-checkout--hosted > .halba-card { max-width: 460px; width: calc(100% - 32px); margin: 48px 0; }
+.halba-checkout--modal, .halba-checkout--challenge { position: fixed; inset: 0; z-index: 2147483000; display: flex; align-items: center; justify-content: center; background: var(--hc-scrim); }
+.halba-checkout--contained { position: absolute; inset: 0; z-index: 1; }
+.halba-checkout--hosted.halba-checkout--contained { position: relative; min-height: 0; }
+.halba-checkout--modal > .halba-card { width: calc(100% - 32px); max-width: 500px; max-height: min(720px, calc(100% - 32px)); overflow-y: auto; overscroll-behavior: contain; box-shadow: var(--hc-shadow-overlay); }
+.halba-checkout--embedded, .halba-checkout--component { background: transparent; }
+.halba-checkout--component { --hc-font: var(--halba-font, inherit); }
+.halba-checkout--embedded > .halba-card, .halba-checkout--component > .halba-card { background: transparent; border: 0; box-shadow: none; padding: 0; border-radius: 0; }
+
+.halba-card {
+  container: halba / inline-size;
+  position: relative; display: flex; flex-direction: column; gap: 24px; width: 100%;
+  padding: 28px; background: var(--hc-surface); border: 1px solid var(--hc-border);
+  border-radius: var(--hc-radius); box-shadow: var(--hc-shadow);
+}
+.halba-card--status { align-items: center; text-align: center; gap: 16px; padding-top: 40px; padding-bottom: 32px; }
+
+@container halba-root (max-width: 520px) {
+  .halba-checkout--hosted > .halba-card { max-width: none; width: 100%; margin: 0; min-height: 100vh; min-height: 100dvh; border-width: 0; border-radius: 0; box-shadow: none; }
+  .halba-checkout--modal > .halba-card { align-self: flex-end; max-width: none; width: 100%; max-height: 92%; border-radius: var(--hc-radius) var(--hc-radius) 0 0; }
+}
+@container halba (max-width: 400px) {
+  .halba-card:not(.halba-card--flush) { padding: 20px; }
+}
+
+/* ---------- Header, amount, summary ---------- */
+.halba-close { position: absolute; top: 12px; right: 12px; display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; padding: 0; border: 0; border-radius: var(--hc-radius-sm); background: transparent; color: var(--hc-muted); cursor: pointer; }
+.halba-close:hover { background: var(--hc-sunken); color: var(--hc-text); }
+.halba-header { display: flex; align-items: center; gap: 12px; min-height: 32px; }
+.halba-checkout--modal .halba-header { padding-right: 40px; }
+.halba-logo { display: block; flex: none; height: 32px; width: auto; max-width: 140px; object-fit: contain; }
+.halba-shop { flex: 1; min-width: 0; font-size: 16px; line-height: 20px; font-weight: 600; overflow-wrap: anywhere; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
+
+.halba-amount { display: flex; flex-direction: column; gap: 4px; }
+.halba-amount__label { font-size: 14px; line-height: 20px; color: var(--hc-muted); }
+.halba-amount__value { font-size: 40px; line-height: 44px; font-weight: 700; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+@container halba (max-width: 400px) { .halba-amount__value { font-size: 34px; line-height: 40px; } }
+
+.halba-summary { border-top: 1px solid var(--hc-border); border-bottom: 1px solid var(--hc-border); }
+.halba-summary__toggle { display: flex; align-items: center; gap: 8px; min-height: 48px; cursor: pointer; font-size: 14px; line-height: 20px; font-weight: 600; list-style: none; }
+.halba-summary__toggle::-webkit-details-marker { display: none; }
+.halba-summary__toggle:focus-visible { outline: 3px solid var(--hc-accent); outline-offset: 2px; border-radius: var(--hc-radius-xs); }
+.halba-summary__count { flex: 1; font-weight: 400; color: var(--hc-muted); }
+.halba-summary__toggle .halba-icon { width: 18px; height: 18px; color: var(--hc-muted); transition: transform 0.2s ease-out; }
+.halba-summary[open] .halba-summary__toggle .halba-icon { transform: rotate(180deg); }
+.halba-lines { display: flex; flex-direction: column; gap: 8px; padding: 4px 0 12px; }
+.halba-line { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; font-size: 14px; line-height: 20px; }
+.halba-line__name { min-width: 0; overflow-wrap: anywhere; }
+.halba-line__qty { color: var(--hc-muted); white-space: nowrap; }
+.halba-line__price { flex: none; font-variant-numeric: tabular-nums; }
+.halba-line--muted { color: var(--hc-muted); }
+.halba-total { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 12px 0 14px; border-top: 1px solid var(--hc-border); font-size: 16px; line-height: 24px; font-weight: 700; font-variant-numeric: tabular-nums; }
+
+/* ---------- Methods: a radio group where the checked one opens (CSS only) ---------- */
+.halba-form { display: flex; flex-direction: column; gap: 20px; min-width: 0; }
+.halba-methods__title { display: block; width: 100%; margin-bottom: 12px; font-size: 14px; line-height: 20px; font-weight: 600; }
+.halba-methods__list { display: flex; flex-direction: column; gap: 8px; }
+
+.halba-method { position: relative; background: var(--hc-surface); border: 1.5px solid var(--hc-border); border-radius: var(--hc-radius); transition: border-color 0.15s ease-out; }
+.halba-method:hover { border-color: var(--hc-border-strong); }
+.halba-method:has(.halba-method__input:checked) { border-color: var(--hc-accent); box-shadow: inset 0 0 0 1px var(--hc-accent); }
+@supports (background: color-mix(in srgb, red, blue)) {
+  .halba-method:has(.halba-method__input:checked) { background: color-mix(in srgb, var(--hc-accent) 6%, var(--hc-surface)); }
+}
+.halba-method__input { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); border: 0; opacity: 0; }
+.halba-method__label { display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 10px 16px; cursor: pointer; border-radius: var(--hc-radius); }
+.halba-method__input:focus-visible + .halba-method__label { outline: 3px solid var(--hc-accent); outline-offset: 2px; }
+.halba-method__radio { flex: none; width: 20px; height: 20px; border: 2px solid var(--hc-border-strong); border-radius: 50%; background: var(--hc-surface); }
+.halba-method__input:checked + .halba-method__label .halba-method__radio { border-color: var(--hc-accent); background: var(--hc-accent); box-shadow: inset 0 0 0 3px var(--hc-surface); }
+.halba-method__logo { flex: none; display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 28px; color: var(--hc-text); }
+.halba-method__logo img { display: block; max-height: 28px; width: auto; }
+.halba-method__text { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.halba-method__name { font-size: 16px; line-height: 24px; font-weight: 600; overflow-wrap: anywhere; }
+.halba-method__hint { font-size: 14px; line-height: 20px; color: var(--hc-muted); overflow-wrap: anywhere; }
+.halba-method__aside { flex: none; display: inline-flex; align-items: center; gap: 4px; }
+@container halba (max-width: 360px) {
+  .halba-method__aside .halba-brand:nth-child(n+3) { display: none; }
+  .halba-method__label { padding-left: 12px; padding-right: 12px; gap: 10px; }
+}
+
+.halba-method__panel { display: grid; grid-template-rows: 0fr; visibility: hidden; transition: grid-template-rows 0.2s ease-out, visibility 0.2s; }
+.halba-method__input:checked ~ .halba-method__panel { grid-template-rows: 1fr; visibility: visible; }
+.halba-method__panel-inner { min-height: 0; overflow: hidden; display: flex; flex-direction: column; gap: 16px; padding: 0 16px; }
+.halba-method__input:checked ~ .halba-method__panel .halba-method__panel-inner { padding: 4px 16px 16px; }
+.halba-note { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; line-height: 20px; color: var(--hc-muted); }
+.halba-note .halba-icon { width: 18px; height: 18px; margin-top: 1px; }
+
+.halba-brands { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; }
+.halba-brand { display: inline-flex; align-items: center; justify-content: center; min-width: 32px; height: 22px; padding: 0 5px; border: 1px solid var(--hc-border); border-radius: var(--hc-radius-xs); background: var(--hc-surface); color: var(--hc-text); font-size: 9px; line-height: 1; font-weight: 700; letter-spacing: 0.04em; }
+.halba-brand img { display: block; height: 14px; width: auto; }
+.halba-brand--active { border-color: var(--hc-accent); box-shadow: 0 0 0 1px var(--hc-accent); }
+.halba-brands__label { margin-right: 4px; font-size: 14px; line-height: 20px; color: var(--hc-muted); }
+
+.halba-pill { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border: 1px solid var(--hc-border-strong); border-radius: 999px; font-size: 12px; line-height: 16px; font-weight: 600; white-space: nowrap; }
+.halba-pill--suggested { border-color: var(--hc-accent); background: var(--hc-surface); color: var(--hc-text); }
+.halba-pill--danger { border-color: var(--hc-danger); background: var(--hc-danger-bg); color: var(--hc-danger); }
+
+.halba-more { margin-top: 0; }
+.halba-more__toggle { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 0 16px; border: 1.5px dashed var(--hc-border-strong); border-radius: var(--hc-radius); cursor: pointer; font-size: 14px; line-height: 20px; font-weight: 600; list-style: none; }
+.halba-more__toggle::-webkit-details-marker { display: none; }
+.halba-more__toggle:hover { background: var(--hc-sunken); }
+.halba-more__toggle:focus-visible { outline: 3px solid var(--hc-accent); outline-offset: 2px; }
+.halba-more__toggle .halba-icon { width: 18px; height: 18px; transition: transform 0.2s ease-out; }
+.halba-more[open] > .halba-more__toggle .halba-icon { transform: rotate(180deg); }
+.halba-more[open] > .halba-more__toggle { margin-bottom: 8px; }
+.halba-more__count { color: var(--hc-muted); font-weight: 400; }
+.halba-more__label-open { display: none; }
+.halba-more[open] .halba-more__label-open { display: inline; }
+.halba-more[open] .halba-more__label-closed { display: none; }
+
+/* ---------- Fields ---------- */
+.halba-field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.halba-row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@container halba (max-width: 300px) { .halba-row2 { grid-template-columns: 1fr; } }
+.halba-label { font-size: 14px; line-height: 20px; font-weight: 600; }
+.halba-field__hint { font-size: 14px; line-height: 20px; color: var(--hc-muted); }
+
+.halba-control, .halba-input, .halba-select {
+  display: flex; align-items: center; gap: 8px; width: 100%; min-height: 48px; padding: 11px 14px;
+  background: var(--hc-surface); color: var(--hc-text); border: 1.5px solid var(--hc-border-strong);
+  border-radius: var(--hc-radius); font-size: 16px; line-height: 24px;
+}
+.halba-input, .halba-select { appearance: none; -webkit-appearance: none; }
+.halba-input::placeholder { color: var(--hc-muted); opacity: 1; }
+.halba-input--code { font-variant-numeric: tabular-nums; letter-spacing: 0.35em; }
+.halba-select { padding-right: 40px; background-image: linear-gradient(45deg, transparent 50%, currentColor 50%), linear-gradient(135deg, currentColor 50%, transparent 50%); background-position: calc(100% - 20px) 50%, calc(100% - 15px) 50%; background-size: 5px 5px, 5px 5px; background-repeat: no-repeat; }
+.halba-control__frame { flex: 1; min-width: 0; min-height: 24px; }
+.halba-control__trail { flex: none; display: inline-flex; gap: 4px; }
+.halba-control:focus-within, .halba-control.is-focused, .halba-input:focus, .halba-select:focus { outline: 3px solid var(--hc-accent); outline-offset: 0; border-color: var(--hc-accent); }
+.halba-control.is-loading .halba-control__frame { align-self: center; height: 16px; border-radius: var(--hc-radius-xs); background: var(--hc-sunken); }
+.halba-field--error .halba-control, .halba-field--error .halba-input, .halba-field--error .halba-select { border-color: var(--hc-danger); }
+.halba-field--error .halba-control:focus-within, .halba-field--error .halba-input:focus { outline-color: var(--hc-danger); }
+.halba-input:disabled, .halba-select:disabled { background: var(--hc-sunken); color: var(--hc-muted); }
+
+.halba-error { display: flex; align-items: flex-start; gap: 8px; font-size: 14px; line-height: 20px; font-weight: 500; color: var(--hc-danger); }
+.halba-error:empty { display: none; }
+.halba-error::before { content: "!"; flex: none; width: 16px; height: 16px; margin-top: 2px; border-radius: 50%; background: var(--hc-danger); color: var(--hc-surface); font-size: 11px; line-height: 16px; font-weight: 700; text-align: center; }
+
+/* ---------- Pay button, status, alert ---------- */
+.halba-actions { display: flex; flex-direction: column; gap: 12px; }
+.halba-pay {
+  display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; min-height: 52px; padding: 0 20px;
+  background: var(--hc-primary); color: var(--hc-on-primary); border: 1.5px solid var(--hc-accent);
+  border-radius: var(--hc-radius); font-size: 16px; line-height: 24px; font-weight: 600; cursor: pointer;
+}
+.halba-pay:hover:not(:disabled):not([aria-disabled="true"]) { filter: brightness(0.94); }
+.halba-pay:focus-visible { outline: 3px solid var(--hc-accent); outline-offset: 3px; }
+.halba-pay:disabled, .halba-pay[aria-disabled="true"] { background: var(--hc-sunken); border-color: var(--hc-border); color: var(--hc-muted); cursor: not-allowed; filter: none; }
+.halba-pay[aria-busy="true"] { cursor: progress; filter: none; }
+/* Loader: the Halba mark in the current text colour. Default is "orbit" (short waits, inside the Pay button);
+   add .halba-loader--compose for the 3-D Secure window (the dot appears, the ring closes around it). */
+.halba-loader { flex: none; display: block; width: 22px; height: 22px; overflow: visible; color: inherit; }
+.halba-loader__ring { fill: none; stroke: currentColor; stroke-width: 122; stroke-dasharray: 220 360; transform-box: fill-box; transform-origin: center; transform: rotate(66deg); }
+.halba-loader__dot { fill: currentColor; transform-box: fill-box; transform-origin: center; }
+@media (prefers-reduced-motion: no-preference) {
+  .halba-loader__ring { animation: halba-orbit-spin 1.3s linear infinite, halba-orbit-breathe 1.3s ease-in-out infinite alternate; }
+  .halba-loader__dot { animation: halba-orbit-dot 1.3s ease-in-out infinite; }
+  .halba-loader--compose .halba-loader__ring { stroke-dasharray: 310 360; animation: halba-compose-ring 2.2s cubic-bezier(.65, 0, .35, 1) infinite; }
+  .halba-loader--compose .halba-loader__dot { animation: halba-compose-dot 2.2s cubic-bezier(.34, 1.4, .64, 1) infinite; }
+}
+@keyframes halba-orbit-spin { from { transform: rotate(66deg); } to { transform: rotate(426deg); } }
+@keyframes halba-orbit-breathe { from { stroke-dasharray: 130 360; } to { stroke-dasharray: 290 360; } }
+@keyframes halba-orbit-dot { 0%, 100% { transform: scale(1); } 50% { transform: scale(.86); } }
+@keyframes halba-compose-dot { 0% { transform: scale(0); } 14%, 100% { transform: scale(1); } }
+@keyframes halba-compose-ring { 0%, 12% { stroke-dasharray: 0 360; transform: rotate(-294deg); } 62%, 84% { stroke-dasharray: 310 360; transform: rotate(66deg); } 100% { stroke-dasharray: 0 360; transform: rotate(246deg); } }
+
+.halba-hint { font-size: 14px; line-height: 20px; color: var(--hc-muted); text-align: center; }
+.halba-alert { display: flex; align-items: flex-start; gap: 12px; padding: 12px 14px; background: var(--hc-danger-bg); color: var(--hc-text); border-radius: var(--hc-radius-sm); font-size: 14px; line-height: 20px; }
+.halba-alert .halba-icon { width: 20px; height: 20px; color: var(--hc-danger); }
+.halba-alert__body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; overflow-wrap: anywhere; }
+.halba-alert__title { font-weight: 600; }
+.halba-alert__action { align-self: flex-start; display: inline-flex; align-items: center; min-height: 44px; margin: -4px 0 -8px; padding: 0; border: 0; background: none; color: var(--hc-text); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.halba-alert__action:focus-visible { outline: 3px solid var(--hc-accent); outline-offset: 2px; border-radius: var(--hc-radius-xs); }
+
+.halba-form[aria-busy="true"] .halba-methods, .halba-form[aria-busy="true"] .halba-method__panel { pointer-events: none; opacity: 0.6; }
+
+/* ---------- Footer ---------- */
+.halba-footer { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4px 16px; padding-top: 16px; border-top: 1px solid var(--hc-border); font-size: 14px; line-height: 20px; color: var(--hc-muted); }
+.halba-back { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; color: var(--hc-text); text-decoration: none; font-weight: 500; }
+.halba-back:hover { text-decoration: underline; text-underline-offset: 3px; }
+.halba-back:focus-visible { outline: 3px solid var(--hc-accent); outline-offset: 2px; border-radius: var(--hc-radius-xs); }
+.halba-back .halba-icon { width: 18px; height: 18px; }
+.halba-secured { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; }
+.halba-secured .halba-icon { width: 16px; height: 16px; }
+.halba-secured strong { color: var(--hc-text); font-weight: 700; }
+
+/* ---------- Result: success and pages of their own ---------- */
+.halba-result { display: flex; flex-direction: column; align-items: center; gap: 12px; width: 100%; text-align: center; }
+.halba-result__icon { display: inline-flex; align-items: center; justify-content: center; width: 56px; height: 56px; border-radius: 50%; background: var(--hc-sunken); color: var(--hc-text); }
+.halba-result__icon .halba-icon { width: 28px; height: 28px; }
+.halba-result__icon--success { background: var(--hc-success-bg); color: var(--hc-success); }
+.halba-result__icon--danger { background: var(--hc-danger-bg); color: var(--hc-danger); }
+.halba-result__title { font-size: 24px; line-height: 30px; font-weight: 700; letter-spacing: -0.01em; overflow-wrap: anywhere; }
+.halba-result__text { max-width: 36ch; font-size: 16px; line-height: 24px; color: var(--hc-muted); overflow-wrap: anywhere; }
+.halba-result__meta { font-size: 14px; line-height: 20px; font-variant-numeric: tabular-nums; }
+.halba-progress { width: 100%; max-width: 280px; height: 4px; margin-top: 8px; overflow: hidden; border-radius: 999px; background: var(--hc-sunken); }
+.halba-progress__bar { display: block; width: 100%; height: 100%; background: var(--hc-accent); transform-origin: left; }
+@keyframes halba-countdown { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@media (prefers-reduced-motion: no-preference) { .halba-progress__bar { animation: halba-countdown 5s linear both; } }
+.halba-button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 0 24px; border: 1.5px solid var(--hc-border-strong); border-radius: var(--hc-radius); background: var(--hc-surface); color: var(--hc-text); font-weight: 600; text-decoration: none; cursor: pointer; }
+.halba-button:hover { background: var(--hc-sunken); }
+.halba-button:focus-visible { outline: 3px solid var(--hc-accent); outline-offset: 2px; }
+.halba-link { color: var(--hc-text); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; display: inline-flex; align-items: center; min-height: 44px; }
+.halba-link:focus-visible { outline: 3px solid var(--hc-accent); outline-offset: 2px; border-radius: var(--hc-radius-xs); }
+
+/* ---------- 3-D Secure window: about 500 x 640 over the page ---------- */
+.halba-challenge { position: relative; display: flex; flex-direction: column; width: calc(100% - 32px); max-width: 500px; height: 640px; max-height: calc(100% - 32px); overflow: hidden; background: var(--hc-surface); border: 1px solid var(--hc-border); border-radius: var(--hc-radius); box-shadow: var(--hc-shadow-overlay); }
+.halba-challenge__bar { flex: none; display: flex; align-items: center; gap: 10px; min-height: 52px; padding: 0 8px 0 16px; border-bottom: 1px solid var(--hc-border); font-size: 14px; line-height: 20px; }
+.halba-challenge__bar .halba-icon { width: 16px; height: 16px; color: var(--hc-muted); }
+.halba-challenge__title { flex: 1; min-width: 0; font-weight: 600; overflow-wrap: anywhere; }
+.halba-challenge__host { color: var(--hc-muted); font-variant-numeric: tabular-nums; }
+.halba-challenge__frame { position: relative; flex: 1; min-height: 0; background: #ffffff; }
+.halba-challenge__frame iframe { display: block; width: 100%; height: 100%; border: 0; }
+.halba-challenge__loading { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; background: var(--hc-surface); color: var(--hc-muted); font-size: 14px; line-height: 20px; }
+.halba-challenge__loading .halba-loader { width: 48px; height: 48px; color: var(--hc-text); }
+.halba-challenge__loading .halba-loader__dot { color: var(--hc-accent); }
+@container halba-root (max-width: 520px) {
+  .halba-checkout--challenge > .halba-challenge { max-width: none; width: 100%; max-height: none; height: 100%; border-width: 0; border-radius: 0; }
+}
+
+/* ---------- Icons ---------- */
+.halba-icon { flex: none; width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ---------- Motion off, forced colours ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .halba-method, .halba-method__panel, .halba-summary__toggle .halba-icon, .halba-more__toggle .halba-icon { transition: none; }
+}
+@media (forced-colors: active) {
+  .halba-method:has(.halba-method__input:checked) { outline: 2px solid Highlight; }
+  .halba-pay { border-color: ButtonText; }
+}
+
+/* Narrow containers: the panel already lists accepted cards, drop the chips next to the card row */
+@container halba (max-width: 400px) {
+  .halba-method__aside:not(:has(.halba-pill)) { display: none; }
+}
+
+/* ---------- Method marks and branded buttons ---------- */
+/* Marks: official artwork only, one height for all, a light and a dark file per method.
+   Markup: <span class="halba-method__logo halba-method__logo--mark"><img class="halba-mark halba-mark--on-light" src alt=""><img class="halba-mark halba-mark--on-dark" src alt=""></span> */
+.halba-method__logo--mark { width: auto; min-width: 40px; height: 28px; }
+.halba-mark { display: block; height: 24px; width: auto; max-width: 88px; object-fit: contain; }
+.halba-mark--on-dark { display: none; }
+.halba-checkout[data-halba-theme="dark"] .halba-mark--on-light { display: none; }
+.halba-checkout[data-halba-theme="dark"] .halba-mark--on-dark { display: block; }
+@media (prefers-color-scheme: dark) {
+  .halba-checkout[data-halba-theme="auto"] .halba-mark--on-light { display: none; }
+  .halba-checkout[data-halba-theme="auto"] .halba-mark--on-dark { display: block; }
+}
+/* Express wallets (Apple Pay, Google Pay): the provider's official buttons sit above the methods, the only exception to our Pay button.
+   Each SDK mounts into its own .halba-express__btn. One loaded button takes the full width; two share the row 50/50.
+   A slot the SDK has not filled (or that is unsupported on the device) is hidden, so the row adapts by itself. */
+.halba-express { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 12px; }
+.halba-express__btn { display: block; min-width: 0; min-height: 48px; border-radius: var(--hc-radius); overflow: hidden; }
+.halba-express__btn:empty { display: none; }
+.halba-express__btn > * { width: 100%; }
+.halba-express:not(:has(.halba-express__btn:not(:empty))) { display: none; }
+@container halba (max-width: 280px) { .halba-express { grid-auto-flow: row; } }
+.halba-express__or { display: flex; align-items: center; gap: 12px; margin: 0; color: var(--hc-muted); font-size: 14px; line-height: 20px; }
+.halba-express__or::before, .halba-express__or::after { content: ""; flex: 1; height: 1px; background: var(--hc-border); }
+.halba-express:not(:has(.halba-express__btn:not(:empty))) + .halba-express__or { display: none; }
+</style>
+<style>
+  :where(.demo-mark) { display: inline-flex; }
+  .demo-mark { align-items: center; justify-content: center; box-sizing: border-box; height: 24px; padding: 0 8px; border: 1px dashed var(--hc-border-strong); border-radius: 4px; font: 600 10px/12px ui-monospace, monospace; letter-spacing: .02em; color: var(--hc-muted); white-space: nowrap; }
+  .demo-brandbtn { display: flex; align-items: center; justify-content: center; box-sizing: border-box; min-height: 48px; padding: 8px 12px; border: 1.5px dashed var(--hc-border-strong); border-radius: var(--hc-radius); background: var(--hc-surface); color: var(--hc-muted); font-size: 13px; line-height: 18px; text-align: center; }
+  body { margin: 0; padding: 24px; background: var(--surface); font-family: var(--font-sans); color: var(--ink); }
+  .demo-row { display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start; }
+  .demo-frame { margin: 0; display: flex; flex-direction: column; gap: 8px; }
+  .demo-cap { font: 500 12px/16px var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-muted); }
+  .demo-frame--page { width: 508px; }
+  .demo-frame--page .halba-checkout--hosted { min-height: 0; border-radius: 16px; }
+  .demo-phone { position: relative; width: 375px; overflow: hidden; border: 1px solid var(--border-strong); border-radius: 28px; background: var(--surface-raised); }
+  .demo-phone .halba-checkout--hosted { min-height: 0; }
+  .demo-phone .halba-checkout--hosted > .halba-card { min-height: 0; }
+  .demo-stage { position: relative; overflow: hidden; border: 1px solid var(--border); border-radius: 16px; background: #fff; }
+  .demo-val { color: var(--hc-text); } .demo-ph { color: var(--hc-muted); }
+  .demo-skel { display: block; width: 55%; height: 16px; border-radius: 4px; background: var(--hc-sunken); }
+  .demo-site { font-family: Georgia, "Times New Roman", serif; color: #222; background: #fff; }
+  .demo-site__bar { display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; border-bottom: 1px solid #e5e5e5; font-weight: 700; }
+  .demo-site__bar span { font-weight: 400; color: #666; font-size: 14px; }
+  .demo-site__body { padding: 24px; }
+  :where(.demo-site) :where(h2) { margin: 0 0 12px; font-size: 22px; line-height: 28px; font-weight: 600; }
+  :where(.demo-site) :where(p) { margin: 0 0 12px; font-size: 15px; line-height: 22px; color: #555; }
+  .demo-site .demo-input { height: 44px; margin-bottom: 12px; border: 1px solid #bbb; border-radius: 4px; padding: 10px 12px; font: 15px/22px Georgia, serif; color: #888; }
+  .demo-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  .demo-bank { height: 100%; padding: 32px 28px; background: #f4f6f8; color: #1d2b3a; font: 16px/24px Arial, sans-serif; display: flex; flex-direction: column; gap: 14px; }
+  .demo-bank__logo { align-self: flex-start; padding: 6px 12px; border-radius: 6px; background: #1d4e89; color: #fff; font-weight: 700; letter-spacing: .08em; }
+  .demo-bank h2 { margin: 8px 0 0; font-size: 22px; line-height: 28px; }
+  .demo-bank p { margin: 0; color: #4a5a6a; }
+  .demo-bank label { display: flex; flex-direction: column; gap: 6px; font-size: 14px; }
+  .demo-bank input { height: 44px; padding: 0 12px; border: 1px solid #9aa7b4; border-radius: 6px; font-size: 16px; }
+  .demo-bank button { height: 48px; border: 0; border-radius: 6px; background: #1d4e89; color: #fff; font-size: 16px; font-weight: 700; }
+  .demo-bank a { align-self: center; color: #1d4e89; }
+  .demo-fakepage { padding: 20px; display: grid; gap: 12px; background: #fff; color: #333; font: 14px/20px Georgia, serif; }
+  .demo-fakepage i { display: block; height: 14px; border-radius: 4px; background: #e9e9e9; }
+</style>
+<svg xmlns="http://www.w3.org/2000/svg" hidden aria-hidden="true"><symbol id="halba-i-lock" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol><symbol id="halba-i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol><symbol id="halba-i-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol><symbol id="halba-i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></symbol><symbol id="halba-i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol><symbol id="halba-i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol><symbol id="halba-i-cloud-off" viewBox="0 0 24 24"><path d="m2 2 20 20"/><path d="M5.782 5.782A7 7 0 0 0 9 19h8.5a4.5 4.5 0 0 0 1.307-.193"/><path d="M21.532 16.5A4.5 4.5 0 0 0 17.5 10h-1.79A7.008 7.008 0 0 0 10 5.07"/></symbol><symbol id="halba-i-arrow-left" viewBox="0 0 24 24"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></symbol><symbol id="halba-i-chevron-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol><symbol id="halba-i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></symbol><symbol id="halba-i-card" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></symbol><symbol id="halba-i-bank" viewBox="0 0 24 24"><path d="M10 18v-7"/><path d="M11.12 2.198a2 2 0 0 1 1.76.006l7.866 3.847c.476.233.31.949-.22.949H3.474c-.53 0-.695-.716-.22-.949z"/><path d="M14 18v-7"/><path d="M18 18v-7"/><path d="M3 22h18"/><path d="M6 18v-7"/></symbol><symbol id="halba-i-wallet" viewBox="0 0 24 24"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></symbol><symbol id="halba-i-smartphone" viewBox="0 0 24 24"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></symbol><symbol id="halba-i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></symbol></svg>
+<div class="demo-row"><figure class="demo-frame demo-frame--page"><figcaption class="demo-cap">Link expired</figcaption><div class="halba-checkout halba-checkout--hosted" data-halba-theme="light"><div class="halba-card halba-card--status"><div class="halba-result" role="status"><span class="halba-result__icon"><svg class="halba-icon" aria-hidden="true" focusable="false"><use href="#halba-i-clock"/></svg></span><h1 class="halba-result__title">This payment link has expired</h1><p class="halba-result__text">For your security, payment links stop working after a while. Go back to the shop and start the payment again.</p></div><div class="halba-actions" style="align-items:center"><a class="halba-button" href="#"><svg class="halba-icon" aria-hidden="true" focusable="false"><use href="#halba-i-arrow-left"/></svg>Back to shop</a></div><footer class="halba-footer" style="justify-content:center;width:100%"><span class="halba-secured"><svg class="halba-icon" aria-hidden="true" focusable="false"><use href="#halba-i-lock"/></svg><span>Secured by <strong>halba</strong></span></span></footer></div></div></figure><figure class="demo-frame demo-frame--page"><figcaption class="demo-cap">Payment not found</figcaption><div class="halba-checkout halba-checkout--hosted" data-halba-theme="light"><div class="halba-card halba-card--status"><div class="halba-result" role="status"><span class="halba-result__icon"><svg class="halba-icon" aria-hidden="true" focusable="false"><use href="#halba-i-search"/></svg></span><h1 class="halba-result__title">We can’t find this payment</h1><p class="halba-result__text">The link may be incorrect or the payment may have been removed. Check the link or go back to the shop.</p></div><div class="halba-actions" style="align-items:center"><a class="halba-button" href="#"><svg class="halba-icon" aria-hidden="true" focusable="false"><use href="#halba-i-arrow-left"/></svg>Back to shop</a></div><footer class="halba-footer" style="justify-content:center;width:100%"><span class="halba-secured"><svg class="halba-icon" aria-hidden="true" focusable="false"><use href="#halba-i-lock"/></svg><span>Secured by <strong>halba</strong></span></span></footer></div></div></figure><figure class="demo-frame demo-frame--page"><figcaption class="demo-cap">Payments unavailable</figcaption><div class="halba-checkout halba-checkout--hosted" data-halba-theme="light"><div class="halba-card halba-card--status"><div class="halba-result" role="status"><span class="halba-result__icon"><svg class="halba-icon" aria-hidden="true" focusable="false"><use href="#halba-i-cloud-off"/></svg></span><h1 class="halba-result__title">Payments are unavailable right now</h1><p class="halba-result__text">We can’t process payments at the moment. Nothing has been charged. Please try again in a few minutes.</p></div><div class="halba-actions" style="align-items:center"><a class="halba-button" href="#">Try again</a><a class="halba-link" href="#">Back to shop</a></div><footer class="halba-footer" style="justify-content:center;width:100%"><span class="halba-secured"><svg class="halba-icon" aria-hidden="true" focusable="false"><use href="#halba-i-lock"/></svg><span>Secured by <strong>halba</strong></span></span></footer></div></div></figure></div>

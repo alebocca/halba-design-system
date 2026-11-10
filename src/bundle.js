@@ -1,6 +1,6 @@
 /* Halba Design System — generated from upstream/components/bundle.js by scripts/build-bundle.mjs. Do not edit. */
 import * as React from "react";
-/* @ds-bundle: {"format":4,"namespace":"Halba","components":[{"name":"Button"},{"name":"Badge"},{"name":"StatTile"},{"name":"MetricCard"},{"name":"Input"},{"name":"PhotoPanel"},{"name":"OverlayCard"},{"name":"CheckoutStory"},{"name":"RetryStory"},{"name":"RevenueStory"},{"name":"StatusBadge"},{"name":"Card"},{"name":"Panel"},{"name":"TextLink"},{"name":"Spinner"},{"name":"Modal"},{"name":"Icon"},{"name":"SegmentedControl"},{"name":"Alert"},{"name":"PieChart"},{"name":"BarChart"},{"name":"AuthLayout"}]} */
+/* @ds-bundle: {"format":4,"namespace":"Halba","components":[{"name":"Button"},{"name":"Badge"},{"name":"StatTile"},{"name":"MetricCard"},{"name":"Input"},{"name":"PhotoPanel"},{"name":"OverlayCard"},{"name":"CheckoutStory"},{"name":"RetryStory"},{"name":"RevenueStory"},{"name":"StatusBadge"},{"name":"Card"},{"name":"Panel"},{"name":"TextLink"},{"name":"Logo"},{"name":"Spinner"},{"name":"Modal"},{"name":"Icon"},{"name":"SegmentedControl"},{"name":"Alert"},{"name":"PieChart"},{"name":"BarChart"},{"name":"AuthLayout"},{"name":"MethodBadge"},{"name":"Endpoint"},{"name":"CodeBlock"},{"name":"Tabs"},{"name":"Table"},{"name":"Callout"},{"name":"DocsHeader"},{"name":"DocsSearch"},{"name":"DocsLayout"}]} */
   var h = React.createElement;
 
   function cx() {
@@ -15,7 +15,12 @@ import * as React from "react";
     undo: ['M9 14 4 9l5-5', 'M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5 5.5 5.5 0 0 1-5.5 5.5H11'],
     info: ['M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0', 'M12 16v-4', 'M12 8h.01'],
     'circle-check': ['M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0', 'm9 12 2 2 4-4'],
-    'circle-x': ['M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0', 'm15 9-6 6', 'm9 9 6 6']
+    'circle-x': ['M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0', 'm15 9-6 6', 'm9 9 6 6'],
+    search: ['m21 21-4.34-4.34', 'M19 11a8 8 0 1 1-16 0 8 8 0 0 1 16 0'],
+    copy: ['M20 9h-9a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2z', 'M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1'],
+    menu: ['M4 6h16', 'M4 12h16', 'M4 18h16'],
+    'chevron-right': ['m9 18 6-6-6-6'],
+    'chevron-down': ['m6 9 6 6 6-6']
   };
 
   /* Lucide outline paths: 20px / 1.75 stroke by default, 2.5 stroke at 14px or smaller */
@@ -231,11 +236,43 @@ import * as React from "react";
     );
   }
 
-  function Spinner(p) {
+  /* The mark: an open ring and a dot, both centred. Geometry is fixed (viewBox 157 173 683 683, ring r280 / 122 wide
+     opening at the bottom right, dot r60); at 20px or less a fuller cut is used. Colours come from --logo-ring and --logo-dot. */
+  var MARK_VIEW = '157 173 683 683';
+  function Mark(p) {
+    var small = p.size && p.size <= 20;
+    return h(
+      'svg',
+      { className: cx('hb-mark', p.className), viewBox: MARK_VIEW, width: p.size, height: p.size, 'aria-hidden': 'true', focusable: 'false' },
+      h('circle', { className: cx('hb-mark__ring', p.ringClass), cx: 498.5, cy: 514.5, r: small ? 276 : 280, pathLength: 360, style: small ? { strokeWidth: 136 } : undefined }),
+      h('circle', { className: cx('hb-mark__dot', p.dotClass), cx: 498.5, cy: 514.5, r: small ? 78 : 60 })
+    );
+  }
+
+  function Logo(p) {
+    var size = p.size || 32;
+    var lockup = p.variant === 'lockup';
+    var tone = p.tone || 'default';
     return h(
       'span',
-      { className: cx('hb-spinner', p.className), role: 'status' },
-      h('span', { className: 'hb-spinner__ring', 'aria-hidden': 'true' }),
+      Object.assign(
+        { className: cx('hb-logo', tone !== 'default' && 'hb-logo--' + tone, p.className) },
+        lockup ? {} : { role: 'img', 'aria-label': p.label || 'halba' }
+      ),
+      h(Mark, { size: size }),
+      lockup ? h('span', { className: 'hb-logo__word', style: { fontSize: Math.round(size * 0.75) + 'px' } }, 'halba') : null
+    );
+  }
+
+  /* Loading indicator made from the mark. orbit (default): the ring turns and stretches, the dot breathes; for short waits
+     in components and buttons. compose: the dot appears, the ring turns around it and closes into the mark; for full-page waits. */
+  function Spinner(p) {
+    var size = p.size || 24;
+    var variant = p.variant === 'compose' ? 'compose' : 'orbit';
+    return h(
+      'span',
+      { className: cx('hb-spinner', 'hb-spinner--' + variant, p.tone === 'mono' && 'hb-logo--mono', p.className), role: 'status' },
+      h(Mark, { size: size, className: 'hb-spinner__mark', ringClass: 'hb-spinner__ring', dotClass: 'hb-spinner__dot' }),
       h('span', { className: 'hb-sr' }, p.label || 'Loading')
     );
   }
@@ -474,7 +511,7 @@ import * as React from "react";
       h(
         'main',
         { className: 'hb-auth__main' },
-        h('div', { className: 'hb-auth__logo' }, p.logo || 'Halba'),
+        h('div', { className: 'hb-auth__logo' }, p.logo || h(Logo, { variant: 'lockup', size: 32 })),
         h('div', { className: 'hb-auth__form' }, p.children)
       ),
       p.aside ? h('aside', { className: 'hb-auth__aside', 'aria-hidden': 'true' }, p.aside) : null
@@ -683,4 +720,180 @@ import * as React from "react";
     );
   }
 
-  export { Button, Badge, StatTile, MetricCard, Input, PhotoPanel, OverlayCard, CheckoutStory, RetryStory, RevenueStory, StatusBadge, Card, Panel, TextLink, Spinner, Modal, Icon, SegmentedControl, Alert, PieChart, BarChart, AuthLayout };
+  /* ---------- Docs: plain, static, no images, no motion ---------- */
+  var HTTP_TONE = { GET: 'sky', POST: 'success', PUT: 'warning', PATCH: 'warning', DELETE: 'danger' };
+
+  /* HTTP method label: the word carries the meaning, the tint only groups it. */
+  function MethodBadge(p) {
+    var m = String(p.method || 'GET').toUpperCase();
+    return h('span', { className: cx('hb-method', 'hb-method--' + (HTTP_TONE[m] || 'sky'), p.className) }, m);
+  }
+
+  /* Method and path on one line, e.g. POST /v1/payments */
+  function Endpoint(p) {
+    return h('div', { className: cx('hb-endpoint', p.className) },
+      h(MethodBadge, { method: p.method }),
+      h('code', { className: 'hb-endpoint__path' }, p.path));
+  }
+
+  /* Small tokenizer: strings, numbers, comments, keywords, JSON keys. Enough for docs samples, no dependency. */
+  var KW = /^(?:const|let|var|function|return|await|async|import|from|export|new|if|else|for|of|in|true|false|null|undefined|def|class|None|True|False|curl|echo)$/;
+  function tokenize(src) {
+    var re = /(\/\/[^\n]*|#[^\n]*)|("(?:[^"\\\n]|\\.)*"|'(?:[^'\\\n]|\\.)*'|`(?:[^`\\]|\\.)*`)|(-?\b\d+(?:\.\d+)?\b)|(\b[A-Za-z_][\w]*\b)|([\s\S])/g;
+    var out = [], m, last = null;
+    function push(type, text) {
+      if (last && last.type === type && type === 'plain') { last.text += text; } else { last = { type: type, text: text }; out.push(last); }
+    }
+    while ((m = re.exec(src))) {
+      if (m[1]) push('comment', m[1]);
+      else if (m[2]) {
+        var after = src.slice(re.lastIndex).match(/^\s*:/);
+        push(after && m[2].charAt(0) === '"' ? 'key' : 'string', m[2]);
+      }
+      else if (m[3]) push('number', m[3]);
+      else if (m[4]) push(KW.test(m[4]) ? 'keyword' : 'plain', m[4]);
+      else push('plain', m[5]);
+    }
+    return out;
+  }
+
+  function copyText(text, done) {
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function () { done(true); }, function () { done(false); });
+        return;
+      }
+    } catch (e) {}
+    try {
+      var ta = document.createElement('textarea');
+      ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      var ok = document.execCommand('copy'); document.body.removeChild(ta); done(!!ok);
+    } catch (e2) { done(false); }
+  }
+
+  /* Code sample. Pass `code`, or `tabs` for one sample in several languages. */
+  function CodeBlock(p) {
+    var tabs = p.tabs, st = React.useState(0), idx = st[0], setIdx = st[1];
+    var cp = React.useState(false), copied = cp[0], setCopied = cp[1];
+    var id = React.useRef(p.id || 'cb' + Math.random().toString(36).slice(2, 8)).current;
+    var cur = tabs ? tabs[Math.min(idx, tabs.length - 1)] : { code: p.code, label: p.title };
+    var code = String(cur.code || '').replace(/\n$/, '');
+    var plain = p.highlight === false;
+    function onCopy() {
+      copyText(code, function (ok) { setCopied(ok); if (ok) setTimeout(function () { setCopied(false); }, 2000); });
+    }
+    function onKey(e) {
+      if (!tabs) return;
+      var n = tabs.length, to = null;
+      if (e.key === 'ArrowRight') to = (idx + 1) % n; else if (e.key === 'ArrowLeft') to = (idx - 1 + n) % n;
+      else if (e.key === 'Home') to = 0; else if (e.key === 'End') to = n - 1;
+      if (to === null) return;
+      e.preventDefault(); setIdx(to);
+      var el = document.getElementById(id + '-tab-' + to); if (el) el.focus();
+    }
+    var head = tabs
+      ? h('div', { className: 'hb-code__tabs', role: 'tablist', 'aria-label': p.label || 'Language', onKeyDown: onKey },
+          tabs.map(function (t, i) {
+            return h('button', { key: i, type: 'button', role: 'tab', id: id + '-tab-' + i, 'aria-selected': i === idx, 'aria-controls': id + '-panel', tabIndex: i === idx ? 0 : -1, className: 'hb-code__tab', onClick: function () { setIdx(i); } }, t.label);
+          }))
+      : (p.title ? h('span', { className: 'hb-code__title' }, p.title) : h('span', null));
+    var body = plain ? code : tokenize(code).map(function (t, i) { return t.type === 'plain' ? t.text : h('span', { key: i, className: 'hb-tok hb-tok--' + t.type }, t.text); });
+    return h('div', { className: cx('hb-code', p.className) },
+      h('div', { className: 'hb-code__bar' }, head,
+        p.copy === false ? null : h('button', { type: 'button', className: 'hb-code__copy', onClick: onCopy },
+          h(Icon, { name: copied ? 'check' : 'copy', size: 16 }), h('span', null, copied ? 'Copied' : 'Copy'))),
+      h('pre', Object.assign({ className: 'hb-code__pre', tabIndex: 0 }, tabs ? { role: 'tabpanel', id: id + '-panel', 'aria-labelledby': id + '-tab-' + idx } : { 'aria-label': p.title || 'Code sample' }),
+        h('code', null, body)),
+      h('span', { className: 'hb-sr', 'aria-live': 'polite' }, copied ? 'Copied to clipboard' : ''));
+  }
+
+  /* Content tabs, underline style. SegmentedControl is the pill style for settings. */
+  function Tabs(p) {
+    var opts = p.options || [], id = p.id || 'tabs';
+    function onKey(e) {
+      var i = opts.map(function (o) { return o.value; }).indexOf(p.value), n = opts.length, to = null;
+      if (e.key === 'ArrowRight') to = (i + 1) % n; else if (e.key === 'ArrowLeft') to = (i - 1 + n) % n;
+      else if (e.key === 'Home') to = 0; else if (e.key === 'End') to = n - 1;
+      if (to === null) return;
+      e.preventDefault(); p.onChange(opts[to].value);
+      var el = document.getElementById(id + '-' + opts[to].value); if (el) el.focus();
+    }
+    return h('div', { className: cx('hb-tabs', p.className), role: 'tablist', 'aria-label': p.label, onKeyDown: onKey },
+      opts.map(function (o) {
+        var sel = o.value === p.value;
+        return h('button', { key: o.value, type: 'button', role: 'tab', id: id + '-' + o.value, 'aria-selected': sel, 'aria-controls': p.panelId, tabIndex: sel ? 0 : -1, className: 'hb-tabs__tab', onClick: function () { p.onChange(o.value); } }, o.label);
+      }));
+  }
+
+  /* Reference table. columns: [{key,label,mono,width}], rows: objects whose values may be text or nodes. */
+  function Table(p) {
+    var cols = p.columns || [];
+    return h('div', { className: cx('hb-table-wrap', p.className), role: 'region', 'aria-label': p.label, tabIndex: 0 },
+      h('table', { className: 'hb-table' },
+        p.caption ? h('caption', { className: 'hb-sr' }, p.caption) : null,
+        h('thead', null, h('tr', null, cols.map(function (c) { return h('th', { key: c.key, scope: 'col', style: c.width ? { width: c.width } : undefined }, c.label); }))),
+        h('tbody', null, (p.rows || []).map(function (r, i) {
+          return h('tr', { key: i }, cols.map(function (c) {
+            return h(c.header ? 'th' : 'td', Object.assign({ key: c.key }, c.header ? { scope: 'row' } : {}), c.mono && typeof r[c.key] === 'string' ? h('code', { className: 'hb-table__code' }, r[c.key]) : r[c.key]);
+          }));
+        }))));
+  }
+
+  var CALLOUT_ICON = { note: 'info', tip: 'circle-check', warning: 'alert', danger: 'circle-x' };
+  var CALLOUT_WORD = { note: 'Note', tip: 'Tip', warning: 'Warning', danger: 'Important' };
+
+  /* Note inside a docs page, with a title word so tone never rests on colour. */
+  function Callout(p) {
+    var tone = p.tone || 'note';
+    return h('aside', { className: cx('hb-callout', 'hb-callout--' + tone, p.className), role: tone === 'danger' ? 'alert' : 'note' },
+      h('span', { className: 'hb-callout__icon' }, h(Icon, { name: CALLOUT_ICON[tone] })),
+      h('div', { className: 'hb-callout__body' },
+        h('p', { className: 'hb-callout__title' }, p.title || CALLOUT_WORD[tone]),
+        h('div', null, p.children)));
+  }
+
+  /* Top of a docs page: path, title, lead, and optional meta such as Endpoint. */
+  function DocsHeader(p) {
+    return h('header', { className: cx('hb-dochead', p.className) },
+      p.breadcrumb ? h('nav', { 'aria-label': 'Breadcrumb' }, h('ol', { className: 'hb-dochead__crumbs' }, p.breadcrumb.map(function (b, i) {
+        var last = i === p.breadcrumb.length - 1;
+        return h('li', { key: i }, last ? h('span', { 'aria-current': 'page' }, b.label) : h('a', { href: b.href }, b.label), last ? null : h(Icon, { name: 'chevron-right', size: 12 }));
+      }))) : null,
+      h('h1', { className: 'hb-dochead__title' }, p.title),
+      p.lead ? h('p', { className: 'hb-dochead__lead' }, p.lead) : null,
+      p.children);
+  }
+
+  /* Search trigger: the page wires the dialog; this is only the button. */
+  function DocsSearch(p) {
+    return h('button', { type: 'button', className: cx('hb-docsearch', p.className), onClick: p.onClick, 'aria-label': p.label || 'Search the docs' },
+      h(Icon, { name: 'search', size: 16 }), h('span', { className: 'hb-docsearch__text' }, p.placeholder || 'Search the docs'),
+      p.shortcut === false ? null : h('kbd', { className: 'hb-docsearch__kbd' }, p.shortcut || 'Ctrl K'));
+  }
+
+  /* Docs shell: top bar, section navigation, page, on this page. Static; below 900px the navigation folds into a menu. */
+  function DocsLayout(p) {
+    var nav = p.nav || [], toc = p.toc || [];
+    var navEl = nav.map(function (g, gi) {
+      return h('div', { key: gi, className: 'hb-docsnav__group' },
+        h('p', { className: 'hb-docsnav__title', id: 'docsnav-' + gi }, g.title),
+        h('ul', { 'aria-labelledby': 'docsnav-' + gi }, g.items.map(function (it, i) {
+          return h('li', { key: i }, h('a', Object.assign({ href: it.href, className: cx('hb-docsnav__link', it.current && 'is-current') }, it.current ? { 'aria-current': 'page' } : {}), it.label));
+        })));
+    });
+    return h('div', { className: cx('hb-docs', p.className) },
+      h('div', { className: 'hb-docs__top' },
+        h('div', { className: 'hb-docs__brand' }, p.logo || h(Logo, { variant: 'lockup', size: 28 }), p.section ? h('span', { className: 'hb-docs__section' }, p.section) : null),
+        h('div', { className: 'hb-docs__tools' }, p.search || null, p.tools || null)),
+      h('div', { className: 'hb-docs__grid' },
+        h('nav', { className: 'hb-docs__nav', 'aria-label': 'Documentation' },
+          h('details', { className: 'hb-docs__menu' }, h('summary', null, h(Icon, { name: 'menu', size: 16 }), 'Menu'), h('div', null, navEl)),
+          h('div', { className: 'hb-docs__navfull' }, navEl)),
+        h('main', { className: 'hb-docs__main', id: p.mainId || 'content' }, p.children),
+        toc.length ? h('nav', { className: 'hb-docs__toc', 'aria-label': 'On this page' },
+          h('p', { className: 'hb-docsnav__title' }, 'On this page'),
+          h('ul', null, toc.map(function (t, i) { return h('li', { key: i }, h('a', { href: t.href, className: cx('hb-docsnav__link', t.current && 'is-current') }, t.label)); }))) : null));
+  }
+
+  export { Button, Badge, StatTile, MetricCard, Input, PhotoPanel, OverlayCard, CheckoutStory, RetryStory, RevenueStory, StatusBadge, Card, Panel, TextLink, Logo, Spinner, Modal, Icon, SegmentedControl, Alert, PieChart, BarChart, AuthLayout, MethodBadge, Endpoint, CodeBlock, Tabs, Table, Callout, DocsHeader, DocsSearch, DocsLayout };
