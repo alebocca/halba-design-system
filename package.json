@@ -1,6 +1,6 @@
 {
   "name": "@halba/design-system",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Halba Design System: token, componenti React con CSS semplice, storie animate, preset Tailwind.",
   "type": "module",
   "license": "UNLICENSED",

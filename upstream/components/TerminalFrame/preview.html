@@ -1,0 +1,10 @@
+<!-- @dsCard group="Terminal" height=420 subtitle="Bezel with safe areas" -->
+<style>body{margin:0;padding:24px;background:var(--surface);font-family:var(--font-sans)}.stack{display:grid;gap:24px;max-width:760px}.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}</style>
+<div id="root"></div>
+<script>
+var H=window.Halba,e=React.createElement;
+function App(){ return e('div',{className:'row',style:{gap:32,alignItems:'flex-start'}},
+ e(H.TerminalFrame,{width:180,label:'Default screen'},e('div',{style:{width:'100%',height:'100%',display:'grid',placeContent:'center',justifyItems:'center',gap:8,color:'#fff',background:'#14141A'}},e(H.Logo,{variant:'mark',tone:'mono',size:48}),e('span',null,'halba'))),
+ e(H.TerminalFrame,{width:180,guides:true,label:'Safe areas'},e('div',{style:{width:'100%',height:'100%',background:'linear-gradient(160deg,#2a2a6a,#8a5cf6)'}}))) }
+ReactDOM.createRoot(document.getElementById('root')).render(e(App));
+</script>

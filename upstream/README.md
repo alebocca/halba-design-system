@@ -62,7 +62,7 @@ halba helps teams lift checkout conversion. The look is fresh and colorful but p
 
 ## Components
 
-`Button`, `Badge`, `StatusBadge`, `StatTile`, `MetricCard`, `Input`, `SegmentedControl`, `AuthLayout`, `Alert`, `PieChart`, `BarChart`, `Card`, `Panel`, `TextLink`, `Logo`, `Spinner`, `Modal`, `Icon`, `PhotoPanel`, `OverlayCard`, `CheckoutStory`, `RetryStory`, `RevenueStory`, and for docs `DocsLayout`, `DocsHeader`, `DocsSearch`, `Endpoint`, `MethodBadge`, `CodeBlock`, `Tabs`, `Table` and `Callout` are in the bundle (`window.Halba`). Read each component's README for props and rules.
+`Button`, `Badge`, `StatusBadge`, `StatTile`, `MetricCard`, `Input`, `SegmentedControl`, `AuthLayout`, `Alert`, `PieChart`, `BarChart`, `Card`, `Panel`, `TextLink`, `Logo`, `Spinner`, `Modal`, `Icon`, `PhotoPanel`, `OverlayCard`, `CheckoutStory`, `RetryStory`, `RevenueStory`, and for docs `DocsLayout`, `DocsHeader`, `DocsSearch`, `Endpoint`, `MethodBadge`, `CodeBlock`, `Tabs`, `Table` and `Callout`, and for the dashboard `ShareBar`, `PaymentFlow`, `Drawer`, `TerminalStatus`, `TerminalFrame`, `IdleScreenUpload` and `StaffPin` are in the bundle (`window.Halba`). Read each component's README for props and rules.
 
 `Button` takes `href` and renders a link; on a `brand` or `ink` block use the `on-brand` variant. Inline text links use `TextLink` (or the `hb-link` class). `Modal` is not `OverlayCard`: the first is a dialog over the page, the second a result card laid over a photo.
 
@@ -82,6 +82,25 @@ Developer pages (guides, API reference) are deliberately plain: no photos, no il
 - **Text**: body 16px/26px, `h2` 28px, `h3` 20px, sentence case; the title names the thing ("Create a payment").
 - **Motion**: none, except focus. Copy feedback is a word change.
 - See the Docs page preview for the full composition.
+
+## Dashboard
+
+Pages are built for reading, one idea per card. Rules from the overview and payment pages:
+
+- **Metric figures** never leave their card: `MetricCard` scales its number with its own width (`clamp` on the container), labels and badges wrap, and the row is a `hb-metric-grid` (auto-fit, 200px minimum), so it holds at 200 % browser zoom.
+- **Shares of a whole are charts.** Reasons with a long tail (top decline reasons) go in a `PieChart` of four slices plus "Other". Few parts (3-D Secure outcomes: frictionless, challenge completed, abandoned, failed) go in a `ShareBar`, with a one-line plain-words hint for each.
+- **Tables on the overview show five rows** and a "View all" link; the full list is its own page.
+- **Long detail goes aside.** A payment page keeps only the verdict of the routing in one sentence plus a "View routing flow" button; the story opens in a `Drawer` and is drawn with `PaymentFlow` (a node per step, arrows labelled with the hand-over, codes in small values). Use `Modal` for decisions, `Drawer` for reading.
+- See the Dashboard overview and Payment detail previews.
+
+## Terminal
+
+The halba app for PSP payment terminals (Android, Kotlin and Jetpack Compose), first the Stripe Reader S700. It reuses the checkout tokens, Inter and DM Mono, the icons, the halba loader and the same tone, adapted to a counter terminal: targets of 56 dp or more, text of 20 sp or more, high contrast, one thing per screen.
+
+- Screens and states A to H have previews in English, Italian and German: setup, idle with the merchant's image or video, payment from the till, card, QR, result, hidden staff menu and system states.
+- `terminal.md` has measures in dp and sp, tokens, texts in the three languages, timings (result 4 s, QR 15 min, PIN lock 5 min), accessibility, scaling to other screens and the rules for the idle image and video.
+- `terminal/halba-terminal.css` is the reference rendering of the screens (1 px = 1 dp or sp on 360 × 640 dp). It is not shipped.
+- Dashboard components: `TerminalStatus`, `TerminalFrame`, `IdleScreenUpload`, `StaffPin`.
 
 ## Outside the React app
 

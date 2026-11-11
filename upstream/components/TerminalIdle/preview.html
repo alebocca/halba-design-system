@@ -1,0 +1,256 @@
+<!-- @dsCard group="Terminal" height=2355 subtitle="Idle screen: merchant image or video, status pill, default screen, safe areas" -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>/* halba-terminal.css: reference rendering of the halba terminal app (Android, Jetpack Compose).
+   Not shipped to terminals. It is the picture the native code must match.
+   Units: 1px here = 1dp (layout) or 1sp (text) on the 360 x 640 dp reference screen.
+   Tokens use the same names as checkout (--halba-primary, --halba-on-primary, --halba-accent) for the merchant colour. */
+
+.ht {
+  --ht-surface: #ffffff; --ht-sunken: #f1f1ee; --ht-ink: #0e0e10; --ht-muted: #4a4a55;
+  --ht-border: #c9c9c2; --ht-border-strong: #6f6f79;
+  --ht-brand: #5b47e0; --ht-on-brand: #ffffff; --ht-tint: #d4cefb;
+  --ht-success: #07624a; --ht-success-bg: #ddf5ea; --ht-danger: #a8190f; --ht-danger-bg: #fde7e4; --ht-warn: #6b5200; --ht-warn-bg: #fff1a8;
+  --ht-primary: var(--halba-primary, var(--ht-brand)); --ht-on-primary: var(--halba-on-primary, var(--ht-on-brand)); --ht-accent: var(--halba-accent, var(--ht-primary));
+  --ht-font: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --ht-mono: "DM Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  position: relative; box-sizing: border-box; width: 360px; height: 640px; overflow: hidden;
+  display: flex; flex-direction: column; background: var(--ht-surface); color: var(--ht-ink);
+  font-family: var(--ht-font); font-size: 20px; line-height: 28px; font-weight: 400; -webkit-font-smoothing: antialiased;
+}
+.ht *, .ht *::before, .ht *::after { box-sizing: border-box; }
+.ht--dark {
+  --ht-surface: #0e0e10; --ht-sunken: #1c1c22; --ht-ink: #f4f4f1; --ht-muted: #c4c4cc; --ht-border: #33333b; --ht-border-strong: #8a8a96;
+  --ht-brand: #a99cff; --ht-on-brand: #0e0e10; --ht-tint: #2a2650;
+  --ht-success: #5fd3a0; --ht-success-bg: #0f2f25; --ht-danger: #ff8a80; --ht-danger-bg: #3a1512; --ht-warn: #ffd400; --ht-warn-bg: #3a3000;
+  --ht-primary: var(--ht-brand); --ht-on-primary: var(--ht-on-brand); --ht-accent: var(--ht-brand);
+}
+.ht-icon { flex: none; width: 28px; height: 28px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+/* Type scale (sp). Nothing essential under 20sp, nothing at all under 16sp. */
+.ht-amount { margin: 0; font-size: 52px; line-height: 60px; font-weight: 700; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.ht-code { font-family: var(--ht-mono); font-size: 72px; line-height: 80px; font-weight: 500; letter-spacing: 0.08em; }
+.ht-title { margin: 0; font-size: 28px; line-height: 34px; font-weight: 700; letter-spacing: -0.01em; }
+.ht-headline { margin: 0; font-size: 24px; line-height: 30px; font-weight: 600; }
+.ht-text { margin: 0; font-size: 20px; line-height: 28px; color: var(--ht-muted); }
+.ht-label { margin: 0; font-size: 18px; line-height: 24px; font-weight: 500; }
+.ht-caption { margin: 0; font-size: 16px; line-height: 22px; color: var(--ht-muted); }
+.ht-mono { font-family: var(--ht-mono); }
+
+/* Layout */
+.ht-head { flex: none; display: flex; align-items: center; justify-content: space-between; height: 72px; padding: 8px 16px 8px 8px; }
+.ht-back { display: inline-flex; align-items: center; gap: 4px; min-width: 56px; height: 56px; padding: 0 12px 0 8px; border: 0; border-radius: 16px; background: none; color: var(--ht-ink); font: 500 18px/24px var(--ht-font); }
+.ht-step { font: 500 16px/22px var(--ht-mono); color: var(--ht-muted); }
+.ht-dots { flex: none; display: flex; gap: 4px; padding: 0 24px 16px; }
+.ht-dots i { flex: 1; height: 6px; border-radius: 3px; background: var(--ht-border); }
+.ht-dots i.on { background: var(--ht-accent); }
+.ht-body { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 16px; padding: 8px 24px 24px; }
+.ht-body--center { align-items: center; justify-content: center; text-align: center; }
+.ht-grow { flex: 1; }
+.ht-foot { flex: none; display: flex; flex-direction: column; gap: 8px; padding: 0 24px 24px; }
+
+/* Buttons: 56dp minimum, 64dp for the main action */
+.ht-btn { display: flex; align-items: center; justify-content: center; gap: 12px; width: 100%; min-height: 64px; padding: 0 24px; border: 2px solid transparent; border-radius: 16px; font: 600 22px/28px var(--ht-font); text-align: center; background: var(--ht-primary); color: var(--ht-on-primary); }
+.ht-btn--secondary { background: var(--ht-surface); border-color: var(--ht-border-strong); color: var(--ht-ink); min-height: 56px; font-size: 20px; }
+.ht-btn--text { background: none; color: var(--ht-ink); min-height: 56px; font-size: 20px; text-decoration: underline; text-underline-offset: 4px; }
+.ht-btn--danger { background: var(--ht-surface); border-color: var(--ht-danger); color: var(--ht-danger); min-height: 56px; font-size: 20px; }
+.ht-btn--danger-fill { background: var(--ht-danger); color: #fff; }
+.ht-btn[disabled] { background: var(--ht-sunken); color: var(--ht-muted); border-color: var(--ht-border); }
+.ht-btn .ht-icon { width: 28px; height: 28px; }
+.ht--dark .ht-btn--danger-fill { background: var(--ht-danger); color: #0e0e10; }
+
+/* Choice rows: language, stores, menu */
+.ht-list { display: flex; flex-direction: column; gap: 8px; }
+.ht-choice { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 72px; padding: 8px 20px; border: 2px solid var(--ht-border-strong); border-radius: 16px; background: var(--ht-surface); color: var(--ht-ink); font-size: 24px; line-height: 30px; font-weight: 600; }
+.ht-choice--on { border-color: var(--ht-accent); background: var(--ht-tint); box-shadow: inset 0 0 0 1px var(--ht-accent); }
+.ht-choice small { display: block; margin-top: 2px; font: 400 18px/24px var(--ht-font); color: var(--ht-muted); }
+.ht-choice .ht-icon { color: var(--ht-accent); }
+.ht-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 64px; padding: 8px 0; border-bottom: 1px solid var(--ht-border); }
+.ht-row:last-child { border-bottom: 0; }
+.ht-row dt { font: 400 18px/24px var(--ht-font); color: var(--ht-muted); }
+.ht-row dd { margin: 0; font: 500 18px/24px var(--ht-font); text-align: right; overflow-wrap: anywhere; }
+.ht-info { margin: 0; padding: 0 20px; border: 2px solid var(--ht-border); border-radius: 16px; background: var(--ht-surface); }
+.ht-menu { display: flex; align-items: center; gap: 16px; min-height: 64px; padding: 0 16px; border: 2px solid var(--ht-border-strong); border-radius: 16px; background: var(--ht-surface); font: 600 20px/26px var(--ht-font); color: var(--ht-ink); }
+.ht-menu--danger { color: var(--ht-danger); border-color: var(--ht-danger); }
+
+/* Fields: only the terminal name and the store search use the keyboard */
+.ht-field { display: flex; flex-direction: column; gap: 8px; }
+.ht-input { display: flex; align-items: center; gap: 12px; min-height: 64px; padding: 0 16px; border: 2px solid var(--ht-border-strong); border-radius: 16px; background: var(--ht-surface); font-size: 24px; line-height: 30px; color: var(--ht-ink); }
+.ht-input--focus { border-color: var(--ht-accent); box-shadow: 0 0 0 3px var(--ht-tint); }
+.ht-input .ht-icon { color: var(--ht-muted); }
+.ht-input .ht-caret { width: 2px; height: 32px; background: var(--ht-accent); margin-left: -8px; }
+.ht-keyboard { flex: none; height: 232px; margin-top: auto; background: var(--ht-sunken); border-top: 1px solid var(--ht-border); display: flex; align-items: center; justify-content: center; font: 500 16px/22px var(--ht-mono); color: var(--ht-muted); }
+
+/* Panels and messages */
+.ht-panel { padding: 24px; border-radius: 24px; background: var(--ht-sunken); }
+.ht-note { display: flex; gap: 12px; align-items: flex-start; padding: 16px; border-radius: 16px; background: var(--ht-tint); color: var(--ht-ink); font-size: 18px; line-height: 26px; }
+.ht-note--danger { background: var(--ht-danger-bg); }
+.ht-note--warn { background: var(--ht-warn-bg); }
+.ht-note--success { background: var(--ht-success-bg); }
+.ht-note .ht-icon { width: 26px; height: 26px; margin-top: 0; }
+.ht-note--danger .ht-icon { color: var(--ht-danger); } .ht-note--warn .ht-icon { color: var(--ht-warn); } .ht-note--success .ht-icon { color: var(--ht-success); }
+.ht-badge { display: inline-flex; align-items: center; justify-content: center; width: 96px; height: 96px; border-radius: 50%; background: var(--ht-sunken); color: var(--ht-ink); }
+.ht-badge .ht-icon { width: 48px; height: 48px; stroke-width: 2.5; }
+.ht-badge--success { background: var(--ht-success-bg); color: var(--ht-success); }
+.ht-badge--danger { background: var(--ht-danger-bg); color: var(--ht-danger); }
+.ht-badge--warn { background: var(--ht-warn-bg); color: var(--ht-warn); }
+.ht-badge--big { width: 120px; height: 120px; } .ht-badge--big .ht-icon { width: 60px; height: 60px; }
+.ht-progress { height: 12px; border-radius: 6px; background: var(--ht-border); overflow: hidden; }
+.ht-progress > i { display: block; height: 100%; width: var(--p, 50%); background: var(--ht-accent); border-radius: 6px; }
+.ht-progress-text { display: flex; justify-content: space-between; font: 500 18px/24px var(--ht-mono); color: var(--ht-muted); }
+.ht-center { display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center; }
+.ht-loader { width: 72px; height: 72px; color: var(--ht-ink); }
+.ht-loader .halba-loader__dot { color: var(--ht-accent); }
+.ht .halba-loader { width: 72px; height: 72px; color: var(--ht-ink); }
+.ht .halba-loader__dot { color: var(--ht-accent); }
+.ht .halba-loader--sm { width: 32px; height: 32px; }
+.ht--dark .halba-loader__dot { color: var(--ht-brand); }
+
+/* Pairing code: 8 characters in two rows of four, readable at one metre */
+.ht-codebox { display: flex; flex-direction: column; align-items: center; padding: 16px 8px; border-radius: 24px; background: var(--ht-sunken); }
+.ht-codebox .ht-code { padding-left: 0.08em; }
+.ht-codebox--old .ht-code { color: var(--ht-muted); text-decoration: line-through; text-decoration-thickness: 4px; }
+
+/* Payment */
+.ht-pay-head { flex: none; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 20px 24px 0; }
+.ht-merchant { font: 600 20px/26px var(--ht-font); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ht-ref { font: 400 18px/24px var(--ht-font); color: var(--ht-muted); }
+.ht-halba { width: 28px; height: 28px; color: var(--ht-ink); flex: none; }
+.ht-halba .hm-dot { fill: var(--ht-brand); }
+.ht-halba .hm-ring { fill: none; stroke: currentColor; stroke-width: 122; stroke-dasharray: 310 360; transform-box: fill-box; transform-origin: center; transform: rotate(66deg); }
+.ht-amount-block { display: flex; flex-direction: column; gap: 4px; padding: 8px 24px 16px; }
+.ht-tile { display: flex; align-items: center; gap: 16px; min-height: 88px; padding: 12px 20px; border: 2px solid var(--ht-border-strong); border-radius: 20px; background: var(--ht-surface); font: 700 24px/30px var(--ht-font); color: var(--ht-ink); }
+.ht-tile--card { border-color: var(--ht-accent); box-shadow: inset 0 0 0 1px var(--ht-accent); }
+.ht-tile .ht-icon { width: 40px; height: 40px; color: var(--ht-accent); }
+.ht-tile small { display: block; font: 400 18px/24px var(--ht-font); color: var(--ht-muted); }
+.ht-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.ht-grid .ht-tile { flex-direction: column; justify-content: center; gap: 8px; min-height: 88px; padding: 8px; font-size: 20px; line-height: 24px; text-align: center; }
+.ht-grid .ht-tile:last-child:nth-child(odd) { grid-column: 1 / -1; }
+.ht-mark { display: inline-flex; align-items: center; justify-content: center; min-width: 64px; height: 40px; padding: 0 10px; border: 2px dashed var(--ht-border-strong); border-radius: 8px; font: 700 16px/20px var(--ht-font); letter-spacing: 0.02em; color: var(--ht-ink); background: #fff; }
+.ht-sect { margin: 8px 24px 0; padding: 0; font: 500 18px/24px var(--ht-font); color: var(--ht-muted); }
+.ht-methods { display: flex; flex-direction: column; gap: 8px; padding: 0 24px; }
+.ht-illu { display: flex; align-items: center; justify-content: center; width: 200px; height: 128px; border-radius: 20px; background: var(--ht-sunken); }
+.ht-card-art { position: relative; width: 136px; height: 88px; border-radius: 12px; background: var(--ht-ink); }
+.ht-card-art::before { content: ""; position: absolute; left: 14px; top: 18px; width: 24px; height: 18px; border-radius: 4px; background: var(--ht-warn-bg); }
+.ht-card-art::after { content: ""; position: absolute; left: 14px; bottom: 14px; width: 60px; height: 8px; border-radius: 4px; background: #8a8a96; }
+.ht-ways { display: flex; gap: 8px; justify-content: center; }
+.ht-ways span { padding: 6px 14px; border-radius: 999px; border: 2px solid var(--ht-border-strong); font: 600 18px/24px var(--ht-font); }
+.ht-extern { display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 8px; flex: 1; margin: 8px 24px; border: 3px dashed var(--ht-border-strong); border-radius: 20px; background: var(--ht-sunken); text-align: center; padding: 24px; color: var(--ht-muted); font: 500 20px/28px var(--ht-font); }
+.ht-extern small { font: 400 16px/22px var(--ht-font); }
+
+/* QR */
+.ht-qrwrap { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 0 24px; }
+.ht-qr { width: 288px; height: 288px; padding: 20px; background: #ffffff; border: 2px solid var(--ht-border-strong); border-radius: 16px; }
+.ht-qr > svg { display: block; width: 100%; height: 100%; }
+.ht-qr--off { position: relative; }
+.ht-qr--off > svg { opacity: 0.08; }
+.ht-qr--off .ht-qr__over { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: #0e0e10; font: 700 24px/30px var(--ht-font); }
+.ht-qr--wait > svg { opacity: 0.12; }
+.ht-qr__over .ht-icon { width: 56px; height: 56px; color: #0e0e10; }
+.ht-qr__over .halba-loader { width: 56px; height: 56px; color: #0e0e10; }
+.ht-qr--wait .ht-qr__over { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; color: #0e0e10; font: 700 22px/28px var(--ht-font); text-align: center; padding: 24px; }
+.ht-qr--wait, .ht-qr--off { position: relative; }
+.ht-count span { font-family: var(--ht-font); font-size: 18px; }
+.ht-count { display: flex; align-items: center; justify-content: space-between; width: 288px; font: 500 20px/28px var(--ht-mono); }
+.ht-count--soon { color: var(--ht-warn); }
+.ht-count--soon b { background: var(--ht-warn-bg); padding: 0 10px; border-radius: 8px; }
+.ht-bar { width: 288px; height: 8px; border-radius: 4px; background: var(--ht-border); overflow: hidden; }
+.ht-bar > i { display: block; height: 100%; width: var(--p, 50%); background: var(--ht-accent); }
+.ht-local { margin: 0; font: 500 18px/24px var(--ht-font); color: var(--ht-muted); }
+
+/* Result: back to idle by itself, with a visible time bar */
+.ht-result { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; padding: 24px; text-align: center; }
+.ht-result .ht-amount { font-size: 48px; line-height: 56px; }
+.ht-detail { display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px; border-radius: 999px; background: var(--ht-sunken); font: 500 20px/28px var(--ht-font); }
+.ht-timer { flex: none; display: flex; flex-direction: column; gap: 8px; padding: 0 24px 24px; }
+.ht-timer .ht-bar { width: 100%; height: 8px; }
+.ht-timer p { margin: 0; text-align: center; font: 400 18px/24px var(--ht-font); color: var(--ht-muted); }
+@media (prefers-reduced-motion: no-preference) { .ht-timer--live .ht-bar > i { animation: ht-drain 4s linear forwards; } }
+@keyframes ht-drain { from { width: 100%; } to { width: 0; } }
+
+/* Idle: merchant content full screen, a small status pill, an optional mark */
+.ht-idle { background: #0e0e10; color: #f4f4f1; }
+.ht-media { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 12px; padding: 96px 32px; background: #ffd9c7; color: #1b1b1f; font: 800 44px/48px var(--ht-font); letter-spacing: -0.02em;  overflow-wrap: anywhere; hyphens: auto; font-size: 36px; line-height: 40px;}
+.ht-media small { font: 500 22px/28px var(--ht-font); letter-spacing: 0; }
+.ht-ind { overflow: hidden; position: absolute; top: 16px; right: 16px; z-index: 2; display: inline-flex; align-items: center; gap: 8px; min-height: 32px; padding: 0 12px 0 10px; border-radius: 999px; background: rgba(14, 14, 16, 0.78); color: #ffffff; font: 500 16px/22px var(--ht-font); }
+.ht-ind i { width: 12px; height: 12px; border-radius: 50%; background: #5fd3a0; }
+.ht-ind .ht-icon { width: 18px; height: 18px; }
+.ht-ind--off { background: #b42318; }
+.ht-ind--power { left: 16px; background: #ffd400; color: #0e0e10; min-height: 56px; padding: 0 16px 0 12px; font-weight: 600; font-size: 18px; line-height: 24px; border-radius: 16px; }
+.ht-ind--power .ht-icon { width: 28px; height: 28px; }
+.ht-ind__prog { position: absolute; left: 0; bottom: 0; height: 4px; width: var(--p, 0%); background: #ffffff; }
+.ht-minimark { position: absolute; bottom: 16px; left: 50%; z-index: 2; transform: translateX(-50%); width: 40px; height: 40px; padding: 8px; border-radius: 999px; background: rgba(14, 14, 16, 0.55); color: #fff; }
+.ht-minimark svg { width: 24px; height: 24px; display: block; }
+.ht-minimark .hm-dot { fill: #a99cff; }
+.ht-minimark .hm-ring { fill: none; stroke: currentColor; stroke-width: 122; stroke-dasharray: 310 360; transform-box: fill-box; transform-origin: center; transform: rotate(66deg); }
+.ht-press { position: absolute; top: 16px; right: 16px; width: 56px; height: 56px; z-index: 3; margin: -12px -12px 0 0; }
+.ht-press svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.ht-press circle { fill: none; stroke-width: 4; }
+.ht-press .bg { stroke: rgba(255, 255, 255, 0.35); } .ht-press .fg { stroke: #fff; stroke-linecap: round; stroke-dasharray: 150.8; stroke-dashoffset: var(--o, 60); }
+.ht-default { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 24px; flex: 1; }
+.ht-default .ht-big { width: 112px; height: 112px; color: #f4f4f1; }
+.ht-default .ht-big .hm-dot { fill: #a99cff; }
+.ht-default .ht-big .hm-ring { fill: none; stroke: currentColor; stroke-width: 122; stroke-dasharray: 310 360; transform-box: fill-box; transform-origin: center; transform: rotate(66deg); }
+.ht-wordmark { font: 700 40px/44px var(--ht-font); letter-spacing: -0.03em; }
+.ht-mlogo { display: flex; align-items: center; justify-content: center; min-width: 176px; height: 72px; padding: 0 20px; border: 2px dashed #8a8a96; border-radius: 12px; font: 700 28px/32px var(--ht-font); color: #f4f4f1; }
+.ht-zone { position: absolute; border: 2px dashed; font: 500 16px/22px var(--ht-mono); padding: 4px 8px; z-index: 4; }
+.ht-zone--reserved { left: 0; right: 0; background: rgba(168, 25, 15, 0.22); border-color: #fff; color: #fff; }
+.ht-zone--safe { background: rgba(7, 98, 74, 0.18); border-color: #fff; color: #1b1b1f; }
+
+/* Staff PIN */
+.ht-pins { display: flex; justify-content: center; gap: 16px; padding: 8px 0; }
+.ht-pins i { width: 24px; height: 24px; border-radius: 50%; border: 3px solid var(--ht-border-strong); }
+.ht-pins i.on { background: var(--ht-ink); border-color: var(--ht-ink); }
+.ht-pins--err i { border-color: var(--ht-danger); } .ht-pins--err i.on { background: var(--ht-danger); }
+.ht-pad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding: 0 24px 24px; margin-top: auto; }
+.ht-key { display: flex; align-items: center; justify-content: center; height: 72px; border-radius: 16px; background: var(--ht-sunken); font: 600 32px/36px var(--ht-font); color: var(--ht-ink); }
+.ht-key .ht-icon { width: 32px; height: 32px; }
+.ht-key--blank { background: none; }
+.ht-pad[aria-disabled="true"] .ht-key { color: var(--ht-muted); opacity: 0.5; }
+.ht-scrim { position: absolute; inset: 0; z-index: 5; display: flex; align-items: flex-end; background: rgba(14, 14, 16, 0.6); }
+.ht-sheet { width: 100%; display: flex; flex-direction: column; gap: 12px; padding: 24px; border-radius: 24px 24px 0 0; background: var(--ht-surface); }
+.ht-sheet .ht-title { font-size: 26px; line-height: 32px; }
+
+/* Transition frames shown in the previews only */
+.ht-slide { position: absolute; left: 0; right: 0; bottom: 0; top: var(--top, 100%); background: var(--ht-surface); border-radius: 24px 24px 0 0; overflow: hidden; z-index: 3; }
+.ht-dim { position: absolute; inset: 0; z-index: 2; background: rgba(14, 14, 16, var(--a, 0)); }
+
+.halba-loader { flex: none; display: block; width: 22px; height: 22px; overflow: visible; color: inherit; }
+.halba-loader__ring { fill: none; stroke: currentColor; stroke-width: 122; stroke-dasharray: 220 360; transform-box: fill-box; transform-origin: center; transform: rotate(66deg); }
+.halba-loader__dot { fill: currentColor; transform-box: fill-box; transform-origin: center; }
+@media (prefers-reduced-motion: no-preference) {
+  .halba-loader__ring { animation: halba-orbit-spin 1.3s linear infinite, halba-orbit-breathe 1.3s ease-in-out infinite alternate; }
+  .halba-loader__dot { animation: halba-orbit-dot 1.3s ease-in-out infinite; }
+  .halba-loader--compose .halba-loader__ring { stroke-dasharray: 310 360; animation: halba-compose-ring 2.2s cubic-bezier(.65, 0, .35, 1) infinite; }
+  .halba-loader--compose .halba-loader__dot { animation: halba-compose-dot 2.2s cubic-bezier(.34, 1.4, .64, 1) infinite; }
+}
+@keyframes halba-orbit-spin { from { transform: rotate(66deg); } to { transform: rotate(426deg); } }
+@keyframes halba-orbit-breathe { from { stroke-dasharray: 130 360; } to { stroke-dasharray: 290 360; } }
+@keyframes halba-orbit-dot { 0%, 100% { transform: scale(1); } 50% { transform: scale(.86); } }
+@keyframes halba-compose-dot { 0% { transform: scale(0); } 14%, 100% { transform: scale(1); } }
+@keyframes halba-compose-ring { 0%, 12% { stroke-dasharray: 0 360; transform: rotate(-294deg); } 62%, 84% { stroke-dasharray: 310 360; transform: rotate(66deg); } 100% { stroke-dasharray: 0 360; transform: rotate(246deg); } }
+@media (prefers-reduced-motion: reduce) { .ht * { animation: none !important; transition: none !important; } }
+</style>
+<style>
+html { background: #e9e9e4; }
+body { margin: 0; padding: 24px; font-family: "Plus Jakarta Sans", system-ui, sans-serif; color: #0e0e10; }
+.tp-r { position: absolute; opacity: 0; pointer-events: none; }
+.tp-tabs { display: flex; gap: 8px; margin: 0 0 20px; }
+.tp-tabs label { display: inline-flex; align-items: center; min-height: 44px; padding: 0 20px; border: 1.5px solid #6f6f79; border-radius: 999px; background: #fff; font: 600 15px/20px "Plus Jakarta Sans", system-ui, sans-serif; cursor: pointer; }
+.tp-lang { display: none; }
+#lg-en:checked ~ .tp-lang--en, #lg-it:checked ~ .tp-lang--it, #lg-de:checked ~ .tp-lang--de { display: block; }
+#lg-en:checked ~ .tp-tabs label[for=lg-en], #lg-it:checked ~ .tp-tabs label[for=lg-it], #lg-de:checked ~ .tp-tabs label[for=lg-de] { background: #0e0e10; color: #fff; border-color: #0e0e10; }
+.tp-r:focus-visible + * { outline: 0; }
+#lg-en:focus-visible ~ .tp-tabs label[for=lg-en], #lg-it:focus-visible ~ .tp-tabs label[for=lg-it], #lg-de:focus-visible ~ .tp-tabs label[for=lg-de] { outline: 3px solid #5b47e0; outline-offset: 3px; }
+.tp-row { display: flex; flex-wrap: wrap; gap: 28px 24px; align-items: flex-start; }
+.tp-fig { margin: 0; display: flex; flex-direction: column; gap: 10px; }
+.tp-cap { max-width: 384px; font: 500 12px/16px "DM Mono", ui-monospace, monospace; letter-spacing: .08em; text-transform: uppercase; color: #4a4a55; }
+.tp-dev { padding: 12px; border-radius: 40px; background: #1c1c22; box-shadow: 0 8px 24px rgba(14,14,16,.18); }
+.tp-dev > .ht { border-radius: 28px; }
+.tp-note { max-width: 760px; margin: 0 0 20px; font: 400 15px/22px "Plus Jakarta Sans", system-ui, sans-serif; color: #4a4a55; }
+</style>
+<input class="tp-r" type="radio" name="lg" id="lg-en" checked aria-label="English"><input class="tp-r" type="radio" name="lg" id="lg-it" aria-label="Italiano"><input class="tp-r" type="radio" name="lg" id="lg-de" aria-label="Deutsch">
+<div class="tp-tabs" role="group" aria-label="Language"><label for="lg-en">English</label><label for="lg-it">Italiano</label><label for="lg-de">Deutsch</label></div>
+<p class="tp-note">The merchant file fills the screen. Only the status pill (top right, 72 dp band) and the optional halba mark (bottom centre, 72 dp band) sit on top of it. Text and logos go in the safe area.</p>
+<div class="tp-lang tp-lang--en" lang="en"><div class="tp-row"><figure class="tp-fig"><figcaption class="tp-cap">Merchant content, online</figcaption><div class="tp-dev"><div class="ht ht--dark ht-idle" style="" role="group" aria-label="idle online"><div class="ht-media">Summer sale<small>Up to 40% off, this week</small></div><div class="ht-ind ht-ind--hit"><i></i><span>Online</span></div></div></div></figure><figure class="tp-fig"><figcaption class="tp-cap">Offline</figcaption><div class="tp-dev"><div class="ht ht--dark ht-idle" style="" role="group" aria-label="idle offline"><div class="ht-media">Summer sale<small>Up to 40% off, this week</small></div><div class="ht-ind ht-ind--off ht-ind--hit"><svg class="ht-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20h.01"/><path d="M8.5 16.429a5 5 0 0 1 7 0"/><path d="M5 12.859a10 10 0 0 1 5.17-2.69"/><path d="M19 12.859a10 10 0 0 0-2.007-1.523"/><path d="M2 8.82a15 15 0 0 1 4.177-2.643"/><path d="M22 8.82a15 15 0 0 0-11.288-3.764"/><path d="m2 2 20 20"/></svg><span>Offline</span></div></div></div></figure><figure class="tp-fig"><figcaption class="tp-cap">Not charging</figcaption><div class="tp-dev"><div class="ht ht--dark ht-idle" style="" role="group" aria-label="idle power"><div class="ht-media">Summer sale<small>Up to 40% off, this week</small></div><div class="ht-ind ht-ind--power ht-ind--hit"><svg class="ht-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 22v-5"/><path d="M9 8V2"/><path d="M15 8V2"/><path d="M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8Z"/></svg><span>Connect the terminal to power</span></div></div></div></figure><figure class="tp-fig"><figcaption class="tp-cap">Optional halba mark</figcaption><div class="tp-dev"><div class="ht ht--dark ht-idle" style="" role="group" aria-label="idle online"><div class="ht-media">Summer sale<small>Up to 40% off, this week</small></div><div class="ht-ind ht-ind--hit"><i></i><span>Online</span></div><div class="ht-minimark"><svg viewBox="157 173 683 683" aria-hidden="true" focusable="false"><circle class="hm-ring" cx="498.5" cy="514.5" r="280" pathLength="360"/><circle class="hm-dot" cx="498.5" cy="514.5" r="60"/></svg></div></div></div></figure><figure class="tp-fig"><figcaption class="tp-cap">Staff menu: long press in progress (3 s ring)</figcaption><div class="tp-dev"><div class="ht ht--dark ht-idle" style="" role="group" aria-label="idle online"><div class="ht-media">Summer sale<small>Up to 40% off, this week</small></div><div class="ht-ind ht-ind--hit"><i></i><span>Online</span><span class="ht-ind__prog" style="--p:60%"></span></div><div class="ht-minimark"><svg viewBox="157 173 683 683" aria-hidden="true" focusable="false"><circle class="hm-ring" cx="498.5" cy="514.5" r="280" pathLength="360"/><circle class="hm-dot" cx="498.5" cy="514.5" r="60"/></svg></div></div></div></figure><figure class="tp-fig"><figcaption class="tp-cap">Default screen, no merchant logo</figcaption><div class="tp-dev"><div class="ht ht--dark ht-idle" style="" role="group" aria-label="idle online"><div class="ht ht--dark" style="position:absolute;inset:0;display:flex;flex-direction:column;width:100%;height:100%"><div class="ht-default"><div class="ht-center" style="gap:12px"><span class="ht-big"><svg viewBox="157 173 683 683" aria-hidden="true" focusable="false"><circle class="hm-ring" cx="498.5" cy="514.5" r="280" pathLength="360"/><circle class="hm-dot" cx="498.5" cy="514.5" r="60"/></svg></span><span class="ht-wordmark">halba</span></div></div></div><div class="ht-ind ht-ind--hit"><i></i><span>Online</span></div></div></div></figure><figure class="tp-fig"><figcaption class="tp-cap">Default screen with merchant logo</figcaption><div class="tp-dev"><div class="ht ht--dark ht-idle" style="" role="group" aria-label="idle online"><div class="ht ht--dark" style="position:absolute;inset:0;display:flex;flex-direction:column;width:100%;height:100%"><div class="ht-default"><div class="ht-mlogo">Northwind</div><div class="ht-center" style="gap:12px"><span class="ht-big"><svg viewBox="157 173 683 683" aria-hidden="true" focusable="false"><circle class="hm-ring" cx="498.5" cy="514.5" r="280" pathLength="360"/><circle class="hm-dot" cx="498.5" cy="514.5" r="60"/></svg></span><span class="ht-wordmark">halba</span></div></div></div><div class="ht-ind ht-ind--hit"><i></i><span>Online</span></div></div></div></figure><figure class="tp-fig"><figcaption class="tp-cap">Safe areas for merchant text</figcaption><div class="tp-dev"><div class="ht ht--dark ht-idle" style="" role="group" aria-label="idle online"><div class="ht-media">Summer sale<small>Up to 40% off, this week</small></div><div class="ht-ind ht-ind--hit"><i></i><span>Online</span></div><div class="ht-zone ht-zone--reserved" style="top:0;height:72px">72 dp · status</div><div class="ht-zone ht-zone--reserved" style="bottom:0;height:72px">72 dp · halba mark</div><div class="ht-zone ht-zone--safe" style="top:72px;bottom:72px;left:24px;right:24px;text-align:center;background:none;color:#0e0e10">safe area for text and logos · 312 × 496 dp</div></div></div></figure></div></div>
+<div class="tp-lang tp-lang--it" lang="it"><div class="tp-row"><figure class="tp-fig"><figcaption class="tp-cap">Merchant content, online</figcaption><div class="tp-dev"><div class="ht ht--dark ht-idle" style="" role="group" aria-label="idle online"><div class="ht-media">Saldi d’estate<small>Fino al 40% di sconto, questa settimana</small></div><div class="ht-ind ht-ind--hit"><i></i><span>Online</span></div></div></div></figure><figure class="tp-fig"><figcaption class="tp-cap">Offline</figcaption><div class="tp-dev"><div class="ht ht--dark ht-idle" style="" role="group" aria-label="idle offline"><div class="ht-media">Saldi d’estate<small>Fino al 40% di sconto, questa settimana</small></div><div class="ht-ind ht-ind--off ht-ind--hit"><svg class="ht-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20h.01"/><path d="M8.5 16.429a5 5 0 0 1 7 0"/><path d="M5 12.859a10 10 0 0 1 5.17-2.69"/><path d="M19 12.859a10 10 0 0 0-2.007-1.523"/><path d="M2 8.82a15 15 0 0 1 4.177-2.643"/><path d="M22 8.82a15 15 0 0 0-11.288-3.764"/><path d="m2 2 20 20"/></svg><span>Offline</span></div></div></div></figure><figure class="tp-fig"><figcaption class="tp-cap">Not charging</figcaption><div class="tp-dev"><div class="ht ht--dark ht-idle" style="" role="group" aria-label="idle power"><div class="ht-media">Saldi d’estate<small>Fino al 40% di sconto, questa settimana</small></div><div class="ht-ind ht-ind--power ht-ind--hit"><svg class="ht-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 22v-5"/><path d="M9 8V2"/><path d="M15 8V2"/><path d="M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8Z"/></svg><span>Collega il terminale all’alimentazione</span></div></div></div></figure><figure class="tp-fig"><figcaption class="tp-cap">Optional halba mark</figcaption><div class="tp-dev"><div class="ht ht--dark ht-idle" style="" role="group" aria-label="idle online"><div class="ht-media">Saldi d’estate<small>Fino al 40% di sconto, questa settimana</small></div><div class="ht-ind ht-ind--hit"><i></i><span>Online</span></div><div class="ht-minimark"><svg viewBox="157 173 683 683" aria-hidden="true" focusable="false"><circle class="hm-ring" cx="498.5" cy="514.5" r="280" pathLength="360"/><circle class="hm-dot" cx="498.5" cy="514.5" r="60"/></svg></div></div></div></figure><figure class="tp-fig"><figcaption class="tp-cap">Staff menu: long press in progress (3 s ring)</figcaption><div class="tp-dev"><div class="ht ht--dark ht-idle" style="" role="group" aria-label="idle online"><div class="ht-media">Saldi d’estate<small>Fino al 40% di sconto, questa settimana</small></div><div class="ht-ind ht-ind--hit"><i></i><span>Online</span><span class="ht-ind__prog" style="--p:60%"></span></div><div class="ht-minimark"><svg viewBox="157 173 683 683" aria-hidden="true" focusable="false"><circle class="hm-ring" cx="498.5" cy="514.5" r="280" pathLength="360"/><circle class="hm-dot" cx="498.5" cy="514.5" r="60"/></svg></div></div></div></figure><figure class="tp-fig"><figcaption class="tp-cap">Default screen, no merchant logo</figcaption><div class="tp-dev"><div class="ht ht--dark ht-idle" style="" role="group" aria-label="idle online"><div class="ht ht--dark" style="position:absolute;inset:0;display:flex;flex-direction:column;width:100%;height:100%"><div class="ht-default"><div class="ht-center" style="gap:12px"><span class="ht-big"><svg viewBox="157 173 683 683" aria-hidden="true" focusable="false"><circle class="hm-ring" cx="498.5" cy="514.5" r="280" pathLength="360"/><circle class="hm-dot" cx="498.5" cy="514.5" r="60"/></svg></span><span class="ht-wordmark">halba</span></div></div></div><div class="ht-ind ht-ind--hit"><i></i><span>Online</span></div></div></div></figure><figure class="tp-fig"><figcaption class="tp-cap">Default screen with merchant logo</figcaption><div class="tp-dev"><div class="ht ht--dark ht-idle" style="" role="group" aria-label="idle online"><div class="ht ht--dark" style="position:absolute;inset:0;display:flex;flex-direction:column;width:100%;height:100%"><div class="ht-default"><div class="ht-mlogo">Northwind</div><div class="ht-center" style="gap:12px"><span class="ht-big"><svg viewBox="157 173 683 683" aria-hidden="true" focusable="false"><circle class="hm-ring" cx="498.5" cy="514.5" r="280" pathLength="360"/><circle class="hm-dot" cx="498.5" cy="514.5" r="60"/></svg></span><span class="ht-wordmark">halba</span></div></div></div><div class="ht-ind ht-ind--hit"><i></i><span>Online</span></div></div></div></figure><figure class="tp-fig"><figcaption class="tp-cap">Safe areas for merchant text</figcaption><div class="tp-dev"><div class="ht ht--dark ht-idle" style="" role="group" aria-label="idle online"><div class="ht-media">Saldi d’estate<small>Fino al 40% di sconto, questa settimana</small></div><div class="ht-ind ht-ind--hit"><i></i><span>Online</span></div><div class="ht-zone ht-zone--reserved" style="top:0;height:72px">72 dp · status</div><div class="ht-zone ht-zone--reserved" style="bottom:0;height:72px">72 dp · halba mark</div><div class="ht-zone ht-zone--safe" style="top:72px;bottom:72px;left:24px;right:24px;text-align:center;background:none;color:#0e0e10">safe area for text and logos · 312 × 496 dp</div></div></div></figure></div></div>
+<div class="tp-lang tp-lang--de" lang="de"><div class="tp-row"><figure class="tp-fig"><figcaption class="tp-cap">Merchant content, online</figcaption><div class="tp-dev"><div class="ht ht--dark ht-idle" style="" role="group" aria-label="idle online"><div class="ht-media">Sommerschlussverkauf<small>Bis zu 40 % Rabatt, diese Woche</small></div><div class="ht-ind ht-ind--hit"><i></i><span>Online</span></div></div></div></figure><figure class="tp-fig"><figcaption class="tp-cap">Offline</figcaption><div class="tp-dev"><div class="ht ht--dark ht-idle" style="" role="group" aria-label="idle offline"><div class="ht-media">Sommerschlussverkauf<small>Bis zu 40 % Rabatt, diese Woche</small></div><div class="ht-ind ht-ind--off ht-ind--hit"><svg class="ht-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20h.01"/><path d="M8.5 16.429a5 5 0 0 1 7 0"/><path d="M5 12.859a10 10 0 0 1 5.17-2.69"/><path d="M19 12.859a10 10 0 0 0-2.007-1.523"/><path d="M2 8.82a15 15 0 0 1 4.177-2.643"/><path d="M22 8.82a15 15 0 0 0-11.288-3.764"/><path d="m2 2 20 20"/></svg><span>Offline</span></div></div></div></figure><figure class="tp-fig"><figcaption class="tp-cap">Not charging</figcaption><div class="tp-dev"><div class="ht ht--dark ht-idle" style="" role="group" aria-label="idle power"><div class="ht-media">Sommerschlussverkauf<small>Bis zu 40 % Rabatt, diese Woche</small></div><div class="ht-ind ht-ind--power ht-ind--hit"><svg class="ht-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 22v-5"/><path d="M9 8V2"/><path d="M15 8V2"/><path d="M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8Z"/></svg><span>Terminal an die Stromversorgung anschließen</span></div></div></div></figure><figure class="tp-fig"><figcaption class="tp-cap">Optional halba mark</figcaption><div class="tp-dev"><div class="ht ht--dark ht-idle" style="" role="group" aria-label="idle online"><div class="ht-media">Sommerschlussverkauf<small>Bis zu 40 % Rabatt, diese Woche</small></div><div class="ht-ind ht-ind--hit"><i></i><span>Online</span></div><div class="ht-minimark"><svg viewBox="157 173 683 683" aria-hidden="true" focusable="false"><circle class="hm-ring" cx="498.5" cy="514.5" r="280" pathLength="360"/><circle class="hm-dot" cx="498.5" cy="514.5" r="60"/></svg></div></div></div></figure><figure class="tp-fig"><figcaption class="tp-cap">Staff menu: long press in progress (3 s ring)</figcaption><div class="tp-dev"><div class="ht ht--dark ht-idle" style="" role="group" aria-label="idle online"><div class="ht-media">Sommerschlussverkauf<small>Bis zu 40 % Rabatt, diese Woche</small></div><div class="ht-ind ht-ind--hit"><i></i><span>Online</span><span class="ht-ind__prog" style="--p:60%"></span></div><div class="ht-minimark"><svg viewBox="157 173 683 683" aria-hidden="true" focusable="false"><circle class="hm-ring" cx="498.5" cy="514.5" r="280" pathLength="360"/><circle class="hm-dot" cx="498.5" cy="514.5" r="60"/></svg></div></div></div></figure><figure class="tp-fig"><figcaption class="tp-cap">Default screen, no merchant logo</figcaption><div class="tp-dev"><div class="ht ht--dark ht-idle" style="" role="group" aria-label="idle online"><div class="ht ht--dark" style="position:absolute;inset:0;display:flex;flex-direction:column;width:100%;height:100%"><div class="ht-default"><div class="ht-center" style="gap:12px"><span class="ht-big"><svg viewBox="157 173 683 683" aria-hidden="true" focusable="false"><circle class="hm-ring" cx="498.5" cy="514.5" r="280" pathLength="360"/><circle class="hm-dot" cx="498.5" cy="514.5" r="60"/></svg></span><span class="ht-wordmark">halba</span></div></div></div><div class="ht-ind ht-ind--hit"><i></i><span>Online</span></div></div></div></figure><figure class="tp-fig"><figcaption class="tp-cap">Default screen with merchant logo</figcaption><div class="tp-dev"><div class="ht ht--dark ht-idle" style="" role="group" aria-label="idle online"><div class="ht ht--dark" style="position:absolute;inset:0;display:flex;flex-direction:column;width:100%;height:100%"><div class="ht-default"><div class="ht-mlogo">Northwind</div><div class="ht-center" style="gap:12px"><span class="ht-big"><svg viewBox="157 173 683 683" aria-hidden="true" focusable="false"><circle class="hm-ring" cx="498.5" cy="514.5" r="280" pathLength="360"/><circle class="hm-dot" cx="498.5" cy="514.5" r="60"/></svg></span><span class="ht-wordmark">halba</span></div></div></div><div class="ht-ind ht-ind--hit"><i></i><span>Online</span></div></div></div></figure><figure class="tp-fig"><figcaption class="tp-cap">Safe areas for merchant text</figcaption><div class="tp-dev"><div class="ht ht--dark ht-idle" style="" role="group" aria-label="idle online"><div class="ht-media">Sommerschlussverkauf<small>Bis zu 40 % Rabatt, diese Woche</small></div><div class="ht-ind ht-ind--hit"><i></i><span>Online</span></div><div class="ht-zone ht-zone--reserved" style="top:0;height:72px">72 dp · status</div><div class="ht-zone ht-zone--reserved" style="bottom:0;height:72px">72 dp · halba mark</div><div class="ht-zone ht-zone--safe" style="top:72px;bottom:72px;left:24px;right:24px;text-align:center;background:none;color:#0e0e10">safe area for text and logos · 312 × 496 dp</div></div></div></figure></div></div>

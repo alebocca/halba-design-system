@@ -206,7 +206,7 @@ export interface ModalProps {
 }
 
 export interface IconProps {
-  name: 'check' | 'x' | 'alert' | 'clock' | 'undo' | 'info' | 'circle-check' | 'circle-x' | 'search' | 'copy' | 'menu' | 'chevron-right' | 'chevron-down';
+  name: 'check' | 'x' | 'alert' | 'clock' | 'undo' | 'info' | 'circle-check' | 'circle-x' | 'search' | 'copy' | 'menu' | 'chevron-right' | 'chevron-down' | 'wifi' | 'wifi-off' | 'plug' | 'upload' | 'image' | 'play';
   /** Default 20. */
   size?: number;
 }
@@ -368,3 +368,60 @@ export declare function Callout(props: CalloutProps): React.ReactElement | null;
 export declare function DocsHeader(props: DocsHeaderProps): React.ReactElement | null;
 export declare function DocsSearch(props: DocsSearchProps): React.ReactElement | null;
 export declare function DocsLayout(props: DocsLayoutProps): React.ReactElement | null;
+
+export interface TerminalStatusProps { status: 'online' | 'offline' | 'power'; /** e.g. "12 min"; shown as "Offline for 12 min" */ since?: string; className?: string; }
+export declare function TerminalStatus(props: TerminalStatusProps): React.ReactElement | null;
+
+export interface TerminalFrameProps { /** Screen width in px; height follows 9:16. Default 180 */ width?: number; /** Overlay the reserved bands (72 dp top and bottom) and the 24 dp side margins */ guides?: boolean; label?: string; children?: React.ReactNode; className?: string; }
+export declare function TerminalFrame(props: TerminalFrameProps): React.ReactElement | null;
+
+export interface IdleScreenFile { name: string; kind: 'image' | 'video'; size: number; type?: string; width?: number; height?: number; duration?: number; src?: string; }
+export interface IdleScreenUploadProps {
+  scope?: 'workspace' | 'store'; storeName?: string; /** store scope only: no own file, the workspace one is used */ usesWorkspace?: boolean;
+  file?: IdleScreenFile | null; /** validation messages produced by the dashboard */ errors?: string[];
+  distribution?: { done: number; total: number; failed?: number };
+  onPick?: (file: File) => void; onRemove?: () => void; onUseWorkspace?: () => void; className?: string;
+}
+export declare function IdleScreenUpload(props: IdleScreenUploadProps): React.ReactElement | null;
+
+export interface StaffPinProps { isSet?: boolean; storeName?: string; /** show the "saved" confirmation */ saved?: boolean; onSave?: (pin: string) => void; className?: string; }
+export declare function StaffPin(props: StaffPinProps): React.ReactElement | null;
+
+export interface ShareBarProps {
+  /** Parts of a whole, few (two to five). Tone default by position: success, warning, danger, neutral. */
+  data: { label: string; value: number; /** Second line under the label */ hint?: string; tone?: 'success' | 'warning' | 'danger' | 'neutral' | 'azure' | 'violet' }[];
+  /** Accessible name of the bar. */
+  label?: string;
+  format?: (n: number) => string;
+  className?: string;
+}
+export declare function ShareBar(props: ShareBarProps): React.ReactElement | null;
+
+export interface PaymentFlowStep {
+  title: string; sub?: string; time?: string;
+  /** Default neutral. */
+  status?: 'success' | 'danger' | 'warning' | 'neutral' | 'brand';
+  /** Word on the arrow that leads to this step, e.g. "declined, next route". */
+  via?: string;
+  icon?: IconProps['name'];
+  meta?: { k: string; v: string }[];
+}
+export interface PaymentFlowProps {
+  steps: PaymentFlowStep[];
+  /** One sentence at the top that says what happened. */
+  summary?: { title: string; text?: string; tone?: 'success' | 'danger' | 'warning' | 'neutral' };
+  label?: string;
+  className?: string;
+}
+export declare function PaymentFlow(props: PaymentFlowProps): React.ReactElement | null;
+
+export interface DrawerProps {
+  title: string; subtitle?: string;
+  /** Default true. */
+  open?: boolean; onClose?: () => void;
+  footer?: React.ReactNode;
+  /** Fill the nearest positioned parent instead of the window (previews). */
+  contained?: boolean; id?: string; className?: string;
+  children?: React.ReactNode;
+}
+export declare function Drawer(props: DrawerProps): React.ReactElement | null;

@@ -1,0 +1,11 @@
+<!-- @dsCard group="Terminal" height=380 subtitle="Online, offline, not charging" -->
+<style>body{margin:0;padding:24px;background:var(--surface);font-family:var(--font-sans)}.stack{display:grid;gap:24px;max-width:760px}.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}</style>
+<div id="root"></div>
+<script>
+var H=window.Halba,e=React.createElement;
+function App(){ return e('div',{className:'stack'},
+ e('div',{className:'row'},e(H.TerminalStatus,{status:'online'}),e(H.TerminalStatus,{status:'offline',since:'12 min'}),e(H.TerminalStatus,{status:'power'})),
+ e(H.Table,{label:'Terminals',caption:'Terminals of the workspace',columns:[{key:'n',label:'Terminal',header:true},{key:'s',label:'Store'},{key:'p',label:'PSP'},{key:'st',label:'Status'},{key:'v',label:'App',mono:true}],
+ rows:[{n:'Till 1',s:'Milano Duomo',p:'Stripe S700',st:e(H.TerminalStatus,{status:'online'}),v:'1.4.2'},{n:'Till 2',s:'Milano Duomo',p:'Stripe S700',st:e(H.TerminalStatus,{status:'power'}),v:'1.4.2'},{n:'Till 1',s:'Torino Centro',p:'myPOS',st:e(H.TerminalStatus,{status:'offline',since:'12 min'}),v:'1.4.1'},{n:'Till 1',s:'Roma Termini',p:'Adyen',st:e(H.TerminalStatus,{status:'offline',since:'3 h'}),v:'1.4.2'}]})) }
+ReactDOM.createRoot(document.getElementById('root')).render(e(App));
+</script>

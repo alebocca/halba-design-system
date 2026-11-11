@@ -1,4 +1,4 @@
-/* @ds-bundle: {"format":4,"namespace":"Halba","components":[{"name":"Button"},{"name":"Badge"},{"name":"StatTile"},{"name":"MetricCard"},{"name":"Input"},{"name":"PhotoPanel"},{"name":"OverlayCard"},{"name":"CheckoutStory"},{"name":"RetryStory"},{"name":"RevenueStory"},{"name":"StatusBadge"},{"name":"Card"},{"name":"Panel"},{"name":"TextLink"},{"name":"Logo"},{"name":"Spinner"},{"name":"Modal"},{"name":"Icon"},{"name":"SegmentedControl"},{"name":"Alert"},{"name":"PieChart"},{"name":"BarChart"},{"name":"AuthLayout"},{"name":"MethodBadge"},{"name":"Endpoint"},{"name":"CodeBlock"},{"name":"Tabs"},{"name":"Table"},{"name":"Callout"},{"name":"DocsHeader"},{"name":"DocsSearch"},{"name":"DocsLayout"}]} */
+/* @ds-bundle: {"format":4,"namespace":"Halba","components":[{"name":"Button"},{"name":"Badge"},{"name":"StatTile"},{"name":"MetricCard"},{"name":"Input"},{"name":"PhotoPanel"},{"name":"OverlayCard"},{"name":"CheckoutStory"},{"name":"RetryStory"},{"name":"RevenueStory"},{"name":"StatusBadge"},{"name":"Card"},{"name":"Panel"},{"name":"TextLink"},{"name":"Logo"},{"name":"Spinner"},{"name":"Modal"},{"name":"Icon"},{"name":"SegmentedControl"},{"name":"Alert"},{"name":"PieChart"},{"name":"BarChart"},{"name":"AuthLayout"},{"name":"MethodBadge"},{"name":"Endpoint"},{"name":"CodeBlock"},{"name":"Tabs"},{"name":"Table"},{"name":"Callout"},{"name":"DocsHeader"},{"name":"DocsSearch"},{"name":"DocsLayout"},{"name":"TerminalStatus"},{"name":"TerminalFrame"},{"name":"IdleScreenUpload"},{"name":"StaffPin"},{"name":"ShareBar"},{"name":"PaymentFlow"},{"name":"Drawer"}]} */
 (function () {
   var React = window.React;
   var h = React.createElement;
@@ -20,7 +20,13 @@
     copy: ['M20 9h-9a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2z', 'M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1'],
     menu: ['M4 6h16', 'M4 12h16', 'M4 18h16'],
     'chevron-right': ['m9 18 6-6-6-6'],
-    'chevron-down': ['m6 9 6 6 6-6']
+    'chevron-down': ['m6 9 6 6 6-6'],
+    wifi: ['M12 20h.01', 'M2 8.82a15 15 0 0 1 20 0', 'M5 12.859a10 10 0 0 1 14 0', 'M8.5 16.429a5 5 0 0 1 7 0'],
+    'wifi-off': ['M12 20h.01', 'M8.5 16.429a5 5 0 0 1 7 0', 'M5 12.859a10 10 0 0 1 5.17-2.69', 'M19 12.859a10 10 0 0 0-2.007-1.523', 'M2 8.82a15 15 0 0 1 4.177-2.643', 'M22 8.82a15 15 0 0 0-11.288-3.764', 'm2 2 20 20'],
+    plug: ['M12 22v-5', 'M9 8V2', 'M15 8V2', 'M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8Z'],
+    upload: ['M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4', 'm17 8-5-5-5 5', 'M12 3v12'],
+    image: ['M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z', 'M11 9a2 2 0 1 1-4 0 2 2 0 0 1 4 0', 'm21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21'],
+    play: ['M6 3l14 9-14 9z']
   };
 
   /* Lucide outline paths: 20px / 1.75 stroke by default, 2.5 stroke at 14px or smaller */
@@ -896,5 +902,154 @@
           h('ul', null, toc.map(function (t, i) { return h('li', { key: i }, h('a', { href: t.href, className: cx('hb-docsnav__link', t.current && 'is-current') }, t.label)); }))) : null));
   }
 
-  window.Halba = { Button: Button, Badge: Badge, StatTile: StatTile, MetricCard: MetricCard, Input: Input, PhotoPanel: PhotoPanel, OverlayCard: OverlayCard, CheckoutStory: CheckoutStory, RetryStory: RetryStory, RevenueStory: RevenueStory, StatusBadge: StatusBadge, Card: Card, Panel: Panel, TextLink: TextLink, Logo: Logo, Spinner: Spinner, Modal: Modal, Icon: Icon, SegmentedControl: SegmentedControl, AuthLayout: AuthLayout, Alert: Alert, PieChart: PieChart, BarChart: BarChart, MethodBadge: MethodBadge, Endpoint: Endpoint, CodeBlock: CodeBlock, Tabs: Tabs, Table: Table, Callout: Callout, DocsHeader: DocsHeader, DocsSearch: DocsSearch, DocsLayout: DocsLayout };
+  /* ---------- Terminal, dashboard side: status, idle screen upload, staff PIN ---------- */
+  var TERM_STATUS = { online: { tone: 'success', icon: 'wifi' }, offline: { tone: 'danger', icon: 'wifi-off' }, power: { tone: 'warning', icon: 'plug' } };
+
+  /* Terminal state for tables and cards. The word and the icon carry the state, colour only groups it. */
+  function TerminalStatus(p) {
+    var s = TERM_STATUS[p.status] ? p.status : 'online';
+    var word = s === 'online' ? 'Online' : s === 'offline' ? (p.since ? 'Offline for ' + p.since : 'Offline') : 'Not charging';
+    return h(Badge, { tone: TERM_STATUS[s].tone, icon: TERM_STATUS[s].icon, className: p.className }, word);
+  }
+
+  /* Portrait terminal bezel (9:16) around a preview. `guides` marks the bands the status pill and the halba mark cover. */
+  function TerminalFrame(p) {
+    var w = p.width || 180, ht = Math.round(w * 16 / 9), k = w / 360;
+    return h('div', { className: cx('hb-tfr', p.className), style: {} },
+      h('div', { className: 'hb-tfr__screen', style: { width: w + 'px', height: ht + 'px' }, role: 'img', 'aria-label': p.label || 'Terminal screen preview' },
+        p.children,
+        p.guides ? h('div', { className: 'hb-tfr__guides', 'aria-hidden': 'true' },
+          h('span', { className: 'hb-tfr__band', style: { top: 0, height: 72 * k + 'px' } }, 'Status'),
+          h('span', { className: 'hb-tfr__band', style: { bottom: 0, height: 72 * k + 'px' } }, 'Mark'),
+          h('span', { className: 'hb-tfr__safe', style: { top: 72 * k + 'px', bottom: 72 * k + 'px', left: 24 * k + 'px', right: 24 * k + 'px' } })) : null));
+  }
+
+  function fmtBytes(n) { return n >= 1048576 ? (n / 1048576).toFixed(1).replace(/\.0$/, '') + ' MB' : Math.max(1, Math.round(n / 1024)) + ' KB'; }
+  var IDLE_RULES = ['Portrait 9:16', 'Image: JPG, PNG or WebP, up to 5 MB', 'Video: MP4 H.264, no audio, up to 30 s and 30 MB, loops without a cut', 'Best at 1080 × 1920 px; 720 × 1280 px at least'];
+
+  /* Idle screen of the terminals: one for the workspace, replaceable per store. Validation errors come from the page. */
+  function IdleScreenUpload(p) {
+    var gs = React.useState(false), guides = gs[0], setGuides = gs[1];
+    var file = p.file, errs = p.errors || [], d = p.distribution;
+    var store = p.scope === 'store';
+    var scopeText = store ? (p.storeName || 'This store') + (p.usesWorkspace ? ' uses the workspace idle screen.' : ' has its own idle screen.') : 'Shown on every terminal of the workspace unless a store has its own.';
+    var media = file && file.src ? (file.kind === 'video' ? h('video', { src: file.src, muted: true, loop: true, autoPlay: true, playsInline: true, className: 'hb-idleup__media', 'aria-hidden': 'true' }) : h('img', { src: file.src, alt: '', className: 'hb-idleup__media' }))
+      : file ? h('div', { className: 'hb-idleup__ph' }, file.kind === 'video' ? 'Video' : 'Image') : h('div', { className: 'hb-idleup__ph hb-idleup__ph--default' }, h(Logo, { variant: 'mark', tone: 'mono', size: 48 }), h('span', null, 'halba'));
+    return h('section', { className: cx('hb-idleup', p.className), 'aria-labelledby': 'idleup-t' },
+      h('div', { className: 'hb-idleup__head' },
+        h('div', null, h('h3', { id: 'idleup-t', className: 'hb-idleup__title' }, 'Idle screen'), h('p', { className: 'hb-idleup__scope' }, scopeText)),
+        store && !p.usesWorkspace ? h(Button, { variant: 'secondary', size: 'sm', onClick: p.onUseWorkspace }, 'Use the workspace screen') : null),
+      h('div', { className: 'hb-idleup__grid' },
+        h('div', { className: 'hb-idleup__preview' },
+          h(TerminalFrame, { width: 180, guides: guides, label: 'Idle screen preview' }, media),
+          h('button', { type: 'button', className: 'hb-idleup__toggle', 'aria-pressed': guides, onClick: function () { setGuides(!guides); } }, guides ? 'Hide safe areas' : 'Show safe areas')),
+        h('div', { className: 'hb-idleup__side' },
+          h('ul', { className: 'hb-idleup__rules', 'aria-label': 'File requirements' }, IDLE_RULES.map(function (r, i) { return h('li', { key: i }, r); })),
+          file ? h('div', { className: 'hb-idleup__file' },
+              h(Icon, { name: file.kind === 'video' ? 'play' : 'image', size: 20 }),
+              h('div', { className: 'hb-idleup__fileinfo' }, h('strong', null, file.name), h('span', null, [file.kind === 'video' ? 'MP4' : String(file.type || '').toUpperCase(), fmtBytes(file.size), file.width ? file.width + ' × ' + file.height : null, file.duration ? file.duration + ' s' : null].filter(Boolean).join(' · '))),
+              h(Button, { variant: 'ghost', size: 'sm', onClick: p.onRemove }, 'Remove')) : null,
+          errs.length ? h(Alert, { tone: 'danger' }, h('div', null, h('strong', null, errs.length === 1 ? 'This file cannot be used' : 'This file cannot be used: ' + errs.length + ' problems'), h('ul', { className: 'hb-idleup__errs' }, errs.map(function (e, i) { return h('li', { key: i }, e); })))) : null,
+          h('label', { className: 'hb-btn hb-btn--secondary hb-btn--md hb-idleup__pick' }, h(Icon, { name: 'upload', size: 18 }), file ? 'Replace file' : 'Upload image or video',
+            h('input', { type: 'file', className: 'hb-sr', accept: 'image/jpeg,image/png,image/webp,video/mp4', onChange: function (e) { if (p.onPick && e.target.files && e.target.files[0]) p.onPick(e.target.files[0]); } })),
+          d ? h('div', { className: 'hb-idleup__dist' },
+            h('div', { className: 'hb-idleup__distrow' }, h('span', null, 'Downloaded by ' + d.done + ' of ' + d.total + ' terminals'), d.failed ? h(Badge, { tone: 'danger' }, d.failed + ' failed') : d.done === d.total ? h(Badge, { tone: 'success' }, 'Done') : h(Badge, { tone: 'neutral', icon: 'clock' }, 'In progress')),
+            h('div', { className: 'hb-idleup__bar', role: 'progressbar', 'aria-valuemin': 0, 'aria-valuemax': d.total, 'aria-valuenow': d.done, 'aria-label': 'Terminals that downloaded the file' }, h('i', { style: { width: (d.total ? d.done / d.total * 100 : 0) + '%' } }))) : null)));
+  }
+
+  /* Staff PIN of a store: set or change, never shown again after saving. */
+  function StaffPin(p) {
+    var st = React.useState(false), editing = st[0], setEditing = st[1];
+    var a = React.useState(''), pin = a[0], setPin = a[1];
+    var b = React.useState(''), conf = b[0], setConf = b[1];
+    var e = React.useState(''), err = e[0], setErr = e[1];
+    function digits(v) { return v.replace(/\D/g, '').slice(0, 6); }
+    function save(ev) {
+      ev.preventDefault();
+      if (pin.length !== 6) return setErr('Enter 6 digits.');
+      if (/^(\d)\1{5}$/.test(pin) || pin === '123456' || pin === '654321') return setErr('Choose a PIN that is not a simple sequence or repeated digit.');
+      if (pin !== conf) return setErr('The two PINs do not match.');
+      setErr(''); setEditing(false); setPin(''); setConf('');
+      if (p.onSave) p.onSave(pin);
+    }
+    return h('section', { className: cx('hb-pinset', p.className), 'aria-labelledby': 'pinset-t' },
+      h('div', { className: 'hb-pinset__head' },
+        h('div', null, h('h3', { id: 'pinset-t', className: 'hb-idleup__title' }, 'Staff PIN'), h('p', { className: 'hb-idleup__scope' }, (p.storeName ? p.storeName + ': ' : '') + 'opens the hidden staff menu on the terminals.')),
+        p.isSet ? h(Badge, { tone: 'success', icon: 'check' }, 'PIN set') : h(Badge, { tone: 'warning' }, 'Not set')),
+      !editing ? h('div', { className: 'hb-pinset__row' },
+        h('span', { className: 'hb-pinset__mask', 'aria-hidden': 'true' }, p.isSet ? '••••••' : '—'),
+        h('span', { className: 'hb-sr' }, p.isSet ? 'A PIN is set. It cannot be shown.' : 'No PIN is set.'),
+        h(Button, { variant: 'secondary', size: 'sm', onClick: function () { setEditing(true); } }, p.isSet ? 'Change PIN' : 'Set PIN')) : null,
+      !editing && !p.isSet ? h(Alert, { tone: 'warning' }, 'Until a PIN is set, nobody can open the staff menu on this store’s terminals.') : null,
+      !editing && p.saved ? h(Alert, { tone: 'success' }, 'PIN saved. It reaches the terminals of this store within a minute. It cannot be shown again.') : null,
+      editing ? h('form', { className: 'hb-pinset__form', onSubmit: save, noValidate: true },
+        h(Input, { label: 'New PIN', id: 'pin-new', type: 'password', value: pin, onChange: function (ev) { setPin(digits(ev.target.value)); }, hint: '6 digits.' }),
+        h(Input, { label: 'Confirm PIN', id: 'pin-conf', type: 'password', value: conf, onChange: function (ev) { setConf(digits(ev.target.value)); }, error: err || undefined }),
+        h('div', { className: 'hb-pinset__actions' }, h(Button, { type: 'submit' }, 'Save PIN'), h(Button, { variant: 'ghost', onClick: function () { setEditing(false); setErr(''); setPin(''); setConf(''); } }, 'Cancel'))) : null);
+  }
+
+  /* ---------- Dashboard: breakdown bar, payment flow, side drawer ---------- */
+  var SHARE_TONES = { success: 'var(--success)', danger: 'var(--danger)', warning: 'var(--chart-4)', neutral: 'var(--border-strong)', azure: 'var(--chart-1-line)', violet: 'var(--chart-2-line)' };
+
+  /* One horizontal bar split in parts, with a legend row per part. For shares of a whole that have few parts (authentication, 3DS outcome). */
+  function ShareBar(p) {
+    var data = p.data || [], total = 0, format = p.format || fmtNum;
+    data.forEach(function (d) { total += d.value; });
+    function pct(v) { return total ? Math.round(v / total * 1000) / 10 : 0; }
+    var desc = data.map(function (d) { return d.label + ' ' + pct(d.value) + '%'; }).join(', ');
+    return h('div', { className: cx('hb-share', p.className) },
+      h('div', { className: 'hb-share__bar', role: 'img', 'aria-label': (p.label || 'Breakdown') + ': ' + desc },
+        data.map(function (d, i) { return d.value > 0 ? h('i', { key: i, style: { flexGrow: d.value, background: SHARE_TONES[d.tone || ['success', 'warning', 'danger', 'neutral'][i % 4]] } }) : null; })),
+      h('ul', { className: 'hb-share__list' }, data.map(function (d, i) {
+        return h('li', { key: i, className: 'hb-share__row' },
+          h('span', { className: 'hb-share__dot', style: { background: SHARE_TONES[d.tone || ['success', 'warning', 'danger', 'neutral'][i % 4]] } }),
+          h('span', { className: 'hb-share__name' }, d.label, d.hint ? h('small', null, d.hint) : null),
+          h('span', { className: 'hb-share__val' }, format(d.value)),
+          h('span', { className: 'hb-share__pct' }, pct(d.value) + '%'));
+      })));
+  }
+
+  var FLOW_ICON = { success: 'check', danger: 'x', warning: 'alert', neutral: 'clock', brand: 'circle-check' };
+  /* The story of one payment as a vertical flow: each step is a node, each hand-over is a labelled arrow. */
+  function PaymentFlow(p) {
+    var steps = p.steps || [];
+    return h('div', { className: cx('hb-flow', p.className) },
+      p.summary ? h('div', { className: cx('hb-flow__summary', 'hb-flow__summary--' + (p.summary.tone || 'neutral')) },
+        h('span', { className: 'hb-flow__sumicon' }, h(Icon, { name: FLOW_ICON[p.summary.tone || 'neutral'], size: 20 })),
+        h('div', null, h('strong', null, p.summary.title), p.summary.text ? h('p', null, p.summary.text) : null)) : null,
+      h('ol', { className: 'hb-flow__list', 'aria-label': p.label || 'Payment flow' }, steps.map(function (s, i) {
+        var tone = s.status || 'neutral';
+        return h('li', { key: i, className: cx('hb-flow__step', 'hb-flow__step--' + tone) },
+          i > 0 ? h('div', { className: 'hb-flow__link' }, h('span', { className: 'hb-flow__line', 'aria-hidden': 'true' }), s.via ? h('span', { className: 'hb-flow__via' }, s.via) : null) : null,
+          h('div', { className: 'hb-flow__node' },
+            h('span', { className: 'hb-flow__icon', 'aria-hidden': 'true' }, h(Icon, { name: s.icon || FLOW_ICON[tone], size: 16 })),
+            h('div', { className: 'hb-flow__body' },
+              h('div', { className: 'hb-flow__head' }, h('span', { className: 'hb-flow__title' }, s.title), s.time ? h('span', { className: 'hb-flow__time' }, s.time) : null),
+              s.sub ? h('p', { className: 'hb-flow__sub' }, s.sub) : null,
+              s.meta && s.meta.length ? h('dl', { className: 'hb-flow__meta' }, s.meta.map(function (m, j) { return h(React.Fragment, { key: j }, h('dt', null, m.k), h('dd', null, m.v)); })) : null)));
+      })));
+  }
+
+  /* Panel that slides in from the right over the page, for detail that would crowd the main view. */
+  function Drawer(p) {
+    var open = p.open !== false;
+    React.useEffect(function () {
+      if (!open || !p.onClose) return;
+      function key(e) { if (e.key === 'Escape') p.onClose(); }
+      document.addEventListener('keydown', key);
+      return function () { document.removeEventListener('keydown', key); };
+    }, [open, p.onClose]);
+    if (!open) return null;
+    var tid = (p.id || 'drawer') + '-title';
+    return h('div', { className: cx('hb-drawer', p.contained ? 'hb-drawer--contained' : '', p.className) },
+      h('div', { className: 'hb-drawer__scrim', onClick: p.onClose }),
+      h('aside', { className: 'hb-drawer__panel', role: 'dialog', 'aria-modal': 'true', 'aria-labelledby': tid },
+        h('header', { className: 'hb-drawer__head' },
+          h('div', null, h('h2', { id: tid, className: 'hb-drawer__title' }, p.title), p.subtitle ? h('p', { className: 'hb-drawer__sub' }, p.subtitle) : null),
+          p.onClose ? h('button', { type: 'button', className: 'hb-drawer__close', onClick: p.onClose, 'aria-label': 'Close' }, h(Icon, { name: 'x', size: 20 })) : null),
+        h('div', { className: 'hb-drawer__body' }, p.children),
+        p.footer ? h('footer', { className: 'hb-drawer__foot' }, p.footer) : null));
+  }
+
+  window.Halba = { Button: Button, Badge: Badge, StatTile: StatTile, MetricCard: MetricCard, Input: Input, PhotoPanel: PhotoPanel, OverlayCard: OverlayCard, CheckoutStory: CheckoutStory, RetryStory: RetryStory, RevenueStory: RevenueStory, StatusBadge: StatusBadge, Card: Card, Panel: Panel, TextLink: TextLink, Logo: Logo, Spinner: Spinner, Modal: Modal, Icon: Icon, SegmentedControl: SegmentedControl, AuthLayout: AuthLayout, Alert: Alert, PieChart: PieChart, BarChart: BarChart, MethodBadge: MethodBadge, Endpoint: Endpoint, CodeBlock: CodeBlock, Tabs: Tabs, Table: Table, Callout: Callout, DocsHeader: DocsHeader, DocsSearch: DocsSearch, DocsLayout: DocsLayout, TerminalStatus: TerminalStatus, TerminalFrame: TerminalFrame, IdleScreenUpload: IdleScreenUpload, StaffPin: StaffPin, ShareBar: ShareBar, PaymentFlow: PaymentFlow, Drawer: Drawer };
 })();

@@ -12,7 +12,7 @@ immagini) sono in [`upstream/README.md`](upstream/README.md) e nei README dei co
 
 | Percorso | Cosa |
 | --- | --- |
-| `upstream/` | Copia esatta dei file `project/` dell'artifact (versione `1794254836-d3ca`, 9 novembre 2026): token, bundle, tipi, README e preview. Non modificare a mano: si sovrascrive a ogni aggiornamento. |
+| `upstream/` | Copia esatta dei file `project/` dell'artifact (versione `1794439654-0edb`, 12 novembre 2026): token, bundle, tipi, README e preview. Non modificare a mano: si sovrascrive a ogni aggiornamento. |
 | `tokens/tokens.json` | Token (copia di `upstream/tokens.json`), unica fonte. |
 | `tokens/tokens.css` | Variabili CSS, tema chiaro su `:root` e scuro su `[data-theme="dark"]`. Generato: `npm run tokens`. |
 | `tokens/typography.css` | Classi `hb-type-<stile>` (display-xl, h1, body, label-mono…). Generato. |
@@ -47,7 +47,11 @@ PieChart (distribuzioni: OK, KO, Retry), BarChart (valori nel tempo), Logo (marc
 `halba` minuscolo), Spinner (`orbit` e `compose`, fatti con il marchio), i componenti della documentazione
 (DocsLayout, DocsHeader, DocsSearch, Endpoint, MethodBadge, CodeBlock, Tabs, Table, Callout), Badge, StatusBadge (gli stati di
 pagamento), StatTile, MetricCard, Input, Card, Panel, TextLink, Spinner, Modal, Icon (Lucide), PhotoPanel,
-OverlayCard e le storie CheckoutStory, RetryStory (2 o 3 passi con `steps`), RevenueStory. Statici, tranne
+OverlayCard e le storie CheckoutStory, RetryStory (2 o 3 passi con `steps`), RevenueStory. Per la dashboard: ShareBar
+(poche parti di un totale, con una spiegazione per riga), PaymentFlow (la storia di un pagamento, dentro un Drawer),
+Drawer (pannello laterale per leggere), TerminalStatus, TerminalFrame, IdleScreenUpload e StaffPin. MetricCard
+ridimensiona la cifra con la sua larghezza; la riga va in `hb-metric-grid`. Regole della dashboard in
+`upstream/README.md` (sezione Dashboard); guida dell'app dei terminali in `upstream/terminal.md`. Statici, tranne
 Modal e le storie: si rendono lato server senza JS (anche i due grafici).
 
 Colori dei grafici: `chart-1` (azzurro, serie principale e Retry), `chart-2` (viola), `chart-3`, `chart-4`

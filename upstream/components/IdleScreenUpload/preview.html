@@ -1,0 +1,12 @@
+<!-- @dsCard group="Terminal" height=720 subtitle="Workspace and store, validation, distribution" -->
+<style>body{margin:0;padding:24px;background:var(--surface);font-family:var(--font-sans)}.stack{display:grid;gap:24px;max-width:760px}.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}</style>
+<div id="root"></div>
+<script>
+var H=window.Halba,e=React.createElement;
+function App(){ var s=React.useState(0);
+return e('div',{className:'stack'},
+ e(H.IdleScreenUpload,{scope:'workspace',file:{name:'summer-campaign.mp4',kind:'video',size:18.4*1048576,width:1080,height:1920,duration:24},distribution:{done:3,total:4}}),
+ e(H.IdleScreenUpload,{scope:'store',storeName:'Torino Centro',usesWorkspace:false,file:{name:'promo.mp4',kind:'video',size:41*1048576,width:1920,height:1080,duration:42},errors:['The video lasts 42 s. The maximum is 30 s.','The file is 41 MB. The maximum is 30 MB.','The video is landscape. Use portrait 9:16.']}),
+ e(H.IdleScreenUpload,{scope:'store',storeName:'Roma Termini',usesWorkspace:true})) }
+ReactDOM.createRoot(document.getElementById('root')).render(e(App));
+</script>
