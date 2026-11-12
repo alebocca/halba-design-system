@@ -180,7 +180,6 @@ export interface TextLinkProps {
 }
 
 export interface LogoProps {
-  className?: string;
   /** mark: the ring and dot only. lockup: the mark with the word "halba", always lowercase. Default mark. */
   variant?: 'mark' | 'lockup';
   /** default: ring ink, dot brand. mono: one colour (currentColor). on-brand: on-brand colour on a brand block. */
@@ -193,7 +192,6 @@ export interface LogoProps {
 }
 
 export interface SpinnerProps {
-  className?: string;
   /** Text read by screen readers. Default "Loading". */
   label?: string;
   /** orbit: ring turns and stretches, for short waits. compose: the dot appears and the ring closes around it, for full pages. Default orbit. */
@@ -306,13 +304,10 @@ export interface BarChartProps {
   format?: (n: number) => string;
 }
 
-export interface MethodBadgeProps {
-  className?: string; /** HTTP method, any case. */ method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'; className?: string; }
-export interface EndpointProps {
-  className?: string; method: MethodBadgeProps['method']; /** Path or URL; write parameters in braces. */ path: string; className?: string; }
+export interface MethodBadgeProps { /** HTTP method, any case. */ method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'; className?: string; }
+export interface EndpointProps { method: MethodBadgeProps['method']; /** Path or URL; write parameters in braces. */ path: string; className?: string; }
 
 export interface CodeBlockProps {
-  className?: string;
   /** One sample. Use `tabs` for several languages. */
   code?: string;
   tabs?: { label: string; code: string }[];
@@ -329,7 +324,6 @@ export interface CodeBlockProps {
 }
 
 export interface TabsProps {
-  className?: string;
   options: { value: string; label: string }[];
   value: string;
   onChange: (value: string) => void;
@@ -341,7 +335,6 @@ export interface TabsProps {
 }
 
 export interface TableProps {
-  className?: string;
   columns: { key: string; label: string; mono?: boolean; header?: boolean; width?: string }[];
   rows: Record<string, React.ReactNode>[];
   label?: string;
@@ -351,7 +344,6 @@ export interface TableProps {
 }
 
 export interface CalloutProps {
-  className?: string;
   /** Default "note". */
   tone?: 'note' | 'tip' | 'warning' | 'danger';
   /** Replaces the default word (Note, Tip, Warning, Important). */
@@ -361,7 +353,6 @@ export interface CalloutProps {
 }
 
 export interface DocsHeaderProps {
-  className?: string;
   breadcrumb?: { label: string; href?: string }[];
   title: string;
   lead?: string;
@@ -371,7 +362,6 @@ export interface DocsHeaderProps {
 }
 
 export interface DocsSearchProps {
-  className?: string;
   onClick?: () => void;
   placeholder?: string;
   /** Accessible name. Default "Search the docs". */
@@ -382,7 +372,6 @@ export interface DocsSearchProps {
 }
 
 export interface DocsLayoutProps {
-  className?: string;
   nav: { title: string; items: { label: string; href: string; current?: boolean }[] }[];
   /** "On this page" links; hidden under 1100px. */
   toc?: { label: string; href: string; current?: boolean }[];
@@ -409,14 +398,11 @@ export interface TerminalStatusProps {
   className?: string; status: 'online' | 'offline' | 'power'; /** e.g. "12 min"; shown as "Offline for 12 min" */ since?: string; className?: string; }
 export declare function TerminalStatus(props: TerminalStatusProps): React.ReactElement | null;
 
-export interface TerminalFrameProps {
-  className?: string; /** Screen width in px; height follows 9:16. Default 180 */ width?: number; /** Overlay the reserved bands (72 dp top and bottom) and the 24 dp side margins */ guides?: boolean; label?: string; children?: React.ReactNode; className?: string; }
+export interface TerminalFrameProps { /** Screen width in px; height follows 9:16. Default 180 */ width?: number; /** Overlay the reserved bands (72 dp top and bottom) and the 24 dp side margins */ guides?: boolean; label?: string; children?: React.ReactNode; className?: string; }
 export declare function TerminalFrame(props: TerminalFrameProps): React.ReactElement | null;
 
-export interface IdleScreenFile {
-  className?: string; name: string; kind: 'image' | 'video'; size: number; type?: string; width?: number; height?: number; duration?: number; src?: string; }
+export interface IdleScreenFile { name: string; kind: 'image' | 'video'; size: number; type?: string; width?: number; height?: number; duration?: number; src?: string; }
 export interface IdleScreenUploadProps {
-  className?: string;
   scope?: 'workspace' | 'store'; storeName?: string; /** store scope only: no own file, the workspace one is used */ usesWorkspace?: boolean;
   file?: IdleScreenFile | null; /** validation messages produced by the dashboard */ errors?: string[];
   distribution?: { done: number; total: number; failed?: number };
@@ -424,12 +410,10 @@ export interface IdleScreenUploadProps {
 }
 export declare function IdleScreenUpload(props: IdleScreenUploadProps): React.ReactElement | null;
 
-export interface StaffPinProps {
-  className?: string; isSet?: boolean; storeName?: string; /** show the "saved" confirmation */ saved?: boolean; onSave?: (pin: string) => void; className?: string; }
+export interface StaffPinProps { isSet?: boolean; storeName?: string; /** show the "saved" confirmation */ saved?: boolean; onSave?: (pin: string) => void; className?: string; }
 export declare function StaffPin(props: StaffPinProps): React.ReactElement | null;
 
 export interface ShareBarProps {
-  className?: string;
   /** Parts of a whole, few (two to five). Tone default by position: success, warning, danger, neutral. */
   data: { label: string; value: number; /** Second line under the label */ hint?: string; tone?: 'success' | 'warning' | 'danger' | 'neutral' | 'azure' | 'violet' }[];
   /** Accessible name of the bar. */
@@ -450,7 +434,6 @@ export interface PaymentFlowStep {
   meta?: { k: string; v: string }[];
 }
 export interface PaymentFlowProps {
-  className?: string;
   steps: PaymentFlowStep[];
   /** One sentence at the top that says what happened. */
   summary?: { title: string; text?: string; tone?: 'success' | 'danger' | 'warning' | 'neutral' };
@@ -470,6 +453,42 @@ export interface DrawerProps {
   children?: React.ReactNode;
 }
 export declare function Drawer(props: DrawerProps): React.ReactElement | null;
+
+export interface FilterOption {
+  className?: string;
+  /** Sent in the form and passed to onChange. Must not be "" (that value is the "all" option). */
+  value: string;
+  label: string;
+  /** Number of results with this option; shown small after the label and read to screen readers. */
+  count?: number;
+  disabled?: boolean;
+}
+export interface FilterGroupProps {
+  /** Visible name of the group, e.g. "Type". It is the fieldset legend. */
+  label: string;
+  options: FilterOption[];
+  /** Field name for the form. Default generated. */
+  name?: string;
+  /** Several options at once (checkboxes). Default false: one option (radios). */
+  multiple?: boolean;
+  /** Controlled value: a string, or an array when `multiple`. */
+  value?: string | string[];
+  defaultValue?: string | string[];
+  onChange?: (value: any) => void;
+  /** Single choice only: adds a first option with value "" that means no filter, e.g. "All". */
+  allLabel?: string;
+  allCount?: number;
+  /** Multiple choice only: shows a "Clear" button while something is selected. */
+  onClear?: () => void;
+  clearLabel?: string;
+  /** Word read after a count. Default "results". */
+  countWord?: string;
+  /** Hides the legend visually (still read). Use when the page already names the group. */
+  hideLabel?: boolean;
+  id?: string;
+  className?: string;
+}
+export declare function FilterGroup(props: FilterGroupProps): React.ReactElement | null;
 
 export declare function Button(props: ButtonProps): React.ReactElement | null;
 export declare function Badge(props: BadgeProps): React.ReactElement | null;
@@ -510,3 +529,4 @@ export declare function StaffPin(props: StaffPinProps): React.ReactElement | nul
 export declare function ShareBar(props: ShareBarProps): React.ReactElement | null;
 export declare function PaymentFlow(props: PaymentFlowProps): React.ReactElement | null;
 export declare function Drawer(props: DrawerProps): React.ReactElement | null;
+export declare function FilterGroup(props: FilterGroupProps): React.ReactElement | null;

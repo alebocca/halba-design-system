@@ -8,8 +8,21 @@ import tokens from "../tokens/tokens.json";
 import {
   Button, Badge, StatTile, MetricCard, Input, PhotoPanel, OverlayCard, CheckoutStory, RetryStory, RevenueStory,
   StatusBadge, Card, Panel, TextLink, Spinner, Modal, Icon, SegmentedControl, Alert, AuthLayout, PieChart, BarChart,
-  Logo, MethodBadge, Endpoint, CodeBlock, Tabs, Table, Callout, DocsHeader, DocsSearch,
+  Logo, MethodBadge, Endpoint, CodeBlock, Tabs, Table, Callout, DocsHeader, DocsSearch, FilterGroup,
 } from "../src/index.js";
+
+function FilterDemo() {
+  const [type, setType] = useState("");
+  const [channel, setChannel] = useState("");
+  return (
+    <div className="hb-filters-wrap"><div className="hb-filters">
+      <FilterGroup label="Type" name="cat-type" allLabel="All" allCount={17} value={type} onChange={setType}
+        options={[{ value: "card", label: "Cards", count: 2 }, { value: "wallet", label: "Wallets", count: 8 }, { value: "bank", label: "Bank payments", count: 4 }, { value: "bnpl", label: "Pay later", count: 3 }]} />
+      <FilterGroup label="Channel" name="cat-channel" allLabel="All" value={channel} onChange={setChannel}
+        options={[{ value: "online", label: "Online" }, { value: "store", label: "In store" }]} />
+    </div></div>
+  );
+}
 
 function DocsSandbox() {
   const [tab, setTab] = useState("request");
@@ -321,6 +334,9 @@ function App() {
               <Logo variant="lockup" tone="mono" size={32} />
               <div style={{ background: "var(--brand)", padding: "16px 20px", borderRadius: 16 }}><Logo variant="lockup" tone="on-brand" /></div>
             </div>
+          </Spec>
+          <Spec name="FilterGroup" note="Chips that narrow a list and wrap on phones">
+            <FilterDemo />
           </Spec>
           <Spec name="Spinner" note="Orbit for short waits, compose for full pages">
             <div style={{ display: "flex", flexWrap: "wrap", gap: 36, alignItems: "flex-end" }}>

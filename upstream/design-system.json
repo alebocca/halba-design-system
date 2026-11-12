@@ -27,8 +27,8 @@
   },
   "lastChange": {
     "by": "Alessandro",
-    "at": "2026-11-12T01:10:00Z",
+    "at": "2026-11-12T15:10:00Z",
     "via": "Claude Code",
-    "note": "Dashboard: fluid MetricCard, ShareBar, PaymentFlow, Drawer; Overview and Payment detail previews"
+    "note": "FilterGroup: wrapping filter chips (single or multiple choice), works without JavaScript"
   }
 }

@@ -44,7 +44,7 @@ import { Button, Badge, CheckoutStory } from "@halba/design-system";
 
 Button (anche come link con `href`, variante `on-brand` sui blocchi colorati), SegmentedControl, Alert, AuthLayout,
 PieChart (distribuzioni: OK, KO, Retry), BarChart (valori nel tempo), Logo (marchio e lockup, il nome sempre
-`halba` minuscolo), Spinner (`orbit` e `compose`, fatti con il marchio), i componenti della documentazione
+`halba` minuscolo), Spinner (`orbit` e `compose`, fatti con il marchio), FilterGroup (chip che filtrano un elenco e vanno a capo; SegmentedControl resta per cambiare vista), i componenti della documentazione
 (DocsLayout, DocsHeader, DocsSearch, Endpoint, MethodBadge, CodeBlock, Tabs, Table, Callout), Badge, StatusBadge (gli stati di
 pagamento), StatTile, MetricCard, Input, Card, Panel, TextLink, Spinner, Modal, Icon (Lucide), PhotoPanel,
 OverlayCard e le storie CheckoutStory, RetryStory (2 o 3 passi con `steps`), RevenueStory. Per la dashboard: ShareBar
@@ -118,7 +118,7 @@ Repository pubblico `alebocca/halba-design-system`, senza registro npm né token
 un tag git:
 
 ```json
-"@halba/design-system": "github:alebocca/halba-design-system#v0.5.0"
+"@halba/design-system": "github:alebocca/halba-design-system#v0.7.0"
 ```
 
 Per una nuova versione: aggiornare `version` in `package.json`, committare, `git tag vX.Y.Z`,

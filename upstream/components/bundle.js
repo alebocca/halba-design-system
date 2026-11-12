@@ -1,4 +1,4 @@
-/* @ds-bundle: {"format":4,"namespace":"Halba","components":[{"name":"Button"},{"name":"Badge"},{"name":"StatTile"},{"name":"MetricCard"},{"name":"Input"},{"name":"PhotoPanel"},{"name":"OverlayCard"},{"name":"CheckoutStory"},{"name":"RetryStory"},{"name":"RevenueStory"},{"name":"StatusBadge"},{"name":"Card"},{"name":"Panel"},{"name":"TextLink"},{"name":"Logo"},{"name":"Spinner"},{"name":"Modal"},{"name":"Icon"},{"name":"SegmentedControl"},{"name":"Alert"},{"name":"PieChart"},{"name":"BarChart"},{"name":"AuthLayout"},{"name":"MethodBadge"},{"name":"Endpoint"},{"name":"CodeBlock"},{"name":"Tabs"},{"name":"Table"},{"name":"Callout"},{"name":"DocsHeader"},{"name":"DocsSearch"},{"name":"DocsLayout"},{"name":"TerminalStatus"},{"name":"TerminalFrame"},{"name":"IdleScreenUpload"},{"name":"StaffPin"},{"name":"ShareBar"},{"name":"PaymentFlow"},{"name":"Drawer"}]} */
+/* @ds-bundle: {"format":4,"namespace":"Halba","components":[{"name":"Button"},{"name":"Badge"},{"name":"StatTile"},{"name":"MetricCard"},{"name":"Input"},{"name":"PhotoPanel"},{"name":"OverlayCard"},{"name":"CheckoutStory"},{"name":"RetryStory"},{"name":"RevenueStory"},{"name":"StatusBadge"},{"name":"Card"},{"name":"Panel"},{"name":"TextLink"},{"name":"Logo"},{"name":"Spinner"},{"name":"Modal"},{"name":"Icon"},{"name":"SegmentedControl"},{"name":"Alert"},{"name":"PieChart"},{"name":"BarChart"},{"name":"AuthLayout"},{"name":"MethodBadge"},{"name":"Endpoint"},{"name":"CodeBlock"},{"name":"Tabs"},{"name":"Table"},{"name":"Callout"},{"name":"DocsHeader"},{"name":"DocsSearch"},{"name":"DocsLayout"},{"name":"TerminalStatus"},{"name":"TerminalFrame"},{"name":"IdleScreenUpload"},{"name":"StaffPin"},{"name":"ShareBar"},{"name":"PaymentFlow"},{"name":"Drawer"},{"name":"FilterGroup"}]} */
 (function () {
   var React = window.React;
   var h = React.createElement;
@@ -1051,5 +1051,45 @@
         p.footer ? h('footer', { className: 'hb-drawer__foot' }, p.footer) : null));
   }
 
-  window.Halba = { Button: Button, Badge: Badge, StatTile: StatTile, MetricCard: MetricCard, Input: Input, PhotoPanel: PhotoPanel, OverlayCard: OverlayCard, CheckoutStory: CheckoutStory, RetryStory: RetryStory, RevenueStory: RevenueStory, StatusBadge: StatusBadge, Card: Card, Panel: Panel, TextLink: TextLink, Logo: Logo, Spinner: Spinner, Modal: Modal, Icon: Icon, SegmentedControl: SegmentedControl, AuthLayout: AuthLayout, Alert: Alert, PieChart: PieChart, BarChart: BarChart, MethodBadge: MethodBadge, Endpoint: Endpoint, CodeBlock: CodeBlock, Tabs: Tabs, Table: Table, Callout: Callout, DocsHeader: DocsHeader, DocsSearch: DocsSearch, DocsLayout: DocsLayout, TerminalStatus: TerminalStatus, TerminalFrame: TerminalFrame, IdleScreenUpload: IdleScreenUpload, StaffPin: StaffPin, ShareBar: ShareBar, PaymentFlow: PaymentFlow, Drawer: Drawer };
+  /* ---------- FilterGroup: filter a list by category. Native radios or checkboxes inside chips. ---------- */
+  var filterUid = 0;
+  function FilterGroup(p) {
+    var multiple = !!p.multiple, opts = (p.options || []).slice();
+    var uid = React.useRef(null); if (uid.current === null) uid.current = 'hb-flt-' + (++filterUid);
+    var name = p.name || uid.current;
+    if (p.allLabel && !multiple) opts.unshift({ value: '', label: p.allLabel, count: p.allCount });
+    var controlled = p.value !== undefined;
+    var current = controlled ? p.value : p.defaultValue;
+    if (!multiple && (current === undefined || current === null)) current = p.allLabel ? '' : undefined;
+    var list = multiple ? (current || []) : null;
+    function isOn(v) { return multiple ? list.indexOf(v) > -1 : current === v; }
+    function change(v, checked) {
+      if (!p.onChange) return;
+      if (!multiple) return p.onChange(v);
+      var next = list.filter(function (x) { return x !== v; });
+      if (checked) next.push(v);
+      p.onChange(next);
+    }
+    var showClear = multiple && p.onClear && list.length > 0;
+    return h('fieldset', { className: cx('hb-filter', p.className), id: p.id },
+      h('legend', { className: cx('hb-filter__legend', p.hideLabel ? 'hb-sr' : '') }, p.label),
+      h('div', { className: 'hb-filter__options' },
+        opts.map(function (o) {
+          var on = isOn(o.value);
+          var inputProps = { className: 'hb-filter__input', type: multiple ? 'checkbox' : 'radio', name: name, value: o.value, disabled: !!o.disabled };
+          if (controlled) { inputProps.checked = on; inputProps.onChange = function (e) { change(o.value, e.target.checked); }; }
+          else { inputProps.defaultChecked = on; if (p.onChange) inputProps.onChange = function (e) { change(o.value, e.target.checked); }; }
+          var hasCount = o.count !== undefined && o.count !== null;
+          return h('label', { key: o.value === '' ? '__all' : o.value, className: 'hb-filter__opt' },
+            h('input', inputProps),
+            h('span', { className: 'hb-filter__chip' },
+              h('svg', { className: 'hb-filter__check', width: 16, height: 16, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 2.5, strokeLinecap: 'round', strokeLinejoin: 'round', 'aria-hidden': 'true', focusable: 'false' }, h('path', { d: 'M20 6 9 17l-5-5' })),
+              h('span', { className: 'hb-filter__label' }, o.label),
+              hasCount ? h('span', { className: 'hb-filter__count', 'aria-hidden': 'true' }, o.count) : null,
+              hasCount ? h('span', { className: 'hb-sr' }, ', ' + o.count + ' ' + (p.countWord || 'results')) : null));
+        }),
+        showClear ? h('button', { type: 'button', className: 'hb-filter__clear', onClick: p.onClear }, p.clearLabel || 'Clear') : null));
+  }
+
+  window.Halba = { Button: Button, Badge: Badge, StatTile: StatTile, MetricCard: MetricCard, Input: Input, PhotoPanel: PhotoPanel, OverlayCard: OverlayCard, CheckoutStory: CheckoutStory, RetryStory: RetryStory, RevenueStory: RevenueStory, StatusBadge: StatusBadge, Card: Card, Panel: Panel, TextLink: TextLink, Logo: Logo, Spinner: Spinner, Modal: Modal, Icon: Icon, SegmentedControl: SegmentedControl, AuthLayout: AuthLayout, Alert: Alert, PieChart: PieChart, BarChart: BarChart, MethodBadge: MethodBadge, Endpoint: Endpoint, CodeBlock: CodeBlock, Tabs: Tabs, Table: Table, Callout: Callout, DocsHeader: DocsHeader, DocsSearch: DocsSearch, DocsLayout: DocsLayout, TerminalStatus: TerminalStatus, TerminalFrame: TerminalFrame, IdleScreenUpload: IdleScreenUpload, StaffPin: StaffPin, ShareBar: ShareBar, PaymentFlow: PaymentFlow, Drawer: Drawer, FilterGroup: FilterGroup };
 })();

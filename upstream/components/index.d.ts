@@ -425,3 +425,38 @@ export interface DrawerProps {
   children?: React.ReactNode;
 }
 export declare function Drawer(props: DrawerProps): React.ReactElement | null;
+
+export interface FilterOption {
+  /** Sent in the form and passed to onChange. Must not be "" (that value is the "all" option). */
+  value: string;
+  label: string;
+  /** Number of results with this option; shown small after the label and read to screen readers. */
+  count?: number;
+  disabled?: boolean;
+}
+export interface FilterGroupProps {
+  /** Visible name of the group, e.g. "Type". It is the fieldset legend. */
+  label: string;
+  options: FilterOption[];
+  /** Field name for the form. Default generated. */
+  name?: string;
+  /** Several options at once (checkboxes). Default false: one option (radios). */
+  multiple?: boolean;
+  /** Controlled value: a string, or an array when `multiple`. */
+  value?: string | string[];
+  defaultValue?: string | string[];
+  onChange?: (value: any) => void;
+  /** Single choice only: adds a first option with value "" that means no filter, e.g. "All". */
+  allLabel?: string;
+  allCount?: number;
+  /** Multiple choice only: shows a "Clear" button while something is selected. */
+  onClear?: () => void;
+  clearLabel?: string;
+  /** Word read after a count. Default "results". */
+  countWord?: string;
+  /** Hides the legend visually (still read). Use when the page already names the group. */
+  hideLabel?: boolean;
+  id?: string;
+  className?: string;
+}
+export declare function FilterGroup(props: FilterGroupProps): React.ReactElement | null;

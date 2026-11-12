@@ -61,7 +61,9 @@ writeFileSync(join(root, "src/bundle.js"), header + 'import * as React from "rea
 writeFileSync(join(root, "src/components.css"), header + up("bundle.css"));
 
 // Tipi: quelli dell'artifact, più className su ogni interfaccia e la dichiarazione di ogni componente
-let dts = up("index.d.ts").replace(/^export interface (\w+)( extends \w+)? \{/gm, "export interface $1$2 {\n  className?: string;");
+// className solo dove l'artifact non lo dichiara già (un doppione è un errore di TypeScript)
+let dts = up("index.d.ts").replace(/^export interface (\w+)( extends \w+)? \{([\s\S]*?)^\}/gm, (m, n, ext, body) =>
+  /^\s*className\?:/m.test(body) ? m : `export interface ${n}${ext ?? ""} {\n  className?: string;${body}}`);
 dts += "\n" + names.map((n) => `export declare function ${n}(props: ${n}Props): React.ReactElement | null;`).join("\n") + "\n";
 writeFileSync(join(root, "src/index.d.ts"), header.replace("bundle.js", "index.d.ts") + 'import type * as React from "react";\n\n' + dts);
 console.log(`bundle: ${names.length} componenti (${names.join(", ")})`);
