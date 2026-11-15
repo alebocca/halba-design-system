@@ -1,0 +1,102 @@
+{
+  "v": 4,
+  "note": "Card scheme artwork for the payment page. Show only the schemes enabled for the online channel by the connected PSPs. Use the id as the key.",
+  "box": {
+    "w": 40,
+    "h": 26,
+    "padding": 4,
+    "note": "Same framed chip for every scheme. Artwork widths are fitted inside it. Cartes Bancaires is scaled like the others by Halba's decision (below its charte minimum)."
+  },
+  "schemes": {
+    "amex": {
+      "name": "American Express",
+      "light": "amex.svg",
+      "dark": null,
+      "size": [
+        18,
+        18
+      ],
+      "format": "svg"
+    },
+    "cartes-bancaires": {
+      "name": "Cartes Bancaires",
+      "light": "cartes-bancaires.png",
+      "dark": null,
+      "size": [
+        26,
+        18
+      ],
+      "format": "png",
+      "charteMinSize": [
+        52.2,
+        37.8
+      ]
+    },
+    "discover": {
+      "name": "Discover",
+      "light": "discover.png",
+      "dark": null,
+      "size": [
+        28,
+        18
+      ],
+      "format": "png"
+    },
+    "jcb": {
+      "name": "JCB",
+      "light": "jcb.png",
+      "dark": null,
+      "size": [
+        24,
+        18
+      ],
+      "format": "png"
+    },
+    "mastercard": {
+      "name": "Mastercard",
+      "light": "mastercard.svg",
+      "dark": null,
+      "size": [
+        26,
+        18
+      ],
+      "format": "svg"
+    },
+    "unionpay": {
+      "name": "UnionPay",
+      "light": "unionpay.svg",
+      "dark": null,
+      "size": [
+        29,
+        18
+      ],
+      "format": "svg"
+    },
+    "visa": {
+      "name": "Visa",
+      "light": "visa.svg",
+      "dark": "visa-negative.svg",
+      "size": [
+        30,
+        10
+      ],
+      "format": "svg"
+    }
+  },
+  "order": [
+    "amex",
+    "cartes-bancaires",
+    "discover",
+    "jcb",
+    "mastercard",
+    "unionpay",
+    "visa"
+  ],
+  "orderNote": "Alphabetical, as Cartes Bancaires requires when its logo sits with other marks.",
+  "pending": [
+    "maestro",
+    "bancontact",
+    "diners",
+    "pagobancomat"
+  ]
+}
