@@ -9,7 +9,9 @@ sono nel design system (artifact, `checkout.md` → Card schemes, e `checkout-cr
 - **Pagina**: l'orchestratore copia la cartella in `src/checkout/assets/brands/` e mostra i file come `<img>` serviti
   da `pay.halba.ai/c/assets/brands/` (niente data URI). Il nome del circuito è l'`alt` dell'immagine chiara; il
   negativo ha `alt=""`.
-- **Ordine**: alfabetico (`order`), come chiede Cartes Bancaires.
+- **Ordine**: fisso, deciso da halba (`order`): Visa, Mastercard, Cartes Bancaires, American Express, Discover, JCB,
+  UnionPay; un circuito non attivo si salta. Si discosta dall'ordine alfabetico della charte di Cartes Bancaires.
+- **Riga "Carta" chiusa**: i primi tre circuiti attivi in quest'ordine, a destra, senza testo sotto il nome.
 - **Senza file** (in `pending`: Maestro, Diners…): la pagina mostra il nome (`halba-brand--text`) finché il file non
   arriva. Per aggiungerne uno: il file in questa cartella e la voce in `schemes` e `order` di `brands.json`.
 - Niente script, link esterni o font negli SVG; niente sfondo aggiunto ai PNG.
