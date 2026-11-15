@@ -187,8 +187,6 @@
 .halba-method__name { font-size: 16px; line-height: 24px; font-weight: 600; overflow-wrap: anywhere; }
 .halba-method__hint { font-size: 14px; line-height: 20px; color: var(--hc-muted); overflow-wrap: anywhere; }
 .halba-method__aside { flex: none; display: inline-flex; align-items: center; gap: 4px; }
-/* Card row open: the schemes are listed once, under the label in the panel; the marks on the right go away */
-.halba-method__input:checked + .halba-method__label .halba-method__aside:has(.halba-brand) { display: none; }
 @container halba (max-width: 360px) {
   .halba-method__aside .halba-brand:nth-child(n+3) { display: none; }
   .halba-method__label { padding-left: 12px; padding-right: 12px; gap: 10px; }
@@ -220,6 +218,8 @@
 .halba-brand--discover .halba-brand__img { width: 28px; }
 .halba-brand--jcb .halba-brand__img { width: 24px; }
 .halba-brand--unionpay .halba-brand__img { width: 29px; }
+.halba-brand--maestro .halba-brand__img { width: 26px; }
+.halba-brand--diners .halba-brand__img { width: 20px; }
 .halba-brand--cartes-bancaires .halba-brand__img { width: 26px; }
 /* The scheme recognised from the number, inside the field: the same logo, bigger, no frame (the field is the frame) */
 .halba-control__trail .halba-brand { width: auto; height: auto; padding: 0; border: 0; background: none; }
@@ -230,6 +230,8 @@
 .halba-control__trail .halba-brand--discover .halba-brand__img { width: 34px; }
 .halba-control__trail .halba-brand--jcb .halba-brand__img { width: 32px; }
 .halba-control__trail .halba-brand--unionpay .halba-brand__img { width: 36px; }
+.halba-control__trail .halba-brand--maestro .halba-brand__img { width: 34px; }
+.halba-control__trail .halba-brand--diners .halba-brand__img { width: 26px; }
 .halba-control__trail .halba-brand--cartes-bancaires .halba-brand__img { width: 32px; }
 .halba-brand__img--on-dark { display: none; }
 .halba-checkout[data-halba-theme="dark"] .halba-brand__img--on-light:not(:only-of-type) { display: none; }

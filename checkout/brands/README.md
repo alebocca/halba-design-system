@@ -3,15 +3,18 @@
 File ufficiali dei circuiti e `brands.json` (id, nome, file chiaro e negativo, dimensioni, ordine). Le regole d'uso
 sono nel design system (artifact, `checkout.md` → Card schemes, e `checkout-criteria.md`).
 
-- **Id**: quelli di `brands.json` (`amex`, `cartes-bancaires`, `discover`, `jcb`, `mastercard`, `unionpay`, `visa`).
+- **Id**: quelli di `brands.json` (`amex`, `cartes-bancaires`, `diners`, `discover`, `jcb`, `maestro`, `mastercard`, `unionpay`, `visa`).
   L'orchestratore li collega ai suoi (`cartes_bancaires`, `cup`) e usa l'id del design system nelle classi
   (`halba-brand--cartes-bancaires`).
 - **Pagina**: l'orchestratore copia la cartella in `src/checkout/assets/brands/` e mostra i file come `<img>` serviti
   da `pay.halba.ai/c/assets/brands/` (niente data URI). Il nome del circuito è l'`alt` dell'immagine chiara; il
   negativo ha `alt=""`.
-- **Ordine**: fisso, deciso da halba (`order`): Visa, Mastercard, Cartes Bancaires, American Express, Discover, JCB,
-  UnionPay; un circuito non attivo si salta. Si discosta dall'ordine alfabetico della charte di Cartes Bancaires.
-- **Riga "Carta" chiusa**: i primi tre circuiti attivi in quest'ordine, a destra, senza testo sotto il nome.
-- **Senza file** (in `pending`: Maestro, Diners…): la pagina mostra il nome (`halba-brand--text`) finché il file non
+- **Ordine**: fisso, deciso da halba (`order`): Visa, Mastercard, Maestro, Cartes Bancaires, American Express,
+  Discover, Diners Club, JCB, UnionPay; un circuito non attivo si salta. Si discosta dall'ordine alfabetico della charte di Cartes Bancaires.
+- **Riga "Carta"**: niente loghi e niente testo sotto il nome; i circuiti compaiono una volta sola, nell'elenco del
+  pannello, quando la riga è aperta.
+- **Senza file** (in `pending`: Bancontact, PagoBANCOMAT): la pagina mostra il nome (`halba-brand--text`) finché il file non
   arriva. Per aggiungerne uno: il file in questa cartella e la voce in `schemes` e `order` di `brands.json`.
+- **Maestro e Diners Club**: solo il simbolo, senza la scritta (illeggibile a questa dimensione); uso del solo
+  simbolo non ancora verificato con le regole dei due circuiti.
 - Niente script, link esterni o font negli SVG; niente sfondo aggiunto ai PNG.
