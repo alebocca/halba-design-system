@@ -84,15 +84,15 @@
     }
   },
   "order": [
-    "amex",
+    "visa",
+    "mastercard",
     "cartes-bancaires",
+    "amex",
     "discover",
     "jcb",
-    "mastercard",
-    "unionpay",
-    "visa"
+    "unionpay"
   ],
-  "orderNote": "Alphabetical, as Cartes Bancaires requires when its logo sits with other marks.",
+  "orderNote": "Fixed order, set by Halba: Visa, Mastercard, Cartes Bancaires, American Express, Discover, JCB, UnionPay. A scheme that is not enabled is skipped and the next one takes its place. Departs from the alphabetical order that the Cartes Bancaires charte asks for.",
   "pending": [
     "maestro",
     "bancontact",
