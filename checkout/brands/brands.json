@@ -81,22 +81,44 @@
         10
       ],
       "format": "svg"
+    },
+    "maestro": {
+      "name": "Maestro",
+      "light": "maestro.svg",
+      "dark": null,
+      "size": [
+        26,
+        16
+      ],
+      "format": "svg",
+      "note": "Symbol only (two circles, from the horizontal positive lockup, wordmark removed). Not checked against Mastercard brand rules for symbol-only use."
+    },
+    "diners": {
+      "name": "Diners Club",
+      "light": "diners.svg",
+      "dark": null,
+      "size": [
+        20,
+        17
+      ],
+      "format": "svg",
+      "note": "Disc symbol only, from the colour EPS (converted to SVG, wordmark removed). The black EPS was received and is not used. Not checked against Diners Club International brand rules."
     }
   },
   "order": [
     "visa",
     "mastercard",
+    "maestro",
     "cartes-bancaires",
     "amex",
     "discover",
+    "diners",
     "jcb",
     "unionpay"
   ],
-  "orderNote": "Fixed order, set by Halba: Visa, Mastercard, Cartes Bancaires, American Express, Discover, JCB, UnionPay. A scheme that is not enabled is skipped and the next one takes its place. Departs from the alphabetical order that the Cartes Bancaires charte asks for.",
+  "orderNote": "Fixed order, set by Halba: Visa, Mastercard, Maestro, Cartes Bancaires, American Express, Discover, Diners Club, JCB, UnionPay (Maestro follows Mastercard, Diners Club follows Discover, same groups). A scheme that is not enabled is skipped and the next one takes its place. Departs from the alphabetical order that the Cartes Bancaires charte asks for.",
   "pending": [
-    "maestro",
     "bancontact",
-    "diners",
     "pagobancomat"
   ]
 }
