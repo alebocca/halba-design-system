@@ -1,0 +1,310 @@
+[
+  {
+    "id": "system",
+    "label": "System",
+    "category": "sans",
+    "stack": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+    "files": []
+  },
+  {
+    "id": "serif",
+    "label": "Serif (Georgia)",
+    "category": "serif",
+    "stack": "Georgia, \"Iowan Old Style\", \"Times New Roman\", serif",
+    "files": []
+  },
+  {
+    "id": "inter",
+    "label": "Inter",
+    "category": "sans",
+    "stack": "\"Inter\", system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+    "css": "Inter.css",
+    "files": [
+      "Inter-latin-ext.woff2",
+      "Inter-latin.woff2",
+      "Inter.css",
+      "Inter-OFL.txt"
+    ]
+  },
+  {
+    "id": "roboto",
+    "label": "Roboto",
+    "category": "sans",
+    "stack": "\"Roboto\", system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+    "css": "roboto.css",
+    "files": [
+      "roboto-latin-ext.woff2",
+      "roboto-latin.woff2",
+      "roboto.css",
+      "roboto-OFL.txt"
+    ]
+  },
+  {
+    "id": "open_sans",
+    "label": "Open Sans",
+    "category": "sans",
+    "stack": "\"Open Sans\", system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+    "css": "open-sans.css",
+    "files": [
+      "open-sans-latin-ext.woff2",
+      "open-sans-latin.woff2",
+      "open-sans.css",
+      "open-sans-OFL.txt"
+    ]
+  },
+  {
+    "id": "lato",
+    "label": "Lato",
+    "category": "sans",
+    "stack": "\"Lato\", system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+    "css": "lato.css",
+    "files": [
+      "lato-latin-ext-400.woff2",
+      "lato-latin-ext-700.woff2",
+      "lato-latin-400.woff2",
+      "lato-latin-700.woff2",
+      "lato.css",
+      "lato-OFL.txt"
+    ]
+  },
+  {
+    "id": "montserrat",
+    "label": "Montserrat",
+    "category": "sans",
+    "stack": "\"Montserrat\", system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+    "css": "montserrat.css",
+    "files": [
+      "montserrat-latin-ext.woff2",
+      "montserrat-latin.woff2",
+      "montserrat.css",
+      "montserrat-OFL.txt"
+    ]
+  },
+  {
+    "id": "poppins",
+    "label": "Poppins",
+    "category": "sans",
+    "stack": "\"Poppins\", system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+    "css": "poppins.css",
+    "files": [
+      "poppins-latin-ext-400.woff2",
+      "poppins-latin-ext-500.woff2",
+      "poppins-latin-ext-600.woff2",
+      "poppins-latin-ext-700.woff2",
+      "poppins-latin-400.woff2",
+      "poppins-latin-500.woff2",
+      "poppins-latin-600.woff2",
+      "poppins-latin-700.woff2",
+      "poppins.css",
+      "poppins-OFL.txt"
+    ]
+  },
+  {
+    "id": "nunito",
+    "label": "Nunito",
+    "category": "sans",
+    "stack": "\"Nunito\", system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+    "css": "nunito.css",
+    "files": [
+      "nunito-latin-ext.woff2",
+      "nunito-latin.woff2",
+      "nunito.css",
+      "nunito-OFL.txt"
+    ]
+  },
+  {
+    "id": "raleway",
+    "label": "Raleway",
+    "category": "sans",
+    "stack": "\"Raleway\", system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+    "css": "raleway.css",
+    "files": [
+      "raleway-latin-ext.woff2",
+      "raleway-latin.woff2",
+      "raleway.css",
+      "raleway-OFL.txt"
+    ]
+  },
+  {
+    "id": "work_sans",
+    "label": "Work Sans",
+    "category": "sans",
+    "stack": "\"Work Sans\", system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+    "css": "work-sans.css",
+    "files": [
+      "work-sans-latin-ext.woff2",
+      "work-sans-latin.woff2",
+      "work-sans.css",
+      "work-sans-OFL.txt"
+    ]
+  },
+  {
+    "id": "dm_sans",
+    "label": "DM Sans",
+    "category": "sans",
+    "stack": "\"DM Sans\", system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+    "css": "dm-sans.css",
+    "files": [
+      "dm-sans-latin-ext.woff2",
+      "dm-sans-latin.woff2",
+      "dm-sans.css",
+      "dm-sans-OFL.txt"
+    ]
+  },
+  {
+    "id": "manrope",
+    "label": "Manrope",
+    "category": "sans",
+    "stack": "\"Manrope\", system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+    "css": "manrope.css",
+    "files": [
+      "manrope-latin-ext.woff2",
+      "manrope-latin.woff2",
+      "manrope.css",
+      "manrope-OFL.txt"
+    ]
+  },
+  {
+    "id": "plus_jakarta_sans",
+    "label": "Plus Jakarta Sans",
+    "category": "sans",
+    "stack": "\"Plus Jakarta Sans\", system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+    "css": "plus-jakarta-sans.css",
+    "files": [
+      "plus-jakarta-sans-latin-ext.woff2",
+      "plus-jakarta-sans-latin.woff2",
+      "plus-jakarta-sans.css",
+      "plus-jakarta-sans-OFL.txt"
+    ]
+  },
+  {
+    "id": "source_sans_3",
+    "label": "Source Sans 3",
+    "category": "sans",
+    "stack": "\"Source Sans 3\", system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+    "css": "source-sans-3.css",
+    "files": [
+      "source-sans-3-latin-ext.woff2",
+      "source-sans-3-latin.woff2",
+      "source-sans-3.css",
+      "source-sans-3-OFL.txt"
+    ]
+  },
+  {
+    "id": "ibm_plex_sans",
+    "label": "IBM Plex Sans",
+    "category": "sans",
+    "stack": "\"IBM Plex Sans\", system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+    "css": "ibm-plex-sans.css",
+    "files": [
+      "ibm-plex-sans-latin-ext.woff2",
+      "ibm-plex-sans-latin.woff2",
+      "ibm-plex-sans.css",
+      "ibm-plex-sans-OFL.txt"
+    ]
+  },
+  {
+    "id": "figtree",
+    "label": "Figtree",
+    "category": "sans",
+    "stack": "\"Figtree\", system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+    "css": "figtree.css",
+    "files": [
+      "figtree-latin-ext.woff2",
+      "figtree-latin.woff2",
+      "figtree.css",
+      "figtree-OFL.txt"
+    ]
+  },
+  {
+    "id": "rubik",
+    "label": "Rubik",
+    "category": "sans",
+    "stack": "\"Rubik\", system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+    "css": "rubik.css",
+    "files": [
+      "rubik-latin-ext.woff2",
+      "rubik-latin.woff2",
+      "rubik.css",
+      "rubik-OFL.txt"
+    ]
+  },
+  {
+    "id": "noto_sans",
+    "label": "Noto Sans",
+    "category": "sans",
+    "stack": "\"Noto Sans\", system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+    "css": "noto-sans.css",
+    "files": [
+      "noto-sans-latin-ext.woff2",
+      "noto-sans-latin.woff2",
+      "noto-sans.css",
+      "noto-sans-OFL.txt"
+    ]
+  },
+  {
+    "id": "lora",
+    "label": "Lora",
+    "category": "serif",
+    "stack": "\"Lora\", Georgia, \"Iowan Old Style\", \"Times New Roman\", serif",
+    "css": "lora.css",
+    "files": [
+      "lora-latin-ext.woff2",
+      "lora-latin.woff2",
+      "lora.css",
+      "lora-OFL.txt"
+    ]
+  },
+  {
+    "id": "merriweather",
+    "label": "Merriweather",
+    "category": "serif",
+    "stack": "\"Merriweather\", Georgia, \"Iowan Old Style\", \"Times New Roman\", serif",
+    "css": "merriweather.css",
+    "files": [
+      "merriweather-latin-ext.woff2",
+      "merriweather-latin.woff2",
+      "merriweather.css",
+      "merriweather-OFL.txt"
+    ]
+  },
+  {
+    "id": "playfair_display",
+    "label": "Playfair Display",
+    "category": "serif",
+    "stack": "\"Playfair Display\", Georgia, \"Iowan Old Style\", \"Times New Roman\", serif",
+    "css": "playfair-display.css",
+    "files": [
+      "playfair-display-latin-ext.woff2",
+      "playfair-display-latin.woff2",
+      "playfair-display.css",
+      "playfair-display-OFL.txt"
+    ]
+  },
+  {
+    "id": "source_serif_4",
+    "label": "Source Serif 4",
+    "category": "serif",
+    "stack": "\"Source Serif 4\", Georgia, \"Iowan Old Style\", \"Times New Roman\", serif",
+    "css": "source-serif-4.css",
+    "files": [
+      "source-serif-4-latin-ext.woff2",
+      "source-serif-4-latin.woff2",
+      "source-serif-4.css",
+      "source-serif-4-OFL.txt"
+    ]
+  },
+  {
+    "id": "eb_garamond",
+    "label": "EB Garamond",
+    "category": "serif",
+    "stack": "\"EB Garamond\", Georgia, \"Iowan Old Style\", \"Times New Roman\", serif",
+    "css": "eb-garamond.css",
+    "files": [
+      "eb-garamond-latin-ext.woff2",
+      "eb-garamond-latin.woff2",
+      "eb-garamond.css",
+      "eb-garamond-OFL.txt"
+    ]
+  }
+]
