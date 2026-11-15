@@ -17,8 +17,10 @@
      --halba-on-primary    hex                 text on the primary: white or #000, see checkout.md
      --halba-accent        hex                 primary adjusted to 3:1 on the surface: ring, selected edge, radio
      --halba-radius        0px .. 24px         card, fields, button, methods
-     --halba-font          font stack          system, Inter or serif stacks in checkout.md
+     --halba-font          font stack          system, serif or a font of checkout/fonts/fonts.json (its .css file)
      --halba-bg            hex                 page background, hosted only
+     --halba-input-bg      hex                 background of text boxes and selects (default: the surface)
+     --halba-input-border  hex                 border of text boxes and selects (default: --halba-border-strong)
 
    THEME PRESET — set by data-halba-theme="light" | "dark" | "auto" on the root; each can also be overridden:
 
@@ -43,6 +45,8 @@
   --hc-border: var(--halba-border, #deded8);
   --hc-border-strong: var(--halba-border-strong, #8a8a93);
   --hc-sunken: var(--halba-sunken, #efefeb);
+  --hc-input-bg: var(--halba-input-bg, var(--hc-surface));
+  --hc-input-border: var(--halba-input-border, var(--hc-border-strong));
   --hc-danger: var(--halba-danger, #b42318);
   --hc-danger-bg: var(--halba-danger-bg, #fde7e4);
   --hc-success: var(--halba-success, #0b7a55);
@@ -227,7 +231,7 @@
 
 .halba-control, .halba-input, .halba-select {
   display: flex; align-items: center; gap: 8px; width: 100%; min-height: 48px; padding: 11px 14px;
-  background: var(--hc-surface); color: var(--hc-text); border: 1.5px solid var(--hc-border-strong);
+  background: var(--hc-input-bg); color: var(--hc-text); border: 1.5px solid var(--hc-input-border);
   border-radius: var(--hc-radius); font-size: 16px; line-height: 24px;
 }
 .halba-input, .halba-select { appearance: none; -webkit-appearance: none; }
