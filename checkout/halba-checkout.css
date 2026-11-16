@@ -494,3 +494,7 @@
 .halba-paypal-message:empty { display: none; }
 button.halba-link { padding: 0; border: 0; background: none; cursor: pointer; }
 .halba-result__title:focus { outline: none; }
+/* Express checkout on a product page or in the cart: only the wallet and PayPal buttons, no card around them. */
+.halba-checkout--express { background: transparent; }
+.halba-express-only { display: grid; gap: 12px; }
+.halba-express-only [data-halba="alert"]:empty { display: none; }
