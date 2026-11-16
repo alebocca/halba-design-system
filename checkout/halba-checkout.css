@@ -483,6 +483,14 @@
 @container halba (max-width: 280px) { .halba-express { grid-auto-flow: row; } }
 .halba-express__or { display: flex; align-items: center; gap: 12px; margin: 0; color: var(--hc-muted); font-size: 14px; line-height: 20px; }
 .halba-express__or::before, .halba-express__or::after { content: ""; flex: 1; height: 1px; background: var(--hc-border); }
-.halba-express:not(:has(.halba-express__btn:not(:empty))) + .halba-express__or { display: none; }
+/* The divider shows only when a group above it has a filled slot (the PayPal group sits between the wallets and it). */
+.halba-express__or { display: none; }
+.halba-express:has(.halba-express__btn:not(:empty)) ~ .halba-express__or { display: flex; }
+/* PayPal connected directly: PayPal's official SDK buttons stacked at full width (PayPal, Pay Later, Debit or Credit Card),
+   with PayPal's Pay Later message under its button. Same empty-slot rule as the wallets. */
+.halba-express--stack { grid-auto-flow: row; }
+.halba-express--stack .halba-express__btn { overflow: visible; border-radius: 0; }
+.halba-paypal-message { min-height: 0; }
+.halba-paypal-message:empty { display: none; }
 button.halba-link { padding: 0; border: 0; background: none; cursor: pointer; }
 .halba-result__title:focus { outline: none; }

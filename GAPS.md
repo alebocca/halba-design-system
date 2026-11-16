@@ -22,6 +22,15 @@ Già elencati dall'artifact come "Planned":
 
 Non ancora nell'artifact:
 
+- **Bottoni PayPal (checkout, novembre 2026):** con PayPal collegato direttamente (senza PSP) la pagina mostra i bottoni
+  ufficiali dell'SDK di PayPal nel blocco express, sotto Apple Pay e Google Pay: `div.halba-express.halba-express--stack`
+  con uno spazio `halba-express__btn[data-paypal]` per PayPal, Pay Later (con il messaggio di PayPal in
+  `div.halba-paypal-message`) e carta, uno sopra l'altro a tutta larghezza, alti 48px con il raggio del merchant (fino
+  a 24px); PayPal e Pay Later oro, carta nera su superfici chiare e bianca su quelle scure. Uno spazio che PayPal non
+  conferma idoneo resta vuoto e nascosto; "Or pay another way" compare se un gruppo sopra ha un bottone. PayPal tramite
+  un PSP resta una riga con il nostro bottone Pay (redirect). Da portare in `checkout.md` ("Method marks and the wallet
+  buttons", riga PayPal di "Other methods", che oggi dice che il bottone dell'SDK non si usa).
+
 - **RevenueStory:** valuta fissa in dollari (`$` nel codice); serve una prop `currency` o un `format`. Il sito è in
   euro.
 - **Preview di Card:** la card cliccabile contiene un `TextLink`, cioè un link dentro un link (React lo segnala), in
