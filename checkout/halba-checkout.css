@@ -18,9 +18,9 @@
      --halba-accent        hex                 primary adjusted to 3:1 on the surface: ring, selected edge, radio
      --halba-radius        0px .. 24px         card, fields, button, methods
      --halba-font          font stack          system, serif or a font of checkout/fonts/fonts.json (its .css file)
-     --halba-bg            hex                 page background, hosted only
      --halba-input-bg      hex                 background of text boxes and selects (default: the surface)
      --halba-input-border  hex                 border of text boxes and selects (default: --halba-border-strong)
+     --halba-bg            hex                 page background, hosted only
 
    THEME PRESET — set by data-halba-theme="light" | "dark" | "auto" on the root; each can also be overridden:
 
@@ -44,9 +44,9 @@
   --hc-muted: var(--halba-muted, #5c5c66);
   --hc-border: var(--halba-border, #deded8);
   --hc-border-strong: var(--halba-border-strong, #8a8a93);
-  --hc-sunken: var(--halba-sunken, #efefeb);
   --hc-input-bg: var(--halba-input-bg, var(--hc-surface));
   --hc-input-border: var(--halba-input-border, var(--hc-border-strong));
+  --hc-sunken: var(--halba-sunken, #efefeb);
   --hc-danger: var(--halba-danger, #b42318);
   --hc-danger-bg: var(--halba-danger-bg, #fde7e4);
   --hc-success: var(--halba-success, #0b7a55);
@@ -218,9 +218,9 @@
 .halba-brand--discover .halba-brand__img { width: 28px; }
 .halba-brand--jcb .halba-brand__img { width: 24px; }
 .halba-brand--unionpay .halba-brand__img { width: 29px; }
+.halba-brand--cartes-bancaires .halba-brand__img { width: 26px; }
 .halba-brand--maestro .halba-brand__img { width: 26px; }
 .halba-brand--diners .halba-brand__img { width: 20px; }
-.halba-brand--cartes-bancaires .halba-brand__img { width: 26px; }
 /* The scheme recognised from the number, inside the field: the same logo, bigger, no frame (the field is the frame) */
 .halba-control__trail .halba-brand { width: auto; height: auto; padding: 0; border: 0; background: none; }
 .halba-control__trail .halba-brand--active { box-shadow: none; }
@@ -230,9 +230,9 @@
 .halba-control__trail .halba-brand--discover .halba-brand__img { width: 34px; }
 .halba-control__trail .halba-brand--jcb .halba-brand__img { width: 32px; }
 .halba-control__trail .halba-brand--unionpay .halba-brand__img { width: 36px; }
+.halba-control__trail .halba-brand--cartes-bancaires .halba-brand__img { width: 32px; }
 .halba-control__trail .halba-brand--maestro .halba-brand__img { width: 34px; }
 .halba-control__trail .halba-brand--diners .halba-brand__img { width: 26px; }
-.halba-control__trail .halba-brand--cartes-bancaires .halba-brand__img { width: 32px; }
 .halba-brand__img--on-dark { display: none; }
 .halba-checkout[data-halba-theme="dark"] .halba-brand__img--on-light:not(:only-of-type) { display: none; }
 .halba-checkout[data-halba-theme="dark"] .halba-brand__img--on-dark { display: block; }
@@ -243,17 +243,68 @@
 .halba-brand--active { border-color: var(--hc-accent); box-shadow: 0 0 0 1px var(--hc-accent); }
 @media (forced-colors: active) { .halba-brand { border-color: CanvasText; } .halba-brand--active { border-width: 2px; } }
 
-/* Co-badged card (two networks on one card): the payer chooses, the merchant may preselect but the payer can change it.
-   Markup: <fieldset class="halba-cobrand"><legend class="halba-cobrand__legend">...</legend><p class="halba-cobrand__hint">...</p>
-   <label class="halba-cobrand__opt"><input type="radio" name="network" value="visa"><span class="halba-brand halba-brand--visa">...</span><span class="halba-cobrand__name">Visa</span></label>...</fieldset> */
-.halba-cobrand { display: grid; gap: 8px; margin: 0; padding: 0; border: 0; min-width: 0; }
+/* Co-badged card: the payer chooses the network (Regulation (EU) 2015/751, Art. 8).
+   It sits inside the card panel, right under the card number, and only exists for a co-badged card. The merchant may
+   preselect one network, the payer can change it before paying. Both options have the same weight: the only difference
+   is the selected state. No "recommended" label, no other colour.
+   Markup (the wrapper stays in the DOM; JavaScript only sets data-open and swaps the body):
+   <div class="halba-network" data-open="true">
+     <p class="halba-sr" role="status">Your card has two networks: Cartes Bancaires and Visa. Cartes Bancaires is selected.</p>
+     <div class="halba-network__inner"><fieldset class="halba-cobrand" aria-describedby="id-h">
+       <legend class="halba-cobrand__legend">Pay with</legend>
+       <div class="halba-cobrand__opts">
+         <label class="halba-cobrand__opt"><input type="radio" name="network" value="cartes-bancaires" checked>
+           <span class="halba-brand halba-brand--cartes-bancaires">...</span><span class="halba-cobrand__name">Cartes Bancaires</span></label>
+         <label class="halba-cobrand__opt">...Visa...</label></div>
+       <p class="halba-cobrand__hint" id="id-h">You can change this before you pay.</p></fieldset></div></div>
+   Checking (number complete, about 1 s): same wrapper, aria-busy="true", inner holds .halba-network__skel instead of the fieldset.
+   Failed check: inner holds <p class="halba-note" role="status"> and the page pays with the card's main network. */
+.halba-network { display: grid; grid-template-rows: 0fr; margin-bottom: -16px; }
+.halba-network[data-open="true"] { grid-template-rows: 1fr; margin-bottom: 0; }
+.halba-network__inner { min-height: 0; overflow: hidden; margin: -4px; padding: 4px; visibility: hidden; }
+.halba-network[data-open="true"] .halba-network__inner { visibility: visible; }
+@media (prefers-reduced-motion: no-preference) {
+  .halba-network { transition: grid-template-rows 0.22s ease, margin-bottom 0.22s ease; }
+  .halba-network__inner { transition: visibility 0s linear 0.22s; }
+  .halba-network[data-open="true"] .halba-network__inner { transition-delay: 0s; }
+}
+.halba-sr { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.halba-cobrand, .halba-network__skel { display: grid; gap: 8px; margin: 0; padding: 0; border: 0; min-width: 0; min-height: 132px; align-content: start; }
 .halba-cobrand__legend { padding: 0; font-size: 14px; line-height: 20px; font-weight: 600; }
-.halba-cobrand__hint { margin: 0; font-size: 14px; line-height: 20px; color: var(--hc-muted); }
-.halba-cobrand__opt { display: flex; align-items: center; gap: 12px; box-sizing: border-box; min-height: 48px; padding: 8px 12px; border: 1px solid var(--hc-border-strong); border-radius: var(--hc-radius); background: var(--hc-surface); cursor: pointer; }
+.halba-cobrand__opts { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.halba-cobrand__opt {
+  display: grid; grid-template-columns: auto 1fr; grid-template-areas: "radio logo" "name name"; align-items: center; column-gap: 10px; row-gap: 4px;
+  box-sizing: border-box; min-height: 76px; padding: 10px 12px; border: 1px solid var(--hc-border-strong); border-radius: var(--hc-radius); background: var(--hc-surface); cursor: pointer;
+}
+.halba-cobrand__opt input { grid-area: radio; appearance: none; -webkit-appearance: none; box-sizing: border-box; width: 20px; height: 20px; margin: 0; border: 2px solid var(--hc-border-strong); border-radius: 50%; background: var(--hc-surface); }
+.halba-cobrand__opt input:checked { border-color: var(--hc-accent); background: var(--hc-accent); box-shadow: inset 0 0 0 3px var(--hc-surface); }
+@media (forced-colors: active) { .halba-cobrand__opt input:checked { background: Highlight; border-color: Highlight; } }
+.halba-cobrand__opt .halba-brand { grid-area: logo; justify-self: end; }
+.halba-cobrand__name { grid-area: name; font-size: 16px; line-height: 24px; font-weight: 600; overflow-wrap: anywhere; }
 .halba-cobrand__opt:has(input:checked) { border-color: var(--hc-accent); box-shadow: 0 0 0 1px var(--hc-accent); }
 .halba-cobrand__opt:has(input:focus-visible) { outline: 3px solid var(--hc-accent); outline-offset: 2px; }
-.halba-cobrand__opt input { flex: none; width: 20px; height: 20px; margin: 0; accent-color: var(--hc-accent); }
-.halba-cobrand__name { font-size: 16px; line-height: 24px; font-weight: 600; overflow-wrap: anywhere; }
+.halba-cobrand__hint { margin: 0; font-size: 14px; line-height: 20px; color: var(--hc-muted); }
+@container halba (max-width: 340px) {
+  .halba-cobrand, .halba-network__skel { min-height: 176px; }
+  .halba-cobrand__opts { grid-template-columns: 1fr; }
+  .halba-cobrand__opt { grid-template-columns: auto auto 1fr; grid-template-areas: "radio logo name"; min-height: 56px; }
+  .halba-cobrand__opt .halba-brand { justify-self: start; }
+}
+@media (forced-colors: active) { .halba-cobrand__opt { border-color: CanvasText; } .halba-cobrand__opt:has(input:checked) { border-width: 2px; } }
+/* Waiting for the PSP: same size as the control, so nothing moves when it arrives. */
+.halba-network__skel i { display: block; border-radius: calc(var(--hc-radius) / 2); background: var(--hc-sunken); }
+.halba-network__skel > i:first-child { width: 64px; height: 14px; margin: 3px 0; }
+.halba-network__skel > i:last-child { width: 60%; height: 14px; margin: 3px 0; }
+.halba-network__skel-opts { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.halba-network__skel-opts i { height: 76px; border: 1px solid var(--hc-border); border-radius: var(--hc-radius); }
+@container halba (max-width: 340px) { .halba-network__skel-opts { grid-template-columns: 1fr; } .halba-network__skel-opts i { height: 56px; } }
+@media (prefers-reduced-motion: no-preference) {
+  .halba-network[aria-busy="true"] .halba-network__skel i { animation: halba-skel 1.2s ease-in-out infinite alternate; }
+}
+@keyframes halba-skel { from { opacity: 1; } to { opacity: 0.55; } }
+/* After the Pay button when the chosen network sends the payer to the bank (Cartes Bancaires): full-page redirect through the PSP. */
+.halba-redirect-note { display: flex; align-items: center; justify-content: center; gap: 8px; margin: 0; font-size: 14px; line-height: 20px; color: var(--hc-muted); text-align: center; }
+.halba-redirect-note .halba-icon { flex: none; width: 16px; height: 16px; }
 
 .halba-pill { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border: 1px solid var(--hc-border-strong); border-radius: 999px; font-size: 12px; line-height: 16px; font-weight: 600; white-space: nowrap; }
 .halba-pill--suggested { border-color: var(--hc-accent); background: var(--hc-surface); color: var(--hc-text); }
@@ -365,8 +416,6 @@
 .halba-button:hover { background: var(--hc-sunken); }
 .halba-button:focus-visible { outline: 3px solid var(--hc-accent); outline-offset: 2px; }
 .halba-link { color: var(--hc-text); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; display: inline-flex; align-items: center; min-height: 44px; }
-button.halba-link { padding: 0; border: 0; background: none; cursor: pointer; }
-.halba-result__title:focus { outline: none; }
 .halba-link:focus-visible { outline: 3px solid var(--hc-accent); outline-offset: 2px; border-radius: var(--hc-radius-xs); }
 
 /* ---------- 3-D Secure window: about 500 x 640 over the page ---------- */
@@ -435,3 +484,5 @@ button.halba-link { padding: 0; border: 0; background: none; cursor: pointer; }
 .halba-express__or { display: flex; align-items: center; gap: 12px; margin: 0; color: var(--hc-muted); font-size: 14px; line-height: 20px; }
 .halba-express__or::before, .halba-express__or::after { content: ""; flex: 1; height: 1px; background: var(--hc-border); }
 .halba-express:not(:has(.halba-express__btn:not(:empty))) + .halba-express__or { display: none; }
+button.halba-link { padding: 0; border: 0; background: none; cursor: pointer; }
+.halba-result__title:focus { outline: none; }
