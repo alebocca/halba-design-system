@@ -22,15 +22,14 @@ Già elencati dall'artifact come "Planned":
 
 Non ancora nell'artifact:
 
-- **Bottoni PayPal (checkout, novembre 2026):** con PayPal collegato direttamente (senza PSP) la pagina mostra i bottoni
-  ufficiali dell'SDK di PayPal nel blocco express, sotto Apple Pay e Google Pay: `div.halba-express.halba-express--stack`
-  con uno spazio `halba-express__btn[data-paypal]` per PayPal, Pay Later (con il messaggio di PayPal in
-  `div.halba-paypal-message`) e carta, uno sopra l'altro a tutta larghezza, alti 48px con il raggio del merchant (fino
-  a 24px); PayPal e Pay Later oro, carta nera su superfici chiare e bianca su quelle scure. Uno spazio che PayPal non
-  conferma idoneo resta vuoto e nascosto; "Or pay another way" compare se un gruppo sopra ha un bottone. PayPal tramite
-  un PSP resta una riga con il nostro bottone Pay (redirect). Da portare in `checkout.md` ("Method marks and the wallet
-  buttons", riga PayPal di "Other methods", che oggi dice che il bottone dell'SDK non si usa).
-
+- **Bottoni PayPal (checkout veloce, novembre 2026):** nella pagina di checkout PayPal resta una riga con il nostro
+  bottone Pay, come dice `checkout.md` ("Other methods"), anche con PayPal collegato direttamente: la posizione la
+  decide l'ordinamento di halba. Solo il checkout veloce sulla scheda prodotto o nel carrello (contenitore
+  `.halba-checkout--express`, solo bottoni) usa i bottoni ufficiali dell'SDK di PayPal: `div.halba-express.halba-express--stack`
+  con uno spazio `halba-express__btn[data-paypal]` per PayPal, Pay Later (messaggio di PayPal in `div.halba-paypal-message`)
+  e carta, a tutta larghezza, alti 48px con il raggio del merchant; PayPal e Pay Later oro, carta nera su chiaro e
+  bianca su scuro; uno spazio non idoneo resta vuoto e nascosto. Da portare in `checkout.md` come sezione "Express
+  checkout on product pages".
 - **RevenueStory:** valuta fissa in dollari (`$` nel codice); serve una prop `currency` o un `format`. Il sito è in
   euro.
 - **Preview di Card:** la card cliccabile contiene un `TextLink`, cioè un link dentro un link (React lo segnala), in
