@@ -118,7 +118,7 @@ Repository pubblico `alebocca/halba-design-system`, senza registro npm né token
 un tag git:
 
 ```json
-"@halba/design-system": "github:alebocca/halba-design-system#v0.7.0"
+"@halba/design-system": "github:alebocca/halba-design-system#v0.8.0"
 ```
 
 Per una nuova versione: aggiornare `version` in `package.json`, committare, `git tag vX.Y.Z`,

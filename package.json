@@ -1,6 +1,6 @@
 {
   "name": "@halba/design-system",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "Halba Design System: token, componenti React con CSS semplice, storie animate, preset Tailwind.",
   "type": "module",
   "license": "UNLICENSED",
@@ -21,13 +21,15 @@
     "./checkout-fonts.css": "./checkout/halba-checkout-fonts.css",
     "./checkout-icons.svg": "./checkout/halba-icons.svg",
     "./checkout/*": "./checkout/*",
-    "./brand/*": "./brand/*"
+    "./brand/*": "./brand/*",
+    "./terminal/*": "./terminal/*"
   },
   "files": [
     "src",
     "tokens",
     "tailwind",
     "checkout",
+    "terminal",
     "brand",
     "README.md"
   ],
