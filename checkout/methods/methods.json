@@ -1,0 +1,135 @@
+{
+  "v": 1,
+  "note": "Marks of the alternative payment methods, for the payment page (checkout) and the POS app (terminal). Each mark sits on a fixed tile; the tile colour is chosen per method so the artwork reads well in light and dark themes alike, and every mark gets the same tile size.",
+  "tile": {
+    "checkout": {
+      "w": 80,
+      "h": 40,
+      "padding": 8,
+      "img": [
+        64,
+        24
+      ]
+    },
+    "terminal": {
+      "w": 112,
+      "h": 48,
+      "padding": 8,
+      "img": [
+        96,
+        32
+      ]
+    },
+    "colours": {
+      "light": "#ffffff",
+      "dark": "#000000",
+      "pink": "#ffa8cd",
+      "yellow": "#fff48d"
+    }
+  },
+  "methods": {
+    "alipay": {
+      "name": "Alipay",
+      "file": "alipay.png",
+      "tile": "light",
+      "size": [
+        320,
+        81
+      ],
+      "format": "png",
+      "note": "Colour lockup (blue symbol, black wordmark): white tile."
+    },
+    "wechat": {
+      "name": "WeChat Pay",
+      "file": "wechat.png",
+      "tile": "light",
+      "size": [
+        320,
+        78
+      ],
+      "format": "png",
+      "note": "File received is the WeChat lockup, not the WeChat Pay mark: replace it when the Pay mark arrives."
+    },
+    "twint": {
+      "name": "TWINT",
+      "file": "twint.png",
+      "tile": "dark",
+      "size": [
+        320,
+        104
+      ],
+      "format": "png",
+      "note": "White-on-black version: black tile (#000). Needs a colour version for light tiles if the scheme asks for one."
+    },
+    "paypal": {
+      "name": "PayPal",
+      "file": "paypal.png",
+      "tile": "light",
+      "size": [
+        320,
+        78
+      ],
+      "format": "png",
+      "note": "Colour horizontal lockup (pp_h_rgb): white tile. The black version and the vertical lockups were received and not used."
+    },
+    "klarna": {
+      "name": "Klarna",
+      "file": "klarna.png",
+      "tile": "pink",
+      "size": [
+        320,
+        78
+      ],
+      "format": "png",
+      "note": "Black wordmark on the tile in Klarna Pink #FFA8CD (the same artwork as the Klarna payment badge, which was received and is not used as a file). Tile values: light #FFFFFF, dark #000000, pink #FFA8CD."
+    },
+    "bizum": {
+      "name": "Bizum",
+      "file": "bizum.png",
+      "tile": "light",
+      "size": [
+        320,
+        95
+      ],
+      "format": "png",
+      "note": "Teal lockup (Horizontal_azul) on a white tile. The white version was received and is not used: it would go on a teal tile if ever needed."
+    },
+    "blik": {
+      "name": "BLIK",
+      "file": "blik.png",
+      "tile": "light",
+      "size": [
+        320,
+        151
+      ],
+      "format": "png",
+      "note": "Official badge (black gradient with its soft shadow, red dot) on a white tile."
+    },
+    "mbway": {
+      "name": "MB WAY",
+      "file": "mbway.svg",
+      "tile": "light",
+      "size": [
+        480,
+        234
+      ],
+      "format": "svg",
+      "note": "Positive horizontal lockup (black MB, red brackets) on a white tile. Vector. Negative (white MB), black, white and vertical versions were received and are not used."
+    },
+    "ideal": {
+      "name": "iDEAL | Wero",
+      "file": "ideal-wero.svg",
+      "tile": "yellow",
+      "size": [
+        480,
+        182
+      ],
+      "format": "svg",
+      "note": "Official co-logo, yellow horizontal lockup (vector, its own #FFF48D background): the tile takes the same yellow so they merge. The square lockup was received and is not used. Mandatory name since 31 March 2026."
+    }
+  },
+  "pending": [
+    "bancontact",
+    "p24"
+  ]
+}
