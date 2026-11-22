@@ -5,3 +5,4 @@ DocsLayout is the shell of every technical page: a sticky top bar (logo lockup, 
 - The current page is marked with `aria-current="page"` and `brand-tint`; the navigation has an accessible name. Use one `h1` (`DocsHeader`), `h2` and `h3` as `DocsHeading` (stable author-written id, copyable link) whose ids match the `toc` hrefs.
 - Page rhythm: header, then sections of text, one `CodeBlock` and one `Table` at a time, `Callout` only for what can cost the reader; at most one per section.
 - Compose a reference page in this order: `DocsHeader` with `Endpoint`, Request (`CodeBlock` with tabs), Parameters (`Table`), Response (`CodeBlock`), Errors (`Table`). The preview "Docs page" shows the full page.
+- The navigation is drawn twice (menu under 900px, column above), only one is visible; each copy has its own ids (`docsnav-<instance>-menu-0`, `-full-0`), so a page never has a duplicate id.

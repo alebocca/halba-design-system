@@ -27,8 +27,8 @@
   },
   "lastChange": {
     "by": "Alessandro",
-    "at": "2026-11-22T22:40:00Z",
+    "at": "2026-11-22T22:55:00Z",
     "via": "Claude Code",
-    "note": "Docs: DocsHeading, section title with a stable id and a copyable link (h2, h3); toc levels; rule in README."
+    "note": "DocsLayout: unique ids for the two copies of the navigation (menu and column)."
   }
 }

@@ -882,21 +882,24 @@ import * as React from "react";
   /* Docs shell: top bar, section navigation, page, on this page. Static; below 900px the navigation folds into a menu. */
   function DocsLayout(p) {
     var nav = p.nav || [], toc = p.toc || [];
-    var navEl = nav.map(function (g, gi) {
+    var uid = React.useId().replace(/[^a-zA-Z0-9_-]/g, '');
+    /* The navigation is drawn twice (menu under 900px, column above), so each copy gets its own ids. */
+    function navList(where) { return nav.map(function (g, gi) {
+      var tid = 'docsnav-' + uid + '-' + where + '-' + gi;
       return h('div', { key: gi, className: 'hb-docsnav__group' },
-        h('p', { className: 'hb-docsnav__title', id: 'docsnav-' + gi }, g.title),
-        h('ul', { 'aria-labelledby': 'docsnav-' + gi }, g.items.map(function (it, i) {
+        h('p', { className: 'hb-docsnav__title', id: tid }, g.title),
+        h('ul', { 'aria-labelledby': tid }, g.items.map(function (it, i) {
           return h('li', { key: i }, h('a', Object.assign({ href: it.href, className: cx('hb-docsnav__link', it.current && 'is-current') }, it.current ? { 'aria-current': 'page' } : {}), it.label));
         })));
-    });
+    }); }
     return h('div', { className: cx('hb-docs', p.className) },
       h('div', { className: 'hb-docs__top' },
         h('div', { className: 'hb-docs__brand' }, p.logo || h(Logo, { variant: 'lockup', size: 28 }), p.section ? h('span', { className: 'hb-docs__section' }, p.section) : null),
         h('div', { className: 'hb-docs__tools' }, p.search || null, p.tools || null)),
       h('div', { className: 'hb-docs__grid' },
         h('nav', { className: 'hb-docs__nav', 'aria-label': 'Documentation' },
-          h('details', { className: 'hb-docs__menu' }, h('summary', null, h(Icon, { name: 'menu', size: 16 }), 'Menu'), h('div', null, navEl)),
-          h('div', { className: 'hb-docs__navfull' }, navEl)),
+          h('details', { className: 'hb-docs__menu' }, h('summary', null, h(Icon, { name: 'menu', size: 16 }), 'Menu'), h('div', null, navList('menu'))),
+          h('div', { className: 'hb-docs__navfull' }, navList('full'))),
         h('main', { className: 'hb-docs__main', id: p.mainId || 'content' }, p.children),
         toc.length ? h('nav', { className: 'hb-docs__toc', 'aria-label': 'On this page' },
           h('p', { className: 'hb-docsnav__title' }, 'On this page'),
