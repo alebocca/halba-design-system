@@ -1,0 +1,18 @@
+halba
+
+Hai ricevuto un invito per {{ .WorkspaceCount }} workspace
+
+{{ .InviterName }} ti invita nei workspace qui sotto. Controllali e accettali in un solo passaggio.
+
+{{ .WorkspaceRowsText }}
+
+Controlla gli inviti: {{ .InviteURL }}
+
+Non hai ancora un account halba? Lo creerai al passo successivo.
+
+Gli inviti sono validi per 7 giorni. Se non te li aspettavi, puoi ignorare questa email.
+
+--
+Ricevi questa email perché {{ .InviterName }} ha invitato {{ .Email }} su halba. Inviata a {{ .Email }}.
+Serve aiuto? Vai al centro assistenza. https://halba.ai/help
+halba · [Ragione sociale], [sede legale]

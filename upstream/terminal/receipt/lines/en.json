@@ -1,0 +1,557 @@
+{
+ "width_chars": 30,
+ "cell_px": [
+  12,
+  24
+ ],
+ "note": "Each line: t text, a l|c|r, b bold, w 1|2 width, h 1|2 height. Sample data.",
+ "outcomes": {
+  "approved": [
+   {
+    "t": "Northwind Coffee Roasters",
+    "a": "c",
+    "b": true,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "S.r.l.",
+    "a": "c",
+    "b": true,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Milano Duomo",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Via Torino 12, 20123 Milano MI",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "VAT no. IT01234567890",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "------------------------------",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Date          20/11/2026 18:47",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Terminal               Cassa 1",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Method    Klarna Pay Over Time",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Order          ORD-2026-004172",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "halba ref.    tp_7Hk2...a3Q9xA",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "PSP ref.      KL-8841926710553",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Account       m***@example.com",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "------------------------------",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "€24.90",
+    "a": "c",
+    "b": true,
+    "w": 2,
+    "h": 2
+   },
+   {
+    "t": "APPROVED",
+    "a": "c",
+    "b": true,
+    "w": 1,
+    "h": 2
+   },
+   {
+    "t": "------------------------------",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "CUSTOMER COPY",
+    "a": "c",
+    "b": true,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Keep this receipt",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Thank you",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   }
+  ],
+  "declined": [
+   {
+    "t": "Northwind Coffee Roasters",
+    "a": "c",
+    "b": true,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "S.r.l.",
+    "a": "c",
+    "b": true,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Milano Duomo",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Via Torino 12, 20123 Milano MI",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "VAT no. IT01234567890",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "------------------------------",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Date          20/11/2026 18:47",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Terminal               Cassa 1",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Method                  PayPal",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Order          ORD-2026-004172",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "halba ref.    tp_7Hk2...a3Q9xA",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "PSP ref.     5TY05013RG002845M",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Account       m***@example.com",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "------------------------------",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "€24.90",
+    "a": "c",
+    "b": true,
+    "w": 2,
+    "h": 2
+   },
+   {
+    "t": "DECLINED",
+    "a": "c",
+    "b": true,
+    "w": 1,
+    "h": 2
+   },
+   {
+    "t": "Insufficient funds.",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "You were not charged.",
+    "a": "c",
+    "b": true,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "------------------------------",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "CUSTOMER COPY",
+    "a": "c",
+    "b": true,
+    "w": 1,
+    "h": 1
+   }
+  ],
+  "cancelled": [
+   {
+    "t": "Northwind Coffee Roasters",
+    "a": "c",
+    "b": true,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "S.r.l.",
+    "a": "c",
+    "b": true,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Milano Duomo",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Via Torino 12, 20123 Milano MI",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "VAT no. IT01234567890",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "------------------------------",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Date          20/11/2026 18:47",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Terminal               Cassa 1",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Method            iDEAL | Wero",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Order          ORD-2026-004172",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "halba ref.    tp_7Hk2...a3Q9xA",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "------------------------------",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "€24.90",
+    "a": "c",
+    "b": true,
+    "w": 2,
+    "h": 2
+   },
+   {
+    "t": "CANCELLED",
+    "a": "c",
+    "b": true,
+    "w": 1,
+    "h": 2
+   },
+   {
+    "t": "Payment cancelled before",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "confirmation.",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "You were not charged.",
+    "a": "c",
+    "b": true,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "------------------------------",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "CUSTOMER COPY",
+    "a": "c",
+    "b": true,
+    "w": 1,
+    "h": 1
+   }
+  ],
+  "incomplete": [
+   {
+    "t": "Northwind Coffee Roasters",
+    "a": "c",
+    "b": true,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "S.r.l.",
+    "a": "c",
+    "b": true,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Milano Duomo",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Via Torino 12, 20123 Milano MI",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "VAT no. IT01234567890",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "------------------------------",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Date          20/11/2026 18:47",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Terminal               Cassa 1",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Method                  MB WAY",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Order          ORD-2026-004172",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "halba ref.    tp_7Hk2...a3Q9xA",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "------------------------------",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "€24.90",
+    "a": "c",
+    "b": true,
+    "w": 2,
+    "h": 2
+   },
+   {
+    "t": "NOT COMPLETED",
+    "a": "c",
+    "b": true,
+    "w": 1,
+    "h": 2
+   },
+   {
+    "t": "The QR code expired.",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "You were not charged.",
+    "a": "c",
+    "b": true,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "------------------------------",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "CUSTOMER COPY",
+    "a": "c",
+    "b": true,
+    "w": 1,
+    "h": 1
+   }
+  ]
+ }
+}

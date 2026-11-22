@@ -206,7 +206,7 @@ export interface ModalProps {
 }
 
 export interface IconProps {
-  name: 'check' | 'x' | 'alert' | 'clock' | 'undo' | 'info' | 'circle-check' | 'circle-x' | 'search' | 'copy' | 'menu' | 'chevron-right' | 'chevron-down' | 'wifi' | 'wifi-off' | 'plug' | 'upload' | 'image' | 'play';
+  name: 'check' | 'x' | 'alert' | 'clock' | 'undo' | 'info' | 'circle-check' | 'circle-x' | 'search' | 'copy' | 'menu' | 'chevron-right' | 'chevron-down' | 'link' | 'wifi' | 'wifi-off' | 'plug' | 'upload' | 'image' | 'play';
   /** Default 20. */
   size?: number;
 }
@@ -346,10 +346,28 @@ export interface DocsSearchProps {
   className?: string;
 }
 
+export interface DocsHeadingProps {
+  /** Stable id of the section, written by the page author. Never derived from the text. It is the fragment of the shared link and the href of the matching "On this page" item. */
+  id: string;
+  /** 2 (default) or 3. */
+  level?: 2 | 3;
+  /** The title. */
+  children: React.ReactNode;
+  /** Name used in the control's accessible name ("Copy link to {label}"). Needed when `children` is not a plain string. */
+  label?: string;
+  /** Page URL to copy, without the fragment, when it differs from the address bar (canonical URL). Default: the current page. */
+  url?: string;
+  /** Language of the title when it differs from the page (turns on hyphenation for long words). */
+  lang?: string;
+  /** Texts of the control, for other languages. Defaults: "Copy link to", "Link to" (before hydration, plain anchor), "Copied", "Link in address bar" (copy refused), "Link copied" (announced). */
+  labels?: { copy?: string; link?: string; copied?: string; failed?: string; announce?: string };
+  className?: string;
+}
+
 export interface DocsLayoutProps {
   nav: { title: string; items: { label: string; href: string; current?: boolean }[] }[];
   /** "On this page" links; hidden under 1100px. */
-  toc?: { label: string; href: string; current?: boolean }[];
+  toc?: { label: string; href: string; current?: boolean; /** 3 indents an h3 under its h2. Default 2. */ level?: 2 | 3 }[];
   section?: string;
   logo?: React.ReactNode;
   search?: React.ReactNode;
@@ -368,11 +386,12 @@ export declare function Callout(props: CalloutProps): React.ReactElement | null;
 export declare function DocsHeader(props: DocsHeaderProps): React.ReactElement | null;
 export declare function DocsSearch(props: DocsSearchProps): React.ReactElement | null;
 export declare function DocsLayout(props: DocsLayoutProps): React.ReactElement | null;
+export declare function DocsHeading(props: DocsHeadingProps): React.ReactElement | null;
 
 export interface TerminalStatusProps { status: 'online' | 'offline' | 'power'; /** e.g. "12 min"; shown as "Offline for 12 min" */ since?: string; className?: string; }
 export declare function TerminalStatus(props: TerminalStatusProps): React.ReactElement | null;
 
-export interface TerminalFrameProps { /** Screen width in px; height follows 9:16. Default 180 */ width?: number; /** Overlay the reserved bands (72 dp top and bottom) and the 24 dp side margins */ guides?: boolean; label?: string; children?: React.ReactNode; className?: string; }
+export interface TerminalFrameProps { /** Screen width in px; height follows the ratio. Default 180 */ width?: number; /** 9:16 (Stripe S700, Castles S1F2) or 9:20 (myPOS Ultra). Default 9:16 */ ratio?: '9:16' | '9:20'; /** Overlay the reserved bands (72 dp top and bottom) and the safe area (12 % from every edge) */ guides?: boolean; label?: string; children?: React.ReactNode; className?: string; }
 export declare function TerminalFrame(props: TerminalFrameProps): React.ReactElement | null;
 
 export interface IdleScreenFile { name: string; kind: 'image' | 'video'; size: number; type?: string; width?: number; height?: number; duration?: number; src?: string; }

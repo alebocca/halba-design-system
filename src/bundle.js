@@ -1,6 +1,6 @@
 /* Halba Design System — generated from upstream/components/bundle.js by scripts/build-bundle.mjs. Do not edit. */
 import * as React from "react";
-/* @ds-bundle: {"format":4,"namespace":"Halba","components":[{"name":"Button"},{"name":"Badge"},{"name":"StatTile"},{"name":"MetricCard"},{"name":"Input"},{"name":"PhotoPanel"},{"name":"OverlayCard"},{"name":"CheckoutStory"},{"name":"RetryStory"},{"name":"RevenueStory"},{"name":"StatusBadge"},{"name":"Card"},{"name":"Panel"},{"name":"TextLink"},{"name":"Logo"},{"name":"Spinner"},{"name":"Modal"},{"name":"Icon"},{"name":"SegmentedControl"},{"name":"Alert"},{"name":"PieChart"},{"name":"BarChart"},{"name":"AuthLayout"},{"name":"MethodBadge"},{"name":"Endpoint"},{"name":"CodeBlock"},{"name":"Tabs"},{"name":"Table"},{"name":"Callout"},{"name":"DocsHeader"},{"name":"DocsSearch"},{"name":"DocsLayout"},{"name":"TerminalStatus"},{"name":"TerminalFrame"},{"name":"IdleScreenUpload"},{"name":"StaffPin"},{"name":"ShareBar"},{"name":"PaymentFlow"},{"name":"Drawer"},{"name":"FilterGroup"}]} */
+/* @ds-bundle: {"format":4,"namespace":"Halba","components":[{"name":"Button"},{"name":"Badge"},{"name":"StatTile"},{"name":"MetricCard"},{"name":"Input"},{"name":"PhotoPanel"},{"name":"OverlayCard"},{"name":"CheckoutStory"},{"name":"RetryStory"},{"name":"RevenueStory"},{"name":"StatusBadge"},{"name":"Card"},{"name":"Panel"},{"name":"TextLink"},{"name":"Logo"},{"name":"Spinner"},{"name":"Modal"},{"name":"Icon"},{"name":"SegmentedControl"},{"name":"Alert"},{"name":"PieChart"},{"name":"BarChart"},{"name":"AuthLayout"},{"name":"MethodBadge"},{"name":"Endpoint"},{"name":"CodeBlock"},{"name":"Tabs"},{"name":"Table"},{"name":"Callout"},{"name":"DocsHeader"},{"name":"DocsSearch"},{"name":"DocsLayout"},{"name":"DocsHeading"},{"name":"TerminalStatus"},{"name":"TerminalFrame"},{"name":"IdleScreenUpload"},{"name":"StaffPin"},{"name":"ShareBar"},{"name":"PaymentFlow"},{"name":"Drawer"},{"name":"FilterGroup"}]} */
   var h = React.createElement;
 
   function cx() {
@@ -17,6 +17,7 @@ import * as React from "react";
     'circle-check': ['M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0', 'm9 12 2 2 4-4'],
     'circle-x': ['M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0', 'm15 9-6 6', 'm9 9 6 6'],
     search: ['m21 21-4.34-4.34', 'M19 11a8 8 0 1 1-16 0 8 8 0 0 1 16 0'],
+    link: ['M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71', 'M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71'],
     copy: ['M20 9h-9a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2z', 'M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1'],
     menu: ['M4 6h16', 'M4 12h16', 'M4 18h16'],
     'chevron-right': ['m9 18 6-6-6-6'],
@@ -899,7 +900,39 @@ import * as React from "react";
         h('main', { className: 'hb-docs__main', id: p.mainId || 'content' }, p.children),
         toc.length ? h('nav', { className: 'hb-docs__toc', 'aria-label': 'On this page' },
           h('p', { className: 'hb-docsnav__title' }, 'On this page'),
-          h('ul', null, toc.map(function (t, i) { return h('li', { key: i }, h('a', { href: t.href, className: cx('hb-docsnav__link', t.current && 'is-current') }, t.label)); }))) : null));
+          h('ul', null, toc.map(function (t, i) { return h('li', { key: i }, h('a', { href: t.href, className: cx('hb-docsnav__link', t.level === 3 && 'hb-docsnav__link--sub', t.current && 'is-current') }, t.label)); }))) : null));
+  }
+
+  /* Heading of a docs section, with a link to it that can be copied. The id is passed by the page author and never
+     derived from the text, so a shared link stays valid when the title is reworded. The control is a real link to
+     "#id": without JavaScript it is a plain anchor (it navigates and the address bar holds the URL); once hydrated it
+     also copies the full URL and says "Copied" for two seconds (a change of word, like CodeBlock). The link sits next
+     to the heading, not inside it, so the heading keeps a clean accessible name and wraps freely. */
+  var HEADING_WORDS = { copy: 'Copy link to', link: 'Link to', copied: 'Copied', failed: 'Link in address bar', announce: 'Link copied' };
+  function DocsHeading(p) {
+    var level = p.level === 3 ? 3 : 2, Tag = 'h' + level;
+    var st = React.useState(null), state = st[0], setState = st[1];
+    var rd = React.useState(false), ready = rd[0], setReady = rd[1];
+    React.useEffect(function () { setReady(true); }, []);
+    React.useEffect(function () {
+      if (!state) return;
+      var t = setTimeout(function () { setState(null); }, 2000);
+      return function () { clearTimeout(t); };
+    }, [state]);
+    var w = Object.assign({}, HEADING_WORDS, p.labels || {});
+    var name = p.label || (typeof p.children === 'string' ? p.children : p.id);
+    function onClick(e) {
+      if (!ready || e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      var base = p.url ? String(p.url).split('#')[0] : window.location.origin + window.location.pathname + window.location.search;
+      copyText(base + '#' + p.id, function (ok) { setState(ok ? 'copied' : 'failed'); });
+    }
+    var label = (state === 'copied' ? w.copied + '. ' : state === 'failed' ? w.failed + '. ' : '') + (ready ? w.copy : w.link) + ' ' + name;
+    return h('div', { className: cx('hb-sechead', 'hb-sechead--' + level, p.className) },
+      h(Tag, { id: p.id, className: 'hb-sechead__title', lang: p.lang }, p.children),
+      h('a', { className: 'hb-sechead__link', href: '#' + p.id, 'aria-label': label, 'data-state': state || undefined, onClick: onClick },
+        h(Icon, { name: state === 'copied' ? 'check' : 'link', size: 16 }),
+        state ? h('span', { className: 'hb-sechead__word' }, state === 'copied' ? w.copied : w.failed) : null),
+      h('span', { className: 'hb-sr', 'aria-live': 'polite' }, state === 'copied' ? w.announce : state === 'failed' ? w.failed : ''));
   }
 
   /* ---------- Terminal, dashboard side: status, idle screen upload, staff PIN ---------- */
@@ -912,20 +945,21 @@ import * as React from "react";
     return h(Badge, { tone: TERM_STATUS[s].tone, icon: TERM_STATUS[s].icon, className: p.className }, word);
   }
 
-  /* Portrait terminal bezel (9:16) around a preview. `guides` marks the bands the status pill and the halba mark cover. */
+  /* Portrait terminal bezel around a preview. ratio "9:16" (Stripe S700, Castles S1F2) or "9:20" (myPOS Ultra).
+     `guides` marks the bands the status pill and the halba mark cover and the safe area: 12 % from every edge. */
   function TerminalFrame(p) {
-    var w = p.width || 180, ht = Math.round(w * 16 / 9), k = w / 360;
-    return h('div', { className: cx('hb-tfr', p.className), style: {} },
+    var w = p.width || 180, tall = p.ratio === '9:20', ht = Math.round(w * (tall ? 20 : 16) / 9), k = w / 360;
+    return h('div', { className: cx('hb-tfr', p.className) },
       h('div', { className: 'hb-tfr__screen', style: { width: w + 'px', height: ht + 'px' }, role: 'img', 'aria-label': p.label || 'Terminal screen preview' },
         p.children,
         p.guides ? h('div', { className: 'hb-tfr__guides', 'aria-hidden': 'true' },
           h('span', { className: 'hb-tfr__band', style: { top: 0, height: 72 * k + 'px' } }, 'Status'),
           h('span', { className: 'hb-tfr__band', style: { bottom: 0, height: 72 * k + 'px' } }, 'Mark'),
-          h('span', { className: 'hb-tfr__safe', style: { top: 72 * k + 'px', bottom: 72 * k + 'px', left: 24 * k + 'px', right: 24 * k + 'px' } })) : null));
+          h('span', { className: 'hb-tfr__safe', style: { top: ht * 0.12 + 'px', bottom: ht * 0.12 + 'px', left: w * 0.12 + 'px', right: w * 0.12 + 'px' } })) : null));
   }
 
   function fmtBytes(n) { return n >= 1048576 ? (n / 1048576).toFixed(1).replace(/\.0$/, '') + ' MB' : Math.max(1, Math.round(n / 1024)) + ' KB'; }
-  var IDLE_RULES = ['Portrait 9:16', 'Image: JPG, PNG or WebP, up to 5 MB', 'Video: MP4 H.264, no audio, up to 30 s and 30 MB, loops without a cut', 'Best at 1080 × 1920 px; 720 × 1280 px at least'];
+  var IDLE_RULES = ['Portrait, 9:16 or 9:20', 'Image: JPG, PNG or WebP, up to 5 MB', 'Video: MP4 H.264, no audio, up to 30 s and 30 MB, loops without a cut', 'Best at 1080 × 1920 px (9:16); 720 px wide at least', 'Keep text and logos 12 % away from every edge: the file fills each screen and is cropped to fit'];
 
   /* Idle screen of the terminals: one for the workspace, replaceable per store. Validation errors come from the page. */
   function IdleScreenUpload(p) {
@@ -941,7 +975,7 @@ import * as React from "react";
         store && !p.usesWorkspace ? h(Button, { variant: 'secondary', size: 'sm', onClick: p.onUseWorkspace }, 'Use the workspace screen') : null),
       h('div', { className: 'hb-idleup__grid' },
         h('div', { className: 'hb-idleup__preview' },
-          h(TerminalFrame, { width: 180, guides: guides, label: 'Idle screen preview' }, media),
+          h('div', { className: 'hb-idleup__frames' }, h('figure', { className: 'hb-idleup__fig' }, h(TerminalFrame, { width: 130, guides: guides, label: 'Idle screen on Stripe S700 and Adyen S1F2' }, media), h('figcaption', null, 'S700, S1F2')), h('figure', { className: 'hb-idleup__fig' }, h(TerminalFrame, { width: 130, ratio: '9:20', guides: guides, label: 'Idle screen on myPOS Ultra' }, media), h('figcaption', null, 'myPOS Ultra'))),
           h('button', { type: 'button', className: 'hb-idleup__toggle', 'aria-pressed': guides, onClick: function () { setGuides(!guides); } }, guides ? 'Hide safe areas' : 'Show safe areas')),
         h('div', { className: 'hb-idleup__side' },
           h('ul', { className: 'hb-idleup__rules', 'aria-label': 'File requirements' }, IDLE_RULES.map(function (r, i) { return h('li', { key: i }, r); })),
@@ -1091,4 +1125,4 @@ import * as React from "react";
         showClear ? h('button', { type: 'button', className: 'hb-filter__clear', onClick: p.onClear }, p.clearLabel || 'Clear') : null));
   }
 
-  export { Button, Badge, StatTile, MetricCard, Input, PhotoPanel, OverlayCard, CheckoutStory, RetryStory, RevenueStory, StatusBadge, Card, Panel, TextLink, Logo, Spinner, Modal, Icon, SegmentedControl, Alert, PieChart, BarChart, AuthLayout, MethodBadge, Endpoint, CodeBlock, Tabs, Table, Callout, DocsHeader, DocsSearch, DocsLayout, TerminalStatus, TerminalFrame, IdleScreenUpload, StaffPin, ShareBar, PaymentFlow, Drawer, FilterGroup };
+  export { Button, Badge, StatTile, MetricCard, Input, PhotoPanel, OverlayCard, CheckoutStory, RetryStory, RevenueStory, StatusBadge, Card, Panel, TextLink, Logo, Spinner, Modal, Icon, SegmentedControl, Alert, PieChart, BarChart, AuthLayout, MethodBadge, Endpoint, CodeBlock, Tabs, Table, Callout, DocsHeader, DocsSearch, DocsLayout, DocsHeading, TerminalStatus, TerminalFrame, IdleScreenUpload, StaffPin, ShareBar, PaymentFlow, Drawer, FilterGroup };

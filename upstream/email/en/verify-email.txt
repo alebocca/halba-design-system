@@ -1,0 +1,14 @@
+halba
+
+Confirm your email address
+
+Thanks for signing up for halba. Confirm this address to finish creating your account.
+
+Confirm email: {{ .ConfirmationURL }}
+
+This link is valid for 24 hours. If you didn’t create a halba account, you can ignore this email.
+
+--
+You’re receiving this email because of an action on your halba account. Sent to {{ .Email }}.
+Need help? Visit the help center. https://halba.ai/help
+halba · [Company name], [registered address]

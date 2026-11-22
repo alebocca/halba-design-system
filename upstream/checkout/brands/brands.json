@@ -1,0 +1,124 @@
+{
+  "v": 4,
+  "note": "Card scheme artwork for the payment page. Show only the schemes enabled for the online channel by the connected PSPs. Use the id as the key.",
+  "box": {
+    "w": 40,
+    "h": 26,
+    "padding": 4,
+    "note": "Same framed chip for every scheme. Artwork widths are fitted inside it. Cartes Bancaires is scaled like the others by Halba's decision (below its charte minimum)."
+  },
+  "schemes": {
+    "amex": {
+      "name": "American Express",
+      "light": "amex.svg",
+      "dark": null,
+      "size": [
+        18,
+        18
+      ],
+      "format": "svg"
+    },
+    "cartes-bancaires": {
+      "name": "Cartes Bancaires",
+      "light": "cartes-bancaires.png",
+      "dark": null,
+      "size": [
+        26,
+        18
+      ],
+      "format": "png",
+      "charteMinSize": [
+        52.2,
+        37.8
+      ]
+    },
+    "discover": {
+      "name": "Discover",
+      "light": "discover.png",
+      "dark": null,
+      "size": [
+        28,
+        18
+      ],
+      "format": "png"
+    },
+    "jcb": {
+      "name": "JCB",
+      "light": "jcb.png",
+      "dark": null,
+      "size": [
+        24,
+        18
+      ],
+      "format": "png"
+    },
+    "mastercard": {
+      "name": "Mastercard",
+      "light": "mastercard.svg",
+      "dark": null,
+      "size": [
+        26,
+        18
+      ],
+      "format": "svg"
+    },
+    "unionpay": {
+      "name": "UnionPay",
+      "light": "unionpay.svg",
+      "dark": null,
+      "size": [
+        29,
+        18
+      ],
+      "format": "svg"
+    },
+    "visa": {
+      "name": "Visa",
+      "light": "visa.svg",
+      "dark": "visa-negative.svg",
+      "size": [
+        30,
+        10
+      ],
+      "format": "svg"
+    },
+    "maestro": {
+      "name": "Maestro",
+      "light": "maestro.svg",
+      "dark": null,
+      "size": [
+        26,
+        16
+      ],
+      "format": "svg",
+      "note": "Symbol only (two circles, from the horizontal positive lockup, wordmark removed). Not checked against Mastercard brand rules for symbol-only use."
+    },
+    "diners": {
+      "name": "Diners Club",
+      "light": "diners.svg",
+      "dark": null,
+      "size": [
+        20,
+        17
+      ],
+      "format": "svg",
+      "note": "Disc symbol only, from the colour EPS (converted to SVG, wordmark removed). The black EPS was received and is not used. Not checked against Diners Club International brand rules."
+    }
+  },
+  "order": [
+    "visa",
+    "mastercard",
+    "maestro",
+    "cartes-bancaires",
+    "amex",
+    "discover",
+    "diners",
+    "jcb",
+    "unionpay"
+  ],
+  "orderNote": "Fixed order, set by Halba: Visa, Mastercard, Maestro, Cartes Bancaires, American Express, Discover, Diners Club, JCB, UnionPay (Maestro follows Mastercard, Diners Club follows Discover, same groups). A scheme that is not enabled is skipped and the next one takes its place. Departs from the alphabetical order that the Cartes Bancaires charte asks for.",
+  "pending": [
+    "bancontact",
+    "pagobancomat"
+  ]
+}

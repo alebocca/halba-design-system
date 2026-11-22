@@ -1,0 +1,18 @@
+halba
+
+You have invitations to {{ .WorkspaceCount }} workspaces
+
+{{ .InviterName }} invited you to the workspaces below. Review and accept them in one step.
+
+{{ .WorkspaceRowsText }}
+
+Review invitations: {{ .InviteURL }}
+
+No halba account yet? You’ll create one in the next step.
+
+These invitations are valid for 7 days. If you weren’t expecting them, you can ignore this email.
+
+--
+You’re receiving this email because {{ .InviterName }} invited {{ .Email }} to halba. Sent to {{ .Email }}.
+Need help? Visit the help center. https://halba.ai/help
+halba · [Company name], [registered address]

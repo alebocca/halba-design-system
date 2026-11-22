@@ -1,0 +1,18 @@
+halba
+
+Join {{ .WorkspaceName }}
+
+{{ .InviterName }} invited you to join the {{ .WorkspaceName }} workspace on halba as {{ .Role }}.
+
+{{ .WorkspaceRowsText }}
+
+Accept invitation: {{ .InviteURL }}
+
+No halba account yet? You’ll create one in the next step.
+
+This invitation is valid for 7 days. If you weren’t expecting it, you can ignore this email.
+
+--
+You’re receiving this email because {{ .InviterName }} invited {{ .Email }} to halba. Sent to {{ .Email }}.
+Need help? Visit the help center. https://halba.ai/help
+halba · [Company name], [registered address]

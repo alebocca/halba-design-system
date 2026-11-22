@@ -1,0 +1,17 @@
+halba
+
+Bei halba anmelden
+
+Melde dich mit dem Button an. Ein Passwort ist nicht nötig.
+
+Anmelden: {{ .ConfirmationURL }}
+
+Oder gib diesen Code auf der Anmeldeseite ein:
+{{ .Token }}
+
+Der Link ist 15 Minuten gültig und funktioniert nur einmal. Wenn du dich nicht anmelden wolltest, ignoriere diese E-Mail.
+
+--
+Du erhältst diese E-Mail wegen einer Aktion in deinem halba-Konto. Gesendet an {{ .Email }}.
+Brauchst du Hilfe? Zum Hilfecenter. https://halba.ai/help
+halba · [Firmenname], [Sitz]

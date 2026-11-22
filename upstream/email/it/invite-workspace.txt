@@ -1,0 +1,18 @@
+halba
+
+Entra in {{ .WorkspaceName }}
+
+{{ .InviterName }} ti invita a entrare nel workspace {{ .WorkspaceName }} su halba come {{ .Role }}.
+
+{{ .WorkspaceRowsText }}
+
+Accetta l’invito: {{ .InviteURL }}
+
+Non hai ancora un account halba? Lo creerai al passo successivo.
+
+L’invito è valido per 7 giorni. Se non te lo aspettavi, puoi ignorare questa email.
+
+--
+Ricevi questa email perché {{ .InviterName }} ha invitato {{ .Email }} su halba. Inviata a {{ .Email }}.
+Serve aiuto? Vai al centro assistenza. https://halba.ai/help
+halba · [Ragione sociale], [sede legale]

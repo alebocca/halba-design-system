@@ -1,0 +1,613 @@
+{
+ "width_chars": 30,
+ "cell_px": [
+  12,
+  24
+ ],
+ "note": "Each line: t text, a l|c|r, b bold, w 1|2 width, h 1|2 height. Sample data.",
+ "outcomes": {
+  "approved": [
+   {
+    "t": "Northwind Coffee Roasters",
+    "a": "c",
+    "b": true,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "S.r.l.",
+    "a": "c",
+    "b": true,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Milano Duomo",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Via Torino 12, 20123 Milano MI",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "P. IVA IT01234567890",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "------------------------------",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Data          20/11/2026 18:47",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Terminale              Cassa 1",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Metodo    Klarna Pay Over Time",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Ordine         ORD-2026-004172",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Rif. halba    tp_7Hk2...a3Q9xA",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Rif. PSP      KL-8841926710553",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Conto         m***@example.com",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "------------------------------",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "24,90 €",
+    "a": "c",
+    "b": true,
+    "w": 2,
+    "h": 2
+   },
+   {
+    "t": "APPROVATO",
+    "a": "c",
+    "b": true,
+    "w": 1,
+    "h": 2
+   },
+   {
+    "t": "------------------------------",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "COPIA CLIENTE",
+    "a": "c",
+    "b": true,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Conservare questo scontrino",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Grazie",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Non costituisce documento",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "fiscale",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   }
+  ],
+  "declined": [
+   {
+    "t": "Northwind Coffee Roasters",
+    "a": "c",
+    "b": true,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "S.r.l.",
+    "a": "c",
+    "b": true,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Milano Duomo",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Via Torino 12, 20123 Milano MI",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "P. IVA IT01234567890",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "------------------------------",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Data          20/11/2026 18:47",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Terminale              Cassa 1",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Metodo                  PayPal",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Ordine         ORD-2026-004172",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Rif. halba    tp_7Hk2...a3Q9xA",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Rif. PSP     5TY05013RG002845M",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Conto         m***@example.com",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "------------------------------",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "24,90 €",
+    "a": "c",
+    "b": true,
+    "w": 2,
+    "h": 2
+   },
+   {
+    "t": "RIFIUTATO",
+    "a": "c",
+    "b": true,
+    "w": 1,
+    "h": 2
+   },
+   {
+    "t": "Fondi insufficienti sul conto.",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Nessun addebito.",
+    "a": "c",
+    "b": true,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "------------------------------",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "COPIA CLIENTE",
+    "a": "c",
+    "b": true,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Non costituisce documento",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "fiscale",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   }
+  ],
+  "cancelled": [
+   {
+    "t": "Northwind Coffee Roasters",
+    "a": "c",
+    "b": true,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "S.r.l.",
+    "a": "c",
+    "b": true,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Milano Duomo",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Via Torino 12, 20123 Milano MI",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "P. IVA IT01234567890",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "------------------------------",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Data          20/11/2026 18:47",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Terminale              Cassa 1",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Metodo            iDEAL | Wero",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Ordine         ORD-2026-004172",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Rif. halba    tp_7Hk2...a3Q9xA",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "------------------------------",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "24,90 €",
+    "a": "c",
+    "b": true,
+    "w": 2,
+    "h": 2
+   },
+   {
+    "t": "ANNULLATO",
+    "a": "c",
+    "b": true,
+    "w": 1,
+    "h": 2
+   },
+   {
+    "t": "Pagamento annullato prima",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "della conferma.",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Nessun addebito.",
+    "a": "c",
+    "b": true,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "------------------------------",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "COPIA CLIENTE",
+    "a": "c",
+    "b": true,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Non costituisce documento",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "fiscale",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   }
+  ],
+  "incomplete": [
+   {
+    "t": "Northwind Coffee Roasters",
+    "a": "c",
+    "b": true,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "S.r.l.",
+    "a": "c",
+    "b": true,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Milano Duomo",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Via Torino 12, 20123 Milano MI",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "P. IVA IT01234567890",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "------------------------------",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Data          20/11/2026 18:47",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Terminale              Cassa 1",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Metodo                  MB WAY",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Ordine         ORD-2026-004172",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Rif. halba    tp_7Hk2...a3Q9xA",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "------------------------------",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "24,90 €",
+    "a": "c",
+    "b": true,
+    "w": 2,
+    "h": 2
+   },
+   {
+    "t": "NON COMPLETATO",
+    "a": "c",
+    "b": true,
+    "w": 1,
+    "h": 2
+   },
+   {
+    "t": "Il codice QR è scaduto.",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Nessun addebito.",
+    "a": "c",
+    "b": true,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "------------------------------",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "COPIA CLIENTE",
+    "a": "c",
+    "b": true,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Non costituisce documento",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "fiscale",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   }
+  ]
+ }
+}

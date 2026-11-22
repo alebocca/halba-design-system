@@ -72,7 +72,7 @@ halba helps teams lift checkout conversion. The look is fresh and colorful but p
 
 ## Checkout
 
-The payment page is plain HTML and CSS, so it works without React: `checkout/halba-checkout.css`, optional Inter fonts and an SVG icon sprite. One markup, four containers (hosted, modal, embedded, component), the same look. The merchant sets `--halba-primary`, `--halba-radius`, `--halba-font` and `--halba-bg`; `--halba-on-primary` and `--halba-accent` are computed from the primary so contrast stays AA with any colour. Read `checkout.md` for the token map, the markup contract, the Stripe Elements mapping and the CSP and accessibility rules, the rules for official method marks (Apple Pay, Google Pay, Klarna, PayPal, iDEAL | Wero) and the Apple Pay and Google Pay buttons above the methods, and the Checkout previews for every state in desktop, mobile, English, Italian and German.
+The payment page is plain HTML and CSS, so it works without React: `checkout/halba-checkout.css`, optional Inter fonts and an SVG icon sprite. One markup, four containers (hosted, modal, embedded, component), the same look. The merchant sets `--halba-primary`, `--halba-radius`, `--halba-font` and `--halba-bg`; `--halba-on-primary` and `--halba-accent` are computed from the primary so contrast stays AA with any colour. Read `checkout.md` for the token map, the markup contract, the Stripe Elements mapping and the CSP and accessibility rules, the rules for official method marks (Apple Pay, Google Pay, Klarna, PayPal, iDEAL | Wero) and the Apple Pay and Google Pay buttons above the methods, the marks of the alternative methods on uniform tiles (`checkout/methods/`, also used by the POS app), the card scheme logos (`checkout/brands/`, which schemes to show and when to use the negative), `checkout-criteria.md` with the regulatory and accessibility criteria, and the Checkout previews for every state in desktop, mobile, English, Italian and German.
 
 ## Technical documentation
 
@@ -83,6 +83,7 @@ Developer pages (guides, API reference) are deliberately plain: no photos, no il
 - **Code**: DM Mono 13px; syntax colours keep AA on the block in light and dark; examples use test keys (`sk_test_...`).
 - **Text**: body 16px/26px, `h2` 28px, `h3` 20px, sentence case; the title names the thing ("Create a payment").
 - **Motion**: none, except focus. Copy feedback is a word change.
+- **Section links**: every section of a docs page has a stable id and a copyable link. Titles are `DocsHeading` (`h2`, `h3`), the id is written by the author and never derived from the title, the link shows on hover and keyboard focus (always on touch), copies the full address and says "Copied"; the "On this page" index uses the same ids. Hand-written HTML uses the `hb-sechead` classes (see DocsHeading README).
 - See the Docs page preview for the full composition.
 
 ## Dashboard
@@ -97,12 +98,22 @@ Pages are built for reading, one idea per card. Rules from the overview and paym
 
 ## Terminal
 
-The halba app for PSP payment terminals (Android, Kotlin and Jetpack Compose), first the Stripe Reader S700. It reuses the checkout tokens, Inter and DM Mono, the icons, the halba loader and the same tone, adapted to a counter terminal: targets of 56 dp or more, text of 20 sp or more, high contrast, one thing per screen.
+The halba app for PSP payment terminals (Android, Kotlin and Jetpack Compose) on three models: Stripe Reader S700 and Adyen Castles S1F2 (16:9, 360 × 640 dp) and myPOS Ultra (20:9, 360 × 800 dp). It reuses the checkout tokens, Inter and DM Mono, the icons, the halba loader and the same tone, adapted to a counter terminal: targets of 56 dp or more, text of 20 sp or more, high contrast, one thing per screen.
 
-- Screens and states A to H have previews in English, Italian and German: setup, idle with the merchant's image or video, payment from the till, card, QR, result, hidden staff menu and system states.
-- `terminal.md` has measures in dp and sp, tokens, texts in the three languages, timings (result 4 s, QR 15 min, PIN lock 5 min), accessibility, scaling to other screens and the rules for the idle image and video.
-- `terminal/halba-terminal.css` is the reference rendering of the screens (1 px = 1 dp or sp on 360 × 640 dp). It is not shipped.
-- Dashboard components: `TerminalStatus`, `TerminalFrame`, `IdleScreenUpload`, `StaffPin`.
+- Screens and states A to H have previews in English, Italian and German: setup, idle with the merchant's image or video, payment from the till, card, QR, result, hidden staff menu and system states. The Devices preview puts the 640 dp and 800 dp layouts side by side.
+- With no merchant file, the idle screen plays the halba brand video (logo, name and "Checkout, tuned for growth.", 12 s loop, no audio), one file per device size: 1080 × 1920, 720 × 1280 and 720 × 1600. The terminal is never static.
+- A merchant file may be 9:16 or 9:20 and fills each screen (`cover`), so it is cropped: keep text and logos 12 % away from every edge.
+- `terminal.md` has devices, measures in dp and sp, tokens, texts in the three languages, timings (result 4 s, QR 15 min, PIN lock 5 min), the brand video, accessibility, scaling to other screens and the rules for the idle image and video.
+- `terminal/halba-terminal.css` is the reference rendering of the screens (1 px = 1 dp or sp). It is not shipped. `terminal/idle/` holds the brand videos, their still and the scene they are rendered from.
+- Dashboard components: `TerminalStatus`, `TerminalFrame` (9:16 and 9:20), `IdleScreenUpload`, `StaffPin`.
+
+## Email
+
+Transactional emails: verify email, reset password, magic link, and workspace invitations (one workspace, or several in one email). One card on `surface`, the logo above it, an eyebrow, a headline, one violet pill button, the link again as text, a safety note and a footer. Written as table-based HTML with inline hex colours (email clients read no CSS variables or web fonts), light and dark, with plain-text twins, in English, Italian and German.
+
+- `email.md` has the anatomy, tokens in hex, HTML rules (tables, inline styles, bulletproof button, images, dark mode, mobile), variables and how to escape them, security and delivery rules, copy in three languages and the test list. The finished files are in `email/<lang>/`.
+- One email, one action. Say how long the link lasts and what to do if it was not requested. No marketing, no tracking on auth links, nothing essential in an image.
+- The `EmailTemplates` preview shows every email in light and dark.
 
 ## Outside the React app
 
