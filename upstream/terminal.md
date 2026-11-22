@@ -6,7 +6,15 @@ Reference rendering: `project/terminal/halba-terminal.css`. In it 1 px = 1 dp fo
 
 ## 1. Device and use
 
-- First model: Stripe Reader S700 (Android, portrait, about 5.5 in, integrated reader). Then myPOS and Adyen, one model each. One app, one layout, scaled (section 11).
+- Three models, one app and one layout: Stripe Reader S700, Adyen Castles S1F2 and myPOS Ultra (table below). Design is made in dp for a 360 dp wide screen and two heights, 640 dp (16:9) and 800 dp (20:9); the layout is fluid (section 11).
+
+| Device | Screen | Pixels | Ratio | Reference layout | Idle video (section 6) |
+|---|---|---|---|---|---|
+| Stripe Reader S700 | about 5.5 in, integrated reader | 1080 × 1920 (to confirm) | 9:16 | 360 × 640 dp | 1080 × 1920 |
+| Adyen Castles S1F2 | 5.5 in, TFT, capacitive touch | 1280 × 720 (HD) | 9:16 | 360 × 640 dp | 720 × 1280 |
+| myPOS Ultra | 6.5 in, HD, capacitive multi-touch | 1600 × 720 | 9:20 | 360 × 800 dp | 720 × 1600 |
+
+  The width in dp is the pixel width divided by the density the manufacturer sets: 720 px is 360 dp at 320 dpi (xhdpi) and about 411 dp at 280 dpi. Both are possible, so nothing may depend on 360 exactly. On each device, measure a 56 dp button on the glass: it must be at least 8.5 mm tall.
 - Fixed on a counter, always charging, screen always on (`FLAG_KEEP_SCREEN_ON`). Used by the cashier at arm's length and by the customer up close.
 - A payment starts from the till: the till calls the halba API and the terminal wakes. The cashier touches the terminal only for setup and the staff menu.
 - Kiosk mode of the PSP keeps the app in front. There is no exit button; staff functions are in a hidden menu protected by a PIN.
@@ -129,15 +137,15 @@ A header with back and "Step n of 7"; under it a step bar. The accent colour fil
 - Merchant image or video full screen, no borders, `object-fit: cover`, looping. Video: ExoPlayer, no audio, `REPEAT_MODE_ALL`, kept ready to avoid a black frame at the loop.
 - **Status indicator**: a pill at the top right, 16 dp from the edges, 32 dp high (touch area 56 × 56 dp). Online: a 12 dp green dot and the word "Online" at 16 sp, on a dark pill. Offline: red pill with a wifi-off icon and "Offline". Not charging: yellow pill at the top left, 56 dp high, "Connect the terminal to power", 18 sp (it is a warning, so it is large on purpose).
 - **halba mark** (optional, a setting of the workspace): 40 dp circle at the bottom centre, 16 dp from the bottom, 55 % black behind a white 24 dp mark.
-- **Default screen** (nothing uploaded): `#0E0E10` background, halba mark 112 dp and the word "halba" 40 sp, centred; if the merchant has a logo, it sits under the mark in a 176 × 72 dp area, with a 24 dp gap. Every 60 s the content moves by up to 4 dp in a random direction (burn-in).
-- **Safe areas** (360 × 640 dp reference): the top band of **72 dp** and the bottom band of **72 dp** are reserved for the status indicator and the mark; 24 dp on both sides are margin. Text and logos in merchant content must stay in the safe area of **312 × 496 dp** (x 24–336, y 72–568). The dashboard shows these bands on the preview.
+- **Default screen** (nothing uploaded): the halba brand video (section 6), full screen, looping, so the terminal never sits on a static image and stays visibly alive. The merchant logo is not shown on it. It is bundled in the app and plays offline. If the video cannot be decoded, show its still frame (`halba-idle-poster.png`) on `#0E0E10` and move it by up to 4 dp every 60 s (burn-in).
+- **Safe areas**: the merchant file fills the screen and is cropped to fit (`cover`), so the same file is shown on 9:16 and 9:20 screens with different crops. Keep text and logos **12 % away from every edge of the file** (43 px on a 360 px wide file, 77 px on a 640 px tall one). This holds for every device. On top of that, the top **72 dp** (status indicator) and the bottom **72 dp** (halba mark) are reserved on screen. The dashboard shows both on the preview.
 - Touch on idle does nothing, except the staff gesture (G).
 
 ### C. Payment from the till
 
 - The till calls the API; the terminal receives it (push or poll of 2 s) and the screen changes in 240 ms: the white sheet rises from the bottom over the idle content, which dims to 60 %.
 - Header: merchant name (20 sp, one line, ellipsis) and halba mark 28 dp; under it the order reference ("Order 1042", 18 sp, `muted`) and the amount at 52 sp. The amount shrinks down to 36 sp to fit, never wraps, never truncates.
-- **Method choice**, only if the till did not choose: "Card" tile (88 dp, accent border) and, under "Or pay with a QR code", the QR methods enabled for the merchant in a 2-column grid. Marks are the official ones, on their allowed background, 40 dp high, as in checkout (see the brand guidelines in checkout.md). The previews show labelled placeholders.
+- **Method choice**, only if the till did not choose: "Card" tile (88 dp, accent border) and, under "Or pay with a QR code", the QR methods enabled for the merchant in a 2-column grid. Marks are the official ones from `checkout/methods/`, without a frame of their own, because the method tile already has one: 112 × 48 dp box, the artwork scaled to fit 96 × 32 dp (`ht-mark--img`). A method whose artwork needs its colour behind it keeps that fill and no border: black for TWINT (`ht-mark--dark`), pink for Klarna (`--pink`), yellow for iDEAL | Wero (`--yellow`), as `methods.json` says. White-tile marks sit directly on the tile in the light theme; in the dark theme (`.ht--dark`) they get a white fill so black artwork stays readable. Differs from checkout, where the mark has a 1px frame. Methods without a file yet show a labelled placeholder.
 - If the till chose a method: go straight to D or E, with no choice screen.
 - "Cancel" (text button, 56 dp) is always at the bottom; it asks nothing and returns to idle with F "canceled".
 
@@ -150,11 +158,15 @@ A header with back and "Step n of 7"; under it a step bar. The accent colour fil
 
 ### E. QR
 
-- Header: amount and method mark with the name. Instruction in the screen language ("Scan with Alipay"), and, for methods with a local line, a second line in the method's language (section 8.3).
-- QR 288 dp, black on white, white margin of 20 dp inside the box; never tinted, never rounded modules, never a logo in the middle. Screen brightness is raised to the maximum while the QR is shown.
-- Under it: "Time left" and `mm:ss` (DM Mono 20 sp) with a bar 8 dp. In the last 60 s the time turns `warn` with "Expires soon".
+Layout after Adyen's QR screen, in halba's own UI. Everything fits on the screen, QR included, with no scrolling.
+
+- Top, left aligned: the amount (44 sp bold) with the halba mark (28 dp) at the right, then the instruction in the screen language ("Scan with Alipay", 24 sp bold) and, for methods with a local line, a second line in the method's language (section 8.3).
+- **QR tile**: a white tile (corner 16 dp, 2 dp border, 8 dp padding) with the code and, under it, the **method mark** (112 × 48 dp, same artwork as the method tile, section 5C). The tile replaces the method mark that used to be in the header.
+- **QR size**: the side of the code **including its quiet zone of 4 modules** is **256 dp** on 360 × 640 and **304 dp** on 360 × 800. In the app it is the largest square that fits between the header and the time row, **never under 200 dp** (about 38 mm on the S1F2, enough to scan from a phone at arm's length). Never smaller than the room allows, never larger than 304 dp. Black on white, never tinted, never rounded modules, never a logo in the middle. Screen brightness is raised to the maximum while the QR is shown.
+- Height budget on 360 × 640 dp (measured on the preview): header and instruction 132, gap 0, tile 328 (256 code with its quiet zone, 4 gap, 48 mark, 8 + 8 padding, 2 + 2 border), gap 10, time row 28, gap 10, bar 8, then Cancel 72 at the bottom. Content ends at 516 and Cancel needs 72, so 588 dp are needed and **52 dp are spare**. The app hides the system bars (immersive mode); if the device shows one, the QR shrinks first (down to 200 dp). **To confirm on the S1F2** with `adb shell wm size` and on the glass.
+- Under the tile: one row with "Time left" at the left and `mm:ss` (DM Mono 20 sp) at the right, and a bar 8 dp. In the last 60 s the label becomes "Expires soon" and the time turns `warn`. Same width as the tile row (full width minus the 24 dp margins).
 - **Waiting for payment**: after a scan is detected by the PSP, the QR fades to 12 % and shows "Confirm in the {method} app" with a loader.
-- **Expired** (15:00): QR at 8 % with "QR code expired" and "New QR code" (64 dp). A new code replaces it with a new 15 minutes; "Cancel" returns to idle.
+- **Expired** (15:00): QR at 8 % with "QR code expired" (the method mark under it stays) and "New QR code" (64 dp). A new code replaces it with a new 15 minutes; "Cancel" returns to idle.
 - Result arrives from the API; the terminal polls every 2 s while the screen is on.
 
 ### F. Result
@@ -182,7 +194,7 @@ Returns to idle by itself after **4 s** (a bar of 8 dp drains over 4 s and the t
 - **No network**: "No connection", "The till cannot send payments to this terminal right now.", "Trying again…" with the small loader. Retries as in section 4. If a payment is on screen when the network drops, the screen stays and the result is fetched when the connection returns; after 60 s it shows failed "Payment timed out".
 - **Restart** (nightly reboot): the halba mark with the orbit loader and "Starting halba". It lasts only as long as the start (usually under 10 s), then goes to idle.
 
-## 6. Dashboard components
+## 5b. Dashboard components
 
 Group Terminal in the Design System, for the halba dashboard.
 
@@ -191,22 +203,54 @@ Group Terminal in the Design System, for the halba dashboard.
 - **IdleScreenUpload**: workspace or store level; preview with the frame; requirements; validation errors; distribution status ("Downloaded by 3 of 4 terminals").
 - **StaffPin**: set or change a 6-digit PIN per store; never shown after saving; simple PINs refused; the terminal stores only a hash and the PIN reaches it within a minute.
 
-## 7. Idle screen: image and video rules
+## 6. Brand video: default idle screen
 
-Proposal for the S700, to confirm against the device specifications. The reference resolution is **1080 × 1920 px** (portrait 9:16; at 3.0 density this is 360 × 640 dp).
+A 12 s loop in dark (`#0E0E10`) with the halba mark, the name and the payoff "Checkout, tuned for growth.". One file per device, same animation, different pixels. They are rendered from one scene (`halba-idle-scene.html`) so the three always match.
+
+| File | Pixels | Device | Use when |
+|---|---|---|---|
+| `halba-idle-s700-1080x1920.mp4` | 1080 × 1920 | Stripe S700 | width ≥ 1000 px and ratio 9:16 |
+| `halba-idle-s1f2-720x1280.mp4` | 720 × 1280 | Adyen Castles S1F2 | width < 1000 px and ratio 9:16 |
+| `halba-idle-ultra-720x1600.mp4` | 720 × 1600 | myPOS Ultra | ratio 9:20 (height / width ≥ 2.0) |
+| `halba-idle-poster.png` | 1080 × 1920 | all | still frame, fallback |
+
+Choose by `displayMetrics`: if height / width ≥ 2.0 use the 9:20 file; otherwise use the 9:16 file with the larger width the screen can show. Put them in `res/raw` (2.4 MB, 5.1 MB and 2.9 MB). They are rendered from `terminal/idle/halba-idle-scene.html` with `render.js` (Playwright, then ffmpeg): change the scene, render again, and the three files stay identical in content.
+
+**Encoding**: MP4, H.264 High profile, level 4.1, yuv420p, 30 fps constant, no audio track, CRF 17, key frame every second. Frame 0 and the last frame are identical, so the loop has no cut. Play with ExoPlayer: `REPEAT_MODE_ALL`, volume 0, `RESIZE_MODE_ZOOM`, hardware decoder. Test that the PSP's decoder plays level 4.1 at 1080 × 1920 on the S700; if not, use the 720 × 1280 file there.
+
+**Timeline** (seconds, dp for a 360 dp wide screen; everything scales with the width):
+
+| Time | What happens |
+|---|---|
+| 0 – 0.6 | Dark ground, soft violet glow (`#A99CFF` at 24 %) breathing slowly |
+| 0.6 – 1.3 | The dot (`#A99CFF`) appears at the centre with a small overshoot |
+| 1.2 – 2.5 | The ring (`#F4F4F1`) draws itself around the dot and stops open, as in the logo |
+| 2.3 – 3.0 | The name "halba" rises in (Plus Jakarta Sans 700, 44 sp, −0.03 em) |
+| 3.4 – 5.1 | The payoff appears one line at a time, 0.35 s apart: "Checkout," "tuned for" "growth." (36 sp, 700; "growth." in `#A99CFF`) |
+| 5.0 – 6.9 | A small rising line (96 × 32 dp) draws under the payoff and ends with a dot |
+| 6.9 – 10.4 | Hold. The whole composition drifts by up to 4 dp in a slow circle (burn-in) |
+| 10.4 – 11.6 | Everything fades out; the glow remains |
+| 11.6 – 12 | Glow only, which is also frame 0 |
+
+Sizes: mark 96 dp, gap 20 dp, name 44 dp, gap 28 dp, three payoff lines of 41 dp, gap 22 dp, line 32 dp; the block is centred vertically with a 4 dp lift. It stays inside the safe area on both ratios. Motion is slow and low contrast, so it is not distracting at the counter; it plays even with "remove animations" on, because it is content, not interface motion.
+
+## 7. Idle screen: image and video rules (merchant)
+
+The merchant uploads one file for the workspace, which a store can replace. Proposed rules, to confirm against each device:
 
 | Item | Rule |
 |---|---|
-| Ratio | 9:16 portrait. Other ratios are rejected, not cropped. |
-| Best resolution | 1080 × 1920 px. Minimum 720 × 1280 px. Above 1080 × 1920 is accepted and scaled down on the server. |
+| Ratio | Portrait 9:16 or 9:20 (± 1 %). Other ratios are rejected, not cropped. |
+| Best resolution | 1080 × 1920 px (9:16) or 1080 × 2400 px (9:20). Minimum 720 px wide. Larger files are accepted and scaled down on the server. |
 | Image | JPG, PNG or WebP, up to 5 MB, sRGB |
 | Video | MP4, H.264 (High profile, level 4.1 or lower), no audio track, up to 30 s, up to 30 MB, 30 fps or less, constant frame rate |
-| Loop | The last frame must lead to the first without a cut; the app does not add a fade |
-| Safe area for text and logos | x 24–336 dp, y 72–568 dp (312 × 496 dp), which is 6.7 % of the width on the sides and 11.25 % of the height at top and bottom |
+| Loop | The last frame must lead to the first without a cut; the app adds no fade |
+| Fit | The file fills the screen (`cover`) and is cropped: a 9:16 file on a 9:20 screen loses about 10 % of the width on each side; a 9:20 file on a 9:16 screen loses about 10 % of the height at top and bottom |
+| Safe area for text and logos | 12 % away from every edge of the file |
 | Reserved bands | Top 72 dp (status indicator), bottom 72 dp (halba mark) |
 | Colour | Avoid pure white in the top-right corner (the pill is dark and readable on any colour, but looks heavy on white) |
 
-The dashboard checks these on upload and says what is wrong and what is needed ("The video lasts 42 s. The maximum is 30 s."). The server also checks the real codec, duration and size, not the file extension. Distribution: terminals fetch the file by a signed URL when it changes or when staff choose "Refresh idle screen", keep the last good file, and report the result. If the download fails, the terminal keeps the previous screen or the default.
+The dashboard checks these on upload and says what is wrong and what is needed ("The video lasts 42 s. The maximum is 30 s."). The server also checks the real codec, duration and size, not the file extension, and makes one rendition per device size (1080 × 1920, 720 × 1280, 720 × 1600) so each terminal downloads the smallest file that fits its screen. Terminals fetch the file by a signed URL when it changes or when staff choose "Refresh idle screen", keep the last good file, and report the result. If the download fails, the terminal keeps the previous screen or plays the brand video.
 
 ## 8. Texts
 
@@ -422,23 +466,98 @@ Shown under the instruction in the screen language, when the method has one. To 
 - Never rely on colour: status always has a word and an icon.
 - Contrast: text on surfaces 7:1 or more; non-text parts (borders, icons, dots) 3:1 or more.
 
-## 11. Other screen sizes
+## 11. Screen sizes and devices
 
-Design is made in dp for **360 × 640** (9:16) and uses the system density, so the S700 renders it at its real size.
+Two reference layouts, both 360 dp wide: **360 × 640 dp** (16:9: Stripe S700, Adyen Castles S1F2) and **360 × 800 dp** (20:9: myPOS Ultra). Everything between and around them is the same layout, stretched by rules, not a third design.
 
-- **Width and height**: use `fillMaxSize`, no fixed positions. Margins stay 24 dp; blocks flow top to bottom; the main action sticks to the bottom.
-- **Taller** (up to 9:19.5): extra height goes to the space around the central block; never enlarge text.
-- **Shorter** (down to 360 × 560 dp): the card illustration (128 dp) and the pairing instruction shrink first; the QR keeps its 288 dp if the height allows, otherwise it scales down to a minimum of 240 dp, never below.
-- **Wider** (up to 480 dp): content keeps a maximum width of 400 dp, centred; the idle media fills the screen.
-- **Larger screens** (myPOS, Adyen models): scale only the amount (up to 64 sp), the code (up to 88 sp) and the QR (up to 360 dp); keep all other sizes. Do not use landscape: the app is locked to portrait; if a model is landscape only, a separate layout must be designed first.
-- **Density**: all sizes in dp and sp, never px.
-- **Idle media** is scaled with `cover`; the safe area in dp is computed from the screen, in the same proportions (sides 6.7 %, top and bottom 11.25 %).
+**Ranges** the layout must hold: width 360–440 dp, height 640–900 dp, portrait only (lock the orientation). Use `fillMaxSize`, no fixed positions. Inside this range: margins stay 24 dp; content has a maximum width of 400 dp and is centred; the main action sticks to the bottom; all sizes are in dp and sp, never px.
+
+**Height** (what the extra dp go to; text sizes never change):
+
+| Element | 640 dp | 800 dp (and more) |
+|---|---|---|
+| Free space | split between header, content and action | goes to the content block, centred between header and action |
+| QR | 288 × 288 dp | 312 × 312 dp (the full width inside the margins); 240 dp is the minimum when the screen is shorter than 600 dp |
+| QR time bar | 288 dp wide | 312 dp wide |
+| Method tiles (Card) | 88 dp | 96 dp |
+| QR method tiles (grid) | 88 dp | 104 dp |
+| Card illustration | 200 × 128 dp | 232 × 160 dp |
+| PIN keys | 72 dp high, 12 dp gap | 80 dp high, 14 dp gap |
+| Space between blocks | 16 dp | 20 dp |
+| Result, system, setup | centred block | centred block |
+| Idle | merchant file, cover | merchant file, cover; bands stay 72 dp |
+
+Above 800 dp the extra space still goes to the central block; never stretch a button taller than 64 dp or enlarge text. Below 600 dp (older or smaller terminals): the card illustration (128 dp) and the pairing instruction shrink first.
+
+**Width**: above 360 dp the margins stay 24 dp and the content is centred up to 400 dp; below it nothing is allowed to wrap an amount or the pairing code, so set the amount to shrink from 52 sp to 36 sp and the code box to scale.
+
+**Per device**
+
+| | S700 | Castles S1F2 | myPOS Ultra |
+|---|---|---|---|
+| Layout | 360 × 640 | 360 × 640 | 360 × 800 |
+| Idle video | 1080 × 1920 | 720 × 1280 | 720 × 1600 |
+| Merchant file shown | cover, crop sides on 9:20 files | same | cover, crop sides on 9:16 files |
+| Density | to confirm | 280–320 dpi | 280–320 dpi |
+| Test | measure 56 dp ≥ 8.5 mm; read the amount at 70 cm; QR scans from 30 cm | same | same |
+
+Check on every model, with the final firmware: the screen stays on, the brightness at maximum for the QR, the hardware decoder plays the H.264 level 4.1 video, multi-touch does not trigger the long press by two fingers (accept one pointer only), and the PSP kiosk keeps the app in front after the nightly reboot.
 
 ## 12. Open points
 
-1. S700 real resolution and density (assumed 1080 × 1920 px, 3.0).
+1. S700 real resolution and density (assumed 1080 × 1920 px, 3.0); real density of the S1F2 and the Ultra (280 or 320 dpi). Confirm with `adb shell wm size; wm density`.
 2. Merchant colour on or off by default.
 3. Timings of section 4 (pairing 10 min, card wait 60 s, reader 15 s, PIN 30 s, menu 120 s, retries).
 4. Official payment marks (the previews use labelled placeholders, see checkout).
 5. Local-language QR lines checked by native speakers.
-6. How each PSP exposes kiosk exit, brightness and animation settings (myPOS, Adyen).
+6. How each PSP exposes kiosk exit, brightness and animation settings (Stripe, Adyen, myPOS).
+7. Brand video: decoder support at 1080 × 1920 on the S700; whether the three files ship in every build (about 4–8 MB each) or only the one for the device model (a build flavour, or a download on first start).
+8. Whether the merchant logo should appear on the default screen later (it does not in this version).
+9. Adyen on the S1F2 (section 13): confirm the dark mode, where Adyen covers the home screen, the Adyen authorisation for the logo, and that the mark prints well on the real printer.
+
+## 13. Adyen payment app on the S1F2: theme and receipt logo
+
+On the Adyen Castles S1F2 the payment screens belong to Adyen's own payment app. halba does not draw them; it sets a theme and some artwork through the Adyen Management API. Requirement: terminal software 1.120 or later (ours has 1.137). Files are in `project/terminal/adyen/`.
+
+### 13.1 What can be customised
+
+| Item | Rule | halba file |
+|---|---|---|
+| Mode | Light or dark for the whole Adyen interface. No colours can be chosen: buttons, texts and payment screens stay Adyen's. **halba uses dark**, like the idle screen: the terminal is always on, less glare and burn-in. To confirm on the glass. | none |
+| App logo | One SVG for all models. A logo in a theme needs Adyen's authorisation on the account (ask the Adyen contact); without it Adyen's logo stays. | `halba-adyen-app-logo.svg` (mark only, white ring and violet dot, for the dark mode) |
+| Home screen (`homeScreen`) | Image or video as background: PNG, JPEG, GIF or MP4/QuickTime, at most 720 × 1280 px, portrait, at most 10 MB. | `halba-adyen-home-720x1280.mp4` (12 s loop, H.264, no sound, about 2 MB) and `halba-adyen-home-720x1280.png` (still frame) |
+| After payment (`afterPayment`) | Same formats and size. It lengthens every transaction a little, so keep it short. | `halba-adyen-after-720x1280.png` |
+| Idle screen and customer engagement screens | Not available on the S1F2. The default idle video of section 6 does not apply to Adyen's app. | none |
+
+Other Adyen models need other sizes (for example 720 × 1600 for the S1F4, 480 × 800 for the AMS1). We start with the S1F2.
+
+### 13.2 Home screen and after-payment screen
+
+- Adyen does not publish safe areas or proportions: its own elements (amount, buttons) are drawn over the home screen. So the artwork is only a calm background: `#0E0E10`, a soft violet glow and the halba mark (72 dp, upper third). No text, no important element in the centre or near the edges. The mark is a proposal for the position: **test on the terminal** and move it if it is covered.
+- The video loops without a visible cut (12 s, 30 fps, motion of at most 3 dp). Reduced motion: use the PNG, which is the same screen without motion.
+- After payment: the mark larger (120 dp) on the same background, no text, so it needs no translation. Keep it a still image.
+- Source: `halba-adyen-scene.html` (render the video with the same procedure as section 6). The scene needs the font file `pj700.woff2` next to it.
+
+### 13.3 Receipt logo (all PSPs that print)
+
+- BMP, 384 × 240 px (width × height), 1 bit, under 256 KB (the halba file is about 12 KB as BMP). Pure black on white for a thermal printer: no greys and no gradients.
+- It is printed at the top of the receipt, above the two header lines (at most 100 characters each).
+- halba default (`halba-receipt-logo-384x240.png`, 1 bit, the same pixels as the BMP to upload; the design system cannot hold a .bmp, so make it with `Image.open(png).save('halba-receipt-logo-384x240.bmp')` in Pillow, which keeps 1 bit): the mark and the word "halba" in one line, about 350 px wide, readable at 384 px.
+- Merchant logo: the merchant uploads PNG, JPG or BMP in the dashboard; the dashboard checks size and weight and converts it to black and white at 384 × 240. If the merchant uploads nothing, halba's logo is used.
+- Dashboard design (not built): upload field with the black and white preview exactly as it will print, a note that colours and greys are lost, and the default shown when empty.
+
+### 13.4 How it reaches the terminal
+
+halba sends logo and theme to the terminal or to the store with the Adyen APIs as soon as the terminal is connected. The API key of the Adyen connection needs two more roles: Management API, Terminal settings read and write (receipt logo) and Management API, Terminal themes read and write (theme). Not built yet.
+
+### 13.5 Receipt for alternative methods
+
+For QR methods (PayPal, Klarna, iDEAL | Wero, MB WAY, Alipay and others) halba prints its own receipt through the Adyen app, in two versions (XHTML and text only), for every outcome. Layout, line-by-line styles, long-data rules, languages and the logo rules are in `terminal-receipt.md`; the previews are in `TerminalReceipt`.
+
+### 13.6 Checks
+
+- The dark mode is set and the Adyen screens are readable on the glass.
+- The home screen video plays on the S1F2 (software 1.137), loops, and the amount and the buttons of Adyen are readable over it.
+- The after-payment image shows and does not slow the cashier.
+- The receipt prints the logo sharp, centred and not cropped; check on real paper.
+- Without the Adyen authorisation for the logo, the Adyen logo stays and nothing breaks.

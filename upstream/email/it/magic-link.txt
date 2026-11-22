@@ -1,0 +1,17 @@
+halba
+
+Accedi a halba
+
+Usa il pulsante per accedere. Non serve la password.
+
+Accedi: {{ .ConfirmationURL }}
+
+Oppure inserisci questo codice nella pagina di accesso:
+{{ .Token }}
+
+Il link è valido per 15 minuti e funziona una sola volta. Se non hai provato ad accedere, ignora questa email.
+
+--
+Ricevi questa email per un’azione sul tuo account halba. Inviata a {{ .Email }}.
+Serve aiuto? Vai al centro assistenza. https://halba.ai/help
+halba · [Ragione sociale], [sede legale]

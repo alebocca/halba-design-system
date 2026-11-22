@@ -1,0 +1,104 @@
+{
+  "assets": "https://halba.ai/email/",
+  "workspaceRow": "<tr><td style=\"padding:0 0 12px 0\"><table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" class=\"bd\" style=\"border:1px solid #deded8;border-radius:16px;border-collapse:separate\"><tr><td width=\"52\" style=\"width:52px;padding:12px 0 12px 12px\"><table role=\"presentation\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\"><tr><td class=\"tile\" width=\"40\" height=\"40\" align=\"center\" valign=\"middle\" style=\"width:40px;height:40px;background:#d4cefb;border-radius:12px;font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:18px;line-height:40px;font-weight:700;color:#0e0e10\">{{ .Initial }}</td></tr></table></td><td style=\"padding:12px 16px 12px 12px\"><p class=\"tx\" style=\"margin:0;font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:16px;line-height:22px;font-weight:700;color:#0e0e10\">{{ .Name }}</p><p class=\"tx-m\" style=\"margin:0;font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:14px;line-height:20px;color:#5c5c66\">{{ .Role }}</p></td></tr></table></td></tr>",
+  "languages": [
+    "en",
+    "it",
+    "de"
+  ],
+  "templates": {
+    "verify-email": {
+      "variables": [
+        "ConfirmationURL",
+        "Email"
+      ],
+      "expiry": "24 h",
+      "subject": {
+        "en": "Confirm your email address for halba",
+        "it": "Conferma il tuo indirizzo email per halba",
+        "de": "Bestätige deine E-Mail-Adresse für halba"
+      },
+      "preheader": {
+        "en": "One click to finish creating your halba account.",
+        "it": "Un clic per completare la creazione del tuo account halba.",
+        "de": "Ein Klick, um dein halba-Konto fertig einzurichten."
+      }
+    },
+    "reset-password": {
+      "variables": [
+        "ConfirmationURL",
+        "Email"
+      ],
+      "expiry": "1 h",
+      "subject": {
+        "en": "Reset your halba password",
+        "it": "Reimposta la password di halba",
+        "de": "Setze dein halba-Passwort zurück"
+      },
+      "preheader": {
+        "en": "Choose a new password. The link works for one hour.",
+        "it": "Scegli una nuova password. Il link è valido per un’ora.",
+        "de": "Wähle ein neues Passwort. Der Link ist eine Stunde gültig."
+      }
+    },
+    "magic-link": {
+      "variables": [
+        "ConfirmationURL",
+        "Token",
+        "Email"
+      ],
+      "expiry": "15 min",
+      "subject": {
+        "en": "Your halba sign-in link",
+        "it": "Il tuo link di accesso a halba",
+        "de": "Dein Anmeldelink für halba"
+      },
+      "preheader": {
+        "en": "Sign in with one click. The link works for 15 minutes.",
+        "it": "Accedi con un clic. Il link è valido per 15 minuti.",
+        "de": "Mit einem Klick anmelden. Der Link ist 15 Minuten gültig."
+      }
+    },
+    "invite-workspace": {
+      "variables": [
+        "InviteURL",
+        "InviterName",
+        "WorkspaceName",
+        "Role",
+        "WorkspaceRows",
+        "Email"
+      ],
+      "expiry": "7 d",
+      "subject": {
+        "en": "{{ .InviterName }} invited you to {{ .WorkspaceName }} on halba",
+        "it": "{{ .InviterName }} ti invita in {{ .WorkspaceName }} su halba",
+        "de": "{{ .InviterName }} lädt dich zu {{ .WorkspaceName }} bei halba ein"
+      },
+      "preheader": {
+        "en": "Accept the invitation to start working together.",
+        "it": "Accetta l’invito per iniziare a lavorare insieme.",
+        "de": "Nimm die Einladung an, um gemeinsam loszulegen."
+      }
+    },
+    "invite-workspaces": {
+      "variables": [
+        "InviteURL",
+        "InviterName",
+        "WorkspaceCount",
+        "WorkspaceRows",
+        "Email"
+      ],
+      "expiry": "7 d",
+      "subject": {
+        "en": "{{ .InviterName }} invited you to {{ .WorkspaceCount }} workspaces on halba",
+        "it": "{{ .InviterName }} ti invita in {{ .WorkspaceCount }} workspace su halba",
+        "de": "{{ .InviterName }} lädt dich zu {{ .WorkspaceCount }} Workspaces bei halba ein"
+      },
+      "preheader": {
+        "en": "Review and accept your invitations in one step.",
+        "it": "Controlla e accetta i tuoi inviti in un solo passaggio.",
+        "de": "Prüfe und nimm deine Einladungen in einem Schritt an."
+      }
+    }
+  }
+}

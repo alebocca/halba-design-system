@@ -12,7 +12,7 @@ immagini) sono in [`upstream/README.md`](upstream/README.md) e nei README dei co
 
 | Percorso | Cosa |
 | --- | --- |
-| `upstream/` | Copia esatta dei file `project/` dell'artifact (versione `1794439654-0edb`, 12 novembre 2026): token, bundle, tipi, README e preview. Non modificare a mano: si sovrascrive a ogni aggiornamento. |
+| `upstream/` | Copia esatta dei file `project/` dell'artifact (versione `1795382085-6275`, 22 novembre 2026): token, bundle, tipi, README e preview. Non modificare a mano: si sovrascrive a ogni aggiornamento. |
 | `tokens/tokens.json` | Token (copia di `upstream/tokens.json`), unica fonte. |
 | `tokens/tokens.css` | Variabili CSS, tema chiaro su `:root` e scuro su `[data-theme="dark"]`. Generato: `npm run tokens`. |
 | `tokens/typography.css` | Classi `hb-type-<stile>` (display-xl, h1, body, label-mono…). Generato. |
@@ -44,7 +44,7 @@ import { Button, Badge, CheckoutStory } from "@halba/design-system";
 
 Button (anche come link con `href`, variante `on-brand` sui blocchi colorati), SegmentedControl, Alert, AuthLayout,
 PieChart (distribuzioni: OK, KO, Retry), BarChart (valori nel tempo), Logo (marchio e lockup, il nome sempre
-`halba` minuscolo), Spinner (`orbit` e `compose`, fatti con il marchio), FilterGroup (chip che filtrano un elenco e vanno a capo; SegmentedControl resta per cambiare vista), i componenti della documentazione
+`halba` minuscolo), Spinner (`orbit` e `compose`, fatti con il marchio), DocsHeading (titolo di sezione delle docs con link copiabile e id stabile), FilterGroup (chip che filtrano un elenco e vanno a capo; SegmentedControl resta per cambiare vista), i componenti della documentazione
 (DocsLayout, DocsHeader, DocsSearch, Endpoint, MethodBadge, CodeBlock, Tabs, Table, Callout), Badge, StatusBadge (gli stati di
 pagamento), StatTile, MetricCard, Input, Card, Panel, TextLink, Spinner, Modal, Icon (Lucide), PhotoPanel,
 OverlayCard e le storie CheckoutStory, RetryStory (2 o 3 passi con `steps`), RevenueStory. Per la dashboard: ShareBar
@@ -87,7 +87,8 @@ Se il bundle dell'artifact cambia in quei punti lo script si ferma e va aggiorna
 
 1. Rileggere i file `project/` dell'artifact e sovrascrivere `upstream/` (e `tokens/tokens.json` con
    `upstream/tokens.json`).
-2. `npm run sync`: rigenera token, bundle, CSS e tipi.
+2. `npm run sync`: rigenera token, bundle, CSS e tipi. Non tocca `checkout/` e `brand/`, che ricevono anche modifiche
+   dirette; per copiarli da `upstream/` (sovrascrivendo i file con lo stesso nome) `node scripts/build-bundle.mjs --assets`.
 3. `git diff upstream/` per vedere cosa è cambiato; aggiungere al catalogo i componenti nuovi e al preset
    Tailwind i colori nuovi; `npm run catalog` per controllare.
 4. Alzare la versione in `package.json`, committare, `git tag vX.Y.Z`, `git push --follow-tags`, poi aggiornare
@@ -118,7 +119,7 @@ Repository pubblico `alebocca/halba-design-system`, senza registro npm né token
 un tag git:
 
 ```json
-"@halba/design-system": "github:alebocca/halba-design-system#v0.8.0"
+"@halba/design-system": "github:alebocca/halba-design-system#v0.9.0"
 ```
 
 Per una nuova versione: aggiornare `version` in `package.json`, committare, `git tag vX.Y.Z`,

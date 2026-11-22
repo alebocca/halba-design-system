@@ -1,0 +1,557 @@
+{
+ "width_chars": 30,
+ "cell_px": [
+  12,
+  24
+ ],
+ "note": "Each line: t text, a l|c|r, b bold, w 1|2 width, h 1|2 height. Sample data.",
+ "outcomes": {
+  "approved": [
+   {
+    "t": "Northwind Coffee Roasters",
+    "a": "c",
+    "b": true,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "S.r.l.",
+    "a": "c",
+    "b": true,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Milano Duomo",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Via Torino 12, 20123 Milano MI",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "USt-IdNr. IT01234567890",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "------------------------------",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Datum         20.11.2026 18:47",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Terminal               Cassa 1",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Zahlart   Klarna Pay Over Time",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Bestellung     ORD-2026-004172",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "halba-Ref.    tp_7Hk2...a3Q9xA",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "PSP-Ref.      KL-8841926710553",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Konto         m***@example.com",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "------------------------------",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "24,90 €",
+    "a": "c",
+    "b": true,
+    "w": 2,
+    "h": 2
+   },
+   {
+    "t": "GENEHMIGT",
+    "a": "c",
+    "b": true,
+    "w": 1,
+    "h": 2
+   },
+   {
+    "t": "------------------------------",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "KUNDENBELEG",
+    "a": "c",
+    "b": true,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Beleg bitte aufbewahren",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Danke",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   }
+  ],
+  "declined": [
+   {
+    "t": "Northwind Coffee Roasters",
+    "a": "c",
+    "b": true,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "S.r.l.",
+    "a": "c",
+    "b": true,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Milano Duomo",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Via Torino 12, 20123 Milano MI",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "USt-IdNr. IT01234567890",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "------------------------------",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Datum         20.11.2026 18:47",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Terminal               Cassa 1",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Zahlart                 PayPal",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Bestellung     ORD-2026-004172",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "halba-Ref.    tp_7Hk2...a3Q9xA",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "PSP-Ref.     5TY05013RG002845M",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Konto         m***@example.com",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "------------------------------",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "24,90 €",
+    "a": "c",
+    "b": true,
+    "w": 2,
+    "h": 2
+   },
+   {
+    "t": "ABGELEHNT",
+    "a": "c",
+    "b": true,
+    "w": 1,
+    "h": 2
+   },
+   {
+    "t": "Nicht genügend Guthaben.",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Es wurde nichts abgebucht.",
+    "a": "c",
+    "b": true,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "------------------------------",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "KUNDENBELEG",
+    "a": "c",
+    "b": true,
+    "w": 1,
+    "h": 1
+   }
+  ],
+  "cancelled": [
+   {
+    "t": "Northwind Coffee Roasters",
+    "a": "c",
+    "b": true,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "S.r.l.",
+    "a": "c",
+    "b": true,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Milano Duomo",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Via Torino 12, 20123 Milano MI",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "USt-IdNr. IT01234567890",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "------------------------------",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Datum         20.11.2026 18:47",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Terminal               Cassa 1",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Zahlart           iDEAL | Wero",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Bestellung     ORD-2026-004172",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "halba-Ref.    tp_7Hk2...a3Q9xA",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "------------------------------",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "24,90 €",
+    "a": "c",
+    "b": true,
+    "w": 2,
+    "h": 2
+   },
+   {
+    "t": "ABGEBROCHEN",
+    "a": "c",
+    "b": true,
+    "w": 1,
+    "h": 2
+   },
+   {
+    "t": "Zahlung vor Bestätigung",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "abgebrochen.",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Es wurde nichts abgebucht.",
+    "a": "c",
+    "b": true,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "------------------------------",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "KUNDENBELEG",
+    "a": "c",
+    "b": true,
+    "w": 1,
+    "h": 1
+   }
+  ],
+  "incomplete": [
+   {
+    "t": "Northwind Coffee Roasters",
+    "a": "c",
+    "b": true,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "S.r.l.",
+    "a": "c",
+    "b": true,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Milano Duomo",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Via Torino 12, 20123 Milano MI",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "USt-IdNr. IT01234567890",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "------------------------------",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Datum         20.11.2026 18:47",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Terminal               Cassa 1",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Zahlart                 MB WAY",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Bestellung     ORD-2026-004172",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "halba-Ref.    tp_7Hk2...a3Q9xA",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "------------------------------",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "24,90 €",
+    "a": "c",
+    "b": true,
+    "w": 2,
+    "h": 2
+   },
+   {
+    "t": "NICHT ABGESCHLOSSEN",
+    "a": "c",
+    "b": true,
+    "w": 1,
+    "h": 2
+   },
+   {
+    "t": "Der QR-Code ist abgelaufen.",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "Es wurde nichts abgebucht.",
+    "a": "c",
+    "b": true,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "------------------------------",
+    "a": "c",
+    "b": false,
+    "w": 1,
+    "h": 1
+   },
+   {
+    "t": "KUNDENBELEG",
+    "a": "c",
+    "b": true,
+    "w": 1,
+    "h": 1
+   }
+  ]
+ }
+}

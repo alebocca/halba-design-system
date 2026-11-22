@@ -1,0 +1,14 @@
+halba
+
+Conferma il tuo indirizzo email
+
+Grazie per esserti registrato su halba. Conferma questo indirizzo per completare la creazione dell’account.
+
+Conferma email: {{ .ConfirmationURL }}
+
+Il link è valido per 24 ore. Se non hai creato un account halba, puoi ignorare questa email.
+
+--
+Ricevi questa email per un’azione sul tuo account halba. Inviata a {{ .Email }}.
+Serve aiuto? Vai al centro assistenza. https://halba.ai/help
+halba · [Ragione sociale], [sede legale]

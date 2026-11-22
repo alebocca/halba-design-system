@@ -1,0 +1,17 @@
+halba
+
+Sign in to halba
+
+Use the button to sign in. No password needed.
+
+Sign in: {{ .ConfirmationURL }}
+
+Or enter this code on the sign-in page:
+{{ .Token }}
+
+This link is valid for 15 minutes and works once. If you didn’t try to sign in, ignore this email.
+
+--
+You’re receiving this email because of an action on your halba account. Sent to {{ .Email }}.
+Need help? Visit the help center. https://halba.ai/help
+halba · [Company name], [registered address]

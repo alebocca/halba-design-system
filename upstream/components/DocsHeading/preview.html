@@ -1,0 +1,91 @@
+<!-- @dsCard group="Docs" height=1240 subtitle="Section title with a copyable link (h2 and h3)" -->
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; padding: 24px; background: var(--surface); font-family: var(--font-sans); color: var(--ink); }
+  .cap { font: 500 12px/16px var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-muted); margin: 0 0 12px; }
+  .note { font: 400 13px/20px var(--font-sans); color: var(--ink-muted); margin: 0 0 12px; max-width: 720px; }
+  .page { max-width: 720px; font: 400 16px/26px var(--font-sans); }
+  .page p { margin: 12px 0 0; }
+  .page code { font: 400 13px/20px var(--font-mono); background: var(--surface-sunken); padding: 1px 6px; border-radius: 4px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 16px; margin-top: 8px; }
+  .cell { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md, 10px); padding: 16px; }
+  .cell .lab { font: 500 12px/16px var(--font-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-muted); margin: 0 0 4px; }
+  .cell .hb-sechead { margin-top: 0; }
+  .phone { width: 375px; max-width: 100%; box-sizing: border-box; border: 1px solid var(--border); border-radius: 16px; padding: 16px; background: var(--surface); }
+  .phone .hb-sechead { margin-top: 0; }
+  .dark { background: var(--surface); color: var(--ink); }
+  /* Preview only: force the states a mouse or a finger would cause, so they can be seen side by side. */
+  .pv-hover .hb-sechead__link { opacity: 1; color: var(--ink); background: var(--surface-sunken); }
+  .pv-focus .hb-sechead__link { opacity: 1; outline: 3px solid var(--focus-ring); outline-offset: 2px; }
+  .pv-touch .hb-sechead { --hb-sechead-hit: 44px; }
+  .pv-touch .hb-sechead__link { opacity: 1; }
+  .pv-copied .hb-sechead__link { opacity: 1; color: var(--ink); }
+  .pv-rest .hb-sechead__link { opacity: 0; }
+</style>
+<div id="root"></div>
+<script>
+  var H = window.Halba, e = React.createElement;
+  var LONG = 'Rückerstattungsbeträge und Teilstornierungen bei Zahlungsdienstleistern';
+  var pageUrl = 'https://halba.ai/developers/methods/blik';
+
+  /* Static frames are written as plain HTML on purpose: it is also the markup a hand-written page uses. */
+  function frame(cls, level, id, title, state) {
+    var word = state === 'copied' ? '<span class="hb-sechead__word">Copied</span>' : '';
+    var icon = state === 'copied'
+      ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg>'
+      : '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>';
+    var label = (state === 'copied' ? 'Copied. ' : '') + 'Copy link to ' + title;
+    return '<div class="' + cls + '"><div class="hb-sechead hb-sechead--' + level + '"><h' + level + ' class="hb-sechead__title" id="' + id + '"' + (title === LONG ? ' lang="de"' : '') + '>' + title + '</h' + level + '>' +
+      '<a class="hb-sechead__link" href="#' + id + '" aria-label="' + label + '"' + (state ? ' data-state="' + state + '"' : '') + '>' + icon + word + '</a></div></div>';
+  }
+  function Frame(p) { return e('div', { className: 'cell' }, e('p', { className: 'lab' }, p.label), e('div', { dangerouslySetInnerHTML: { __html: p.html } })); }
+
+  var toc = [
+    { label: 'In brief', href: '#in-brief', current: true },
+    { label: 'How it works', href: '#how-it-works' },
+    { label: 'Activate', href: '#activate' },
+    { label: 'Integrate', href: '#integrate' },
+    { label: 'Create the payment', href: '#integrate-create', level: 3 },
+    { label: 'Handle the redirect', href: '#integrate-redirect', level: 3 },
+    { label: 'Refunds', href: '#refunds' },
+    { label: 'Try in the sandbox', href: '#sandbox' },
+    { label: 'Go to production', href: '#production' }
+  ];
+  function D(props, kids) { return e(H.DocsHeading, Object.assign({ url: pageUrl }, props), kids); }
+  function Page() {
+    return e('div', null,
+      e('p', { className: 'cap' }, 'In a docs page (hover a title, or Tab to its link; click copies the link and updates the address bar)'),
+      e('div', { className: 'page' },
+        D({ id: 'in-brief' }, 'In brief'),
+        e('p', null, 'BLIK is a Polish mobile payment: the customer types a six-digit code from the banking app. Every title on this page has a stable id and a link you can send.'),
+        D({ id: 'how-it-works' }, 'How it works'),
+        e('p', null, 'The customer enters the code, confirms in the bank app, and halba sends ', e('code', null, 'payment.succeeded'), '.'),
+        D({ id: 'integrate' }, 'Integrate'),
+        D({ id: 'integrate-create', level: 3 }, 'Create the payment'),
+        e('p', null, 'Pass ', e('code', null, 'payment_method=blik'), ' and the code.'),
+        D({ id: 'refunds-de', lang: 'de' }, LONG),
+        e('p', null, 'Eine lange Überschrift darf umbrechen; der Link bleibt neben der letzten Zeile des Titelblocks erreichbar.'),
+        D({ id: 'sandbox' }, 'Try in the sandbox'),
+        e('p', null, 'Use code ', e('code', null, '777123'), ' to approve and ', e('code', null, '111111'), ' to decline.')));
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(e('div', null,
+    e(Page),
+    e('p', { className: 'cap', style: { marginTop: 40 } }, 'States'),
+    e('p', { className: 'note' }, 'Mouse: the link is hidden at rest, appears on hover, on keyboard focus (3px ring) and after a copy. Touch: always visible, 44px target. Copy feedback is a word change, announced to screen readers.'),
+    e('div', { className: 'grid' },
+      e(Frame, { label: 'Rest (mouse)', html: frame('pv-rest', 2, 'a1', 'Try in the sandbox') }),
+      e(Frame, { label: 'Hover', html: frame('pv-hover', 2, 'a2', 'Try in the sandbox') }),
+      e(Frame, { label: 'Keyboard focus', html: frame('pv-focus', 2, 'a3', 'Try in the sandbox') }),
+      e(Frame, { label: 'After copy', html: frame('pv-copied', 2, 'a4', 'Try in the sandbox', 'copied') }),
+      e(Frame, { label: 'h3 after copy', html: frame('pv-copied', 3, 'a5', 'Create the payment', 'copied') }),
+      e('div', { className: 'cell dark', 'data-theme': 'dark' }, e('p', { className: 'lab' }, 'Dark: hover and copied'),
+        e('div', { dangerouslySetInnerHTML: { __html: frame('pv-hover', 2, 'd1', 'Try in the sandbox') + '<div style="height:16px"></div>' + frame('pv-copied', 3, 'd2', 'Create the payment', 'copied') } }))),
+    e('p', { className: 'cap', style: { marginTop: 32 } }, 'Phone width, long German title'),
+    e('div', { className: 'grid' },
+      e('div', { className: 'phone pv-touch' }, e('div', { dangerouslySetInnerHTML: { __html: frame('', 2, 'p1', LONG) } })),
+      e('div', { className: 'phone pv-touch pv-copied' }, e('div', { dangerouslySetInnerHTML: { __html: frame('', 2, 'p2', LONG, 'copied') } }))),
+    e('p', { className: 'cap', style: { marginTop: 32 } }, 'Phone width, live component'),
+    e('div', { className: 'phone pv-touch' }, e(H.DocsHeading, { id: 'live-phone', url: pageUrl, lang: 'de' }, LONG)),
+    e('div', { style: { height: 24 } })));
+</script>

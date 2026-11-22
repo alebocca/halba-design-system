@@ -8,7 +8,7 @@ import tokens from "../tokens/tokens.json";
 import {
   Button, Badge, StatTile, MetricCard, Input, PhotoPanel, OverlayCard, CheckoutStory, RetryStory, RevenueStory,
   StatusBadge, Card, Panel, TextLink, Spinner, Modal, Icon, SegmentedControl, Alert, AuthLayout, PieChart, BarChart,
-  Logo, MethodBadge, Endpoint, CodeBlock, Tabs, Table, Callout, DocsHeader, DocsSearch, FilterGroup,
+  Logo, MethodBadge, Endpoint, CodeBlock, Tabs, Table, Callout, DocsHeader, DocsSearch, DocsHeading, FilterGroup,
 } from "../src/index.js";
 
 function FilterDemo() {
@@ -33,6 +33,8 @@ function DocsSandbox() {
         <Endpoint method="POST" path="/v1/payments" />
       </DocsHeader>
       <DocsSearch />
+      <DocsHeading id="cat-sandbox">Try in the sandbox</DocsHeading>
+      <DocsHeading id="cat-sandbox-blik" level={3}>BLIK test codes</DocsHeading>
       <Tabs id="cat-tabs" label="Example" value={tab} onChange={setTab} options={[{ value: "request", label: "Request" }, { value: "response", label: "Response" }]} />
       <CodeBlock label="Language" tabs={[{ label: "cURL", code: curl }, { label: "Node.js", code: "const payment = await halba.payments.create({ amount: 4990, currency: 'eur' });" }]} />
       <Table label="Parameters" caption="Parameters of POST /v1/payments" columns={[{ key: "name", label: "Parameter", mono: true, header: true }, { key: "req", label: "Required" }, { key: "desc", label: "Description" }]} rows={[{ name: "amount", req: "required", desc: "Amount in minor units." }, { name: "currency", req: "required", desc: "Three-letter ISO code." }]} />

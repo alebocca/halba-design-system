@@ -1,0 +1,14 @@
+halba
+
+Bestätige deine E-Mail-Adresse
+
+Danke für deine Registrierung bei halba. Bestätige diese Adresse, um dein Konto fertig einzurichten.
+
+E-Mail bestätigen: {{ .ConfirmationURL }}
+
+Der Link ist 24 Stunden gültig. Wenn du kein halba-Konto erstellt hast, kannst du diese E-Mail ignorieren.
+
+--
+Du erhältst diese E-Mail wegen einer Aktion in deinem halba-Konto. Gesendet an {{ .Email }}.
+Brauchst du Hilfe? Zum Hilfecenter. https://halba.ai/help
+halba · [Firmenname], [Sitz]

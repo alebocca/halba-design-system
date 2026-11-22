@@ -2,7 +2,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>/* halba-terminal.css: reference rendering of the halba terminal app (Android, Jetpack Compose).
    Not shipped to terminals. It is the picture the native code must match.
-   Units: 1px here = 1dp (layout) or 1sp (text) on the 360 x 640 dp reference screen.
+   Units: 1px here = 1dp (layout) or 1sp (text) on the 360 x 640 dp reference screen (16:9). --ht-h: 800px (class ht--tall) is the 360 x 800 dp variant (20:9, myPOS Ultra).
    Tokens use the same names as checkout (--halba-primary, --halba-on-primary, --halba-accent) for the merchant colour. */
 
 .ht {
@@ -13,7 +13,7 @@
   --ht-primary: var(--halba-primary, var(--ht-brand)); --ht-on-primary: var(--halba-on-primary, var(--ht-on-brand)); --ht-accent: var(--halba-accent, var(--ht-primary));
   --ht-font: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --ht-mono: "DM Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-  position: relative; box-sizing: border-box; width: 360px; height: 640px; overflow: hidden;
+  position: relative; box-sizing: border-box; width: 360px; height: var(--ht-h, 640px); overflow: hidden;
   display: flex; flex-direction: column; background: var(--ht-surface); color: var(--ht-ink);
   font-family: var(--ht-font); font-size: 20px; line-height: 28px; font-weight: 400; -webkit-font-smoothing: antialiased;
 }
@@ -125,6 +125,13 @@
 .ht-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .ht-grid .ht-tile { flex-direction: column; justify-content: center; gap: 8px; min-height: 88px; padding: 8px; font-size: 20px; line-height: 24px; text-align: center; }
 .ht-grid .ht-tile:last-child:nth-child(odd) { grid-column: 1 / -1; }
+.ht-mark.ht-mark--img { box-sizing: border-box; width: 112px; height: 48px; min-width: 0; padding: 8px; border: 0; border-radius: 10px; background: transparent; }
+.ht--dark .ht-mark.ht-mark--img { background: #ffffff; }
+.ht-mark.ht-mark--img.ht-mark--dark, .ht--dark .ht-mark.ht-mark--img.ht-mark--dark { background: #000000; }
+.ht-mark.ht-mark--img.ht-mark--pink, .ht--dark .ht-mark.ht-mark--img.ht-mark--pink { background: #ffa8cd; }
+.ht-mark.ht-mark--img.ht-mark--yellow, .ht--dark .ht-mark.ht-mark--img.ht-mark--yellow { background: #fff48d; }
+.ht-mark--img img[src$=".svg"] { width: 96px; height: 32px; }
+.ht-mark--img img { display: block; width: auto; height: auto; max-width: 96px; max-height: 32px; }
 .ht-mark { display: inline-flex; align-items: center; justify-content: center; min-width: 64px; height: 40px; padding: 0 10px; border: 2px dashed var(--ht-border-strong); border-radius: 8px; font: 700 16px/20px var(--ht-font); letter-spacing: 0.02em; color: var(--ht-ink); background: #fff; }
 .ht-sect { margin: 8px 24px 0; padding: 0; font: 500 18px/24px var(--ht-font); color: var(--ht-muted); }
 .ht-methods { display: flex; flex-direction: column; gap: 8px; padding: 0 24px; }
@@ -137,9 +144,19 @@
 .ht-extern { display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 8px; flex: 1; margin: 8px 24px; border: 3px dashed var(--ht-border-strong); border-radius: 20px; background: var(--ht-sunken); text-align: center; padding: 24px; color: var(--ht-muted); font: 500 20px/28px var(--ht-font); }
 .ht-extern small { font: 400 16px/22px var(--ht-font); }
 
-/* QR */
-.ht-qrwrap { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 0 24px; }
-.ht-qr { width: 288px; height: 288px; padding: 20px; background: #ffffff; border: 2px solid var(--ht-border-strong); border-radius: 16px; }
+/* QR: amount and instruction on top (as Adyen's screen), a white tile with the code and the method mark under it, then time left.
+   --ht-qr is the side of the code including its quiet zone (4 modules): 256 dp on 360 x 640, 304 dp on 360 x 800. In the app it is the largest square that fits (never under 200 dp), see terminal.md E. */
+.ht { --ht-qr: 256px; }
+.ht--tall { --ht-qr: 304px; }
+.ht-qrhead { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 24px 0; }
+.ht-qrhead .ht-amount { font-size: 44px; line-height: 50px; }
+.ht-qrhead .ht-halba { flex: none; }
+.ht-qrtitle { display: flex; flex-direction: column; gap: 0; padding: 2px 24px 10px; }
+.ht-qrtitle .ht-title { font-size: 24px; line-height: 30px; }
+.ht-qrwrap { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 0 24px; }
+.ht-qrtile { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 8px; background: #ffffff; border: 2px solid var(--ht-border-strong); border-radius: 16px; }
+.ht-qrtile__mark { display: flex; justify-content: center; }
+.ht-qr { position: relative; width: var(--ht-qr); height: var(--ht-qr); background: #ffffff; }
 .ht-qr > svg { display: block; width: 100%; height: 100%; }
 .ht-qr--off { position: relative; }
 .ht-qr--off > svg { opacity: 0.08; }
@@ -150,10 +167,10 @@
 .ht-qr--wait .ht-qr__over { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; color: #0e0e10; font: 700 22px/28px var(--ht-font); text-align: center; padding: 24px; }
 .ht-qr--wait, .ht-qr--off { position: relative; }
 .ht-count span { font-family: var(--ht-font); font-size: 18px; }
-.ht-count { display: flex; align-items: center; justify-content: space-between; width: 288px; font: 500 20px/28px var(--ht-mono); }
+.ht-count { display: flex; align-items: center; justify-content: space-between; width: 100%; font: 500 20px/28px var(--ht-mono); }
 .ht-count--soon { color: var(--ht-warn); }
 .ht-count--soon b { background: var(--ht-warn-bg); padding: 0 10px; border-radius: 8px; }
-.ht-bar { width: 288px; height: 8px; border-radius: 4px; background: var(--ht-border); overflow: hidden; }
+.ht-bar { width: 100%; height: 8px; border-radius: 4px; background: var(--ht-border); overflow: hidden; }
 .ht-bar > i { display: block; height: 100%; width: var(--p, 50%); background: var(--ht-accent); }
 .ht-local { margin: 0; font: 500 18px/24px var(--ht-font); color: var(--ht-muted); }
 
@@ -229,6 +246,27 @@
 @keyframes halba-compose-dot { 0% { transform: scale(0); } 14%, 100% { transform: scale(1); } }
 @keyframes halba-compose-ring { 0%, 12% { stroke-dasharray: 0 360; transform: rotate(-294deg); } 62%, 84% { stroke-dasharray: 310 360; transform: rotate(66deg); } 100% { stroke-dasharray: 0 360; transform: rotate(246deg); } }
 @media (prefers-reduced-motion: reduce) { .ht * { animation: none !important; transition: none !important; } }
+
+/* Tall screens (20:9, 360 x 800 dp): the extra 160 dp goes to the main content, never to the text size */
+.ht--tall { --ht-h: 800px; }
+.ht--tall .ht-key { height: 80px; }
+.ht--tall .ht-pad { gap: 14px; }
+.ht--tall .ht-btn { min-height: 64px; }
+.ht--tall .ht-tile { min-height: 96px; }
+.ht--tall .ht-grid .ht-tile { min-height: 104px; }
+.ht--tall .ht-body { gap: 20px; }
+.ht--tall .ht-illu { width: 232px; height: 160px; }
+.ht--tall .ht-amount-block { padding-top: 16px; padding-bottom: 24px; }
+
+/* Default idle screen: the halba brand video, shown here as a still (about 4 s into the loop) */
+.ht-brand { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; background: radial-gradient(ellipse 60% 34% at 50% 42%, rgba(169, 156, 255, .24), rgba(169, 156, 255, 0) 72%), #0e0e10; font-family: "Plus Jakarta Sans", var(--ht-font); color: #f4f4f1; text-align: center; }
+.ht-brand .ht-big { width: 96px; height: 96px; color: #f4f4f1; }
+.ht-brand .hm-dot { fill: #a99cff; }
+.ht-brand .hm-ring { fill: none; stroke: currentColor; stroke-width: 122; stroke-dasharray: 310 360; transform-box: fill-box; transform-origin: center; transform: rotate(66deg); }
+.ht-brand__word { margin-top: 20px; font-weight: 700; font-size: 44px; line-height: 44px; letter-spacing: -.03em; }
+.ht-brand__pay { margin: 28px 0 0; font-weight: 700; font-size: 36px; line-height: 41px; letter-spacing: -.025em; }
+.ht-brand__pay b { display: block; color: #a99cff; font-weight: 700; }
+.ht-brand svg.sp { margin-top: 22px; width: 96px; height: 32px; overflow: visible; }
 </style>
 <style>
 html { background: #e9e9e4; }

@@ -39,16 +39,16 @@
       tools: e(H.SegmentedControl, { label: 'Environment', value: mode, onChange: setMode, options: [{ value: 'test', label: 'Test' }, { value: 'live', label: 'Live' }] }) },
       e(H.DocsHeader, { breadcrumb: [{ label: 'API reference', href: '#' }, { label: 'Payments', href: '#' }, { label: 'Create' }], title: 'Create a payment', lead: 'Authorize a payment in one call. Halba screens for fraud, asks for 3D Secure only when it pays off and falls back to a backup PSP if the first one declines.' },
         e(H.Endpoint, { method: 'POST', path: '/v1/payments' })),
-      e('h2', { id: 'request' }, 'Request'),
+      e(H.DocsHeading, { id: 'request', url: 'https://halba.ai/developers/payments/create' }, 'Request'),
       e('p', null, 'Authenticate with your secret key and send an ', e('code', null, 'Idempotency-Key'), ' so a retry never charges twice.'),
       e(H.CodeBlock, { label: 'Language', tabs: [{ label: 'cURL', code: curl }, { label: 'Node.js', code: node }, { label: 'Python', code: py }] }),
       e(H.Callout, { tone: 'warning' }, e('p', null, mode === 'live' ? 'You are using live keys: this call moves real money.' : 'Test keys never move money. Switch to Live only when your integration passes in the sandbox.')),
-      e('h2', { id: 'parameters' }, 'Parameters'),
+      e(H.DocsHeading, { id: 'parameters', url: 'https://halba.ai/developers/payments/create' }, 'Parameters'),
       e(H.Table, { label: 'Parameters', caption: 'Parameters of POST /v1/payments', columns: [{ key: 'name', label: 'Parameter', mono: true, header: true, width: '26%' }, { key: 'type', label: 'Type', mono: true, width: '14%' }, { key: 'req', label: 'Required', width: '14%' }, { key: 'desc', label: 'Description' }], rows: params }),
-      e('h2', { id: 'response' }, 'Response'),
+      e(H.DocsHeading, { id: 'response', url: 'https://halba.ai/developers/payments/create' }, 'Response'),
       e('p', null, 'A ', e('code', null, 'payment'), ' object. The ', e('code', null, 'route'), ' field shows which PSP approved it and how many attempts it took.'),
       e(H.CodeBlock, { title: 'Response 201', code: json }),
-      e('h2', { id: 'errors' }, 'Errors'),
+      e(H.DocsHeading, { id: 'errors', url: 'https://halba.ai/developers/payments/create' }, 'Errors'),
       e(H.Table, { label: 'Errors', caption: 'Errors of POST /v1/payments', columns: [{ key: 'code', label: 'Code', mono: true, header: true, width: '30%' }, { key: 'status', label: 'HTTP', mono: true, width: '12%' }, { key: 'desc', label: 'Meaning' }], rows: errs }));
   }
   ReactDOM.createRoot(document.getElementById('root')).render(e(Page));

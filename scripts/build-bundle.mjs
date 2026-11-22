@@ -5,7 +5,7 @@
 //   2. reducedMotion() non tocca window lato server (Astro, SSR);
 //   3. le storie partono dallo stato finale (progress 1): il render lato server, senza JavaScript e con
 //      prefers-reduced-motion mostra il risultato; quando la storia entra in vista l'animazione riparte da 0.
-import { cpSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { cpSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -68,9 +68,12 @@ dts += "\n" + names.map((n) => `export declare function ${n}(props: ${n}Props): 
 writeFileSync(join(root, "src/index.d.ts"), header.replace("bundle.js", "index.d.ts") + 'import type * as React from "react";\n\n' + dts);
 console.log(`bundle: ${names.length} componenti (${names.join(", ")})`);
 
-// Pagina di pagamento (HTML e CSS senza React) e file del marchio: copiati così come sono
-for (const dir of ["checkout", "brand"]) {
-  rmSync(join(root, dir), { recursive: true, force: true });
-  cpSync(join(root, "upstream", dir), join(root, dir), { recursive: true });
+// Pagina di pagamento e marchio: checkout/ e brand/ ora ricevono anche modifiche dirette (font, marchi dei metodi,
+// loghi dei circuiti), quindi non si ricopiano più da upstream/ a ogni sync. Solo con --assets, sapendo che i file
+// con lo stesso nome vengono sovrascritti dalla versione dell'artifact (niente viene cancellato).
+if (process.argv.includes("--assets")) {
+  for (const dir of ["checkout", "brand"]) cpSync(join(root, "upstream", dir), join(root, dir), { recursive: true });
+  console.log("checkout/ e brand/ aggiornati da upstream/ (--assets)");
+} else {
+  console.log("checkout/ e brand/ non toccati (usa --assets per copiarli da upstream/)");
 }
-console.log("checkout/ e brand/ copiati da upstream/");
