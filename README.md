@@ -12,7 +12,7 @@ immagini) sono in [`upstream/README.md`](upstream/README.md) e nei README dei co
 
 | Percorso | Cosa |
 | --- | --- |
-| `upstream/` | Copia esatta dei file `project/` dell'artifact (versione `1795382085-6275`, 22 novembre 2026): token, bundle, tipi, README e preview. Non modificare a mano: si sovrascrive a ogni aggiornamento. |
+| `upstream/` | Copia esatta dei file `project/` dell'artifact (versione `1795384285-08e3`, 22 novembre 2026): token, bundle, tipi, README e preview. Non modificare a mano: si sovrascrive a ogni aggiornamento. |
 | `tokens/tokens.json` | Token (copia di `upstream/tokens.json`), unica fonte. |
 | `tokens/tokens.css` | Variabili CSS, tema chiaro su `:root` e scuro su `[data-theme="dark"]`. Generato: `npm run tokens`. |
 | `tokens/typography.css` | Classi `hb-type-<stile>` (display-xl, h1, body, label-mono…). Generato. |
@@ -72,6 +72,14 @@ e `./brand/*`. Quattro contenitori (`--hosted`, `--modal`, `--embedded`, `--comp
 `--halba-on-primary` e `--halba-accent` si calcolano in JavaScript (codice in `upstream/checkout.md`). Gli stati e
 le lingue sono nelle anteprime `upstream/components/Checkout*/preview.html`.
 
+## Navigazione delle docs: id unici
+
+DocsLayout disegna la navigazione due volte (menu sotto i 900px, colonna sopra; se ne vede una sola). Dalla 0.9.1
+ogni copia ha i suoi id, ricavati da `React.useId()` (per esempio `docsnav-r0-menu-0` e `docsnav-r0-full-0`), quindi
+una pagina non ha più id duplicati, anche con più DocsLayout. `useId` richiede React 18, che il pacchetto chiedeva già
+(`peerDependencies` `>=18`); chi usa il bundle come script classico deve caricare React 18. Gli id sono uguali tra
+render lato server e browser.
+
 ## Differenze dal bundle originale
 
 `src/bundle.js` è `upstream/components/bundle.js` trasformato da `scripts/build-bundle.mjs`, che cambia solo:
@@ -119,7 +127,7 @@ Repository pubblico `alebocca/halba-design-system`, senza registro npm né token
 un tag git:
 
 ```json
-"@halba/design-system": "github:alebocca/halba-design-system#v0.9.0"
+"@halba/design-system": "github:alebocca/halba-design-system#v0.9.1"
 ```
 
 Per una nuova versione: aggiornare `version` in `package.json`, committare, `git tag vX.Y.Z`,
